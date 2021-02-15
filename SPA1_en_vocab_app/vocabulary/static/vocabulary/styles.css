@@ -1,0 +1,23 @@
+h1 {
+    color: rgb(221, 82, 82);
+    background-color: rgb(104, 85, 192);
+}
+
+h3 {
+    color: rgb(173, 38, 173);
+    background-color: powderblue;
+}
+
+h4 {
+    color: rgb(39, 173, 72);
+}
+
+#text_input {
+    width: 400px;
+    height: 200px;
+}
+
+.result {
+    color: blue;
+}
+

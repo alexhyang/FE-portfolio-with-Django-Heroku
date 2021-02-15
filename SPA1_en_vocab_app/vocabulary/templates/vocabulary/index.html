@@ -1,13 +1,14 @@
-{% extends "Vocabulary/layout.html" %}
+{% extends "vocabulary/layout.html" %}
 {% load static %}
 
 {% block body %}
     <h1>Hello World!</h1>
+    <p><a href="{% url 'play' %}">Play with JavaScript</a></p>
 {% endblock %}
 
 {% block script %}
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <!-- <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="{% static 'dictionary/index.js' %}"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+    <script src="{% static 'vocabulary/index.js' %}"></script>
 {% endblock %}
