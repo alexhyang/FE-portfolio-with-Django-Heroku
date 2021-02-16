@@ -7,3 +7,6 @@ App receives a sentence of plain text and count the frequency of each word used 
 ## v0.2
 The frequency table will be updated cumulatively if there are multiple submissions. User has the option to clean the record.
 
+## future version ideas
+- replace the frequency table with word cloud
+- dynamic Chrome dictionary extension for online article readings (updated when scrolling the window)
