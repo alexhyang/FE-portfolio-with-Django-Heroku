@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         textArr = breakdown(inputText.value);
         sentenceBreakdown.innerHTML = textArr.slice(0, 20).join(', ') + ' ...';
 
-        // count frequency
+        // count frequency and display the table
         textDict = countFreq(textArr);
-        freqTable.innerHTML = display(textDict);
+        display(textDict, freqTable);
 
-        return false;
+        //return false;
     })
 
     function breakdown(str) {
@@ -42,14 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return freqObj;
     }
 
-    function display(obj) {
-        // obj -> str
+    function display(obj, tableRef) {
+        // obj, table target -> update table
         // include frequency information in a string
-        msg = '';
         for (i in obj) {
-            msg += i + ": " + obj[i] + "\n";
+            let newRow = tableRef.insertRow(-1);
+            let word = newRow.insertCell(0);
+            let count = newRow.insertCell(1);
+            word.innerHTML = i;
+            count.innerHTML = obj[i];
         }
-        return msg;
     }
 
 });
