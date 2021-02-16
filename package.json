@@ -1,0 +1,29 @@
+{
+  "name": "SPA1-vocab-app",
+  "version": "1.0.0",
+  "description": "This single page application is a personal English vocabulary application.",
+  "main": "index.js",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "bootstrap": "^4.6.0",
+    "jQuery": "^1.7.4",
+    "leaflet": "^1.7.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexhyang/SPA1-english-vocabulary-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexhyang/SPA1-english-vocabulary-app/issues"
+  },
+  "homepage": "https://github.com/alexhyang/SPA1-english-vocabulary-app#readme"
+}
