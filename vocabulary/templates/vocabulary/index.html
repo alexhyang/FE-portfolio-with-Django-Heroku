@@ -2,13 +2,38 @@
 {% load static %}
 
 {% block body %}
-    <h1>Hello World!</h1>
-    <p><a href="{% url 'play' %}">Play with JavaScript</a></p>
+    <div class="row g-5">
+        <div class="col">
+            <form>
+                <div class="mb-3">
+                    <h1>Introduction:</h1>
+                    <p>This web application receives any text and counts the frequency of each word used in the text.</p>                  
+                </div>
+                <div class="mb-3">
+                    <textarea id="textarea" class="form-control" rows="10" placeholder="Enter any text"></textarea>
+                </div>
+                <div class="mb-3">
+                    <button id="count" class="btn btn-primary">Count Frequency</button>
+                    <button id="clear" class="btn btn-danger">Clear text</button>
+                </div>
+                <div class="mb-3">
+                    <!-- <button id="save" class="btn btn-primary" type="submit">Save Table</button>
+                    <button id="clear-table" class="btn btn-danger">Clear table</button> -->
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <table id="freq-table" class="table table-striped">
+                <tr>
+                    <th>Word</th>
+                    <th>Count</th>
+                </tr>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 
 {% block script %}
-    <!-- <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
     <script src="{% static 'vocabulary/index.js' %}"></script>
+    <!-- <script src="{% static 'vocabulary/js-playground-jQuery.js' %}"></script> -->
 {% endblock %}
