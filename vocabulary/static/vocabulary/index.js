@@ -1,59 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
+$(function(){
 
-    const form = document.querySelector('form');
-    const inputText = document.querySelector('#textarea');
-    const count = document.querySelector('#count');
-    const clear = document.querySelector('#clear');
-    const freqTable = document.querySelector('#freq-table');
-
-    count.addEventListener('click', () => {
-        // sentence breakdown
-        let textArr = [];
-        textArr = breakdown(inputText.value);
-
-        // count frequency and display the table
-        textDict = countFreq(textArr);
-        display(textDict, freqTable);
+    $('#count').on('click', () => {
+        let textDict = countFreq(strToArr($('#textarea').val()));
+        updateTable(textDict, $('#freq-table'));
+        return false;
     })
 
-    clear.addEventListener('click', () => {
-        inputText.value = "";
+    $('#clear').on('click', () => {
+        $('#textarea').val("");
+        return false;
     })
 
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        //return false;
-    })
-
-    function breakdown(str) {
+    function strToArr(str) {
         // str -> arr
-        // extract each word in the long string and store them in an arr
+        // extract each word in the long string and store the words in an arr
         return str.trim().split(/[^A-Za-z]+/).filter(str => str !== '');
     }
 
     function countFreq(arr) {
         // arr -> object
-        // calculate the frequency of each word and store in an object
+        // calculate the frequency of each word and store count in an object
         let freqObj = {};
         for (i in arr) {
             if (arr[i] in freqObj) {
                 freqObj[arr[i]]++;
-            } else {
-                freqObj[arr[i]] = 1;
-            }
+            } else { freqObj[arr[i]] = 1; }
         }
         return freqObj;
     }
 
-    function display(obj, tableRef) {
-        // obj, table target -> update table
+    function updateTable(obj, tableRef) {
+        // obj, table jQuery object -> update table
         // include frequency information in a string
         for (i in obj) {
-            let newRow = tableRef.insertRow(-1);
-            let word = newRow.insertCell(0);
-            let count = newRow.insertCell(1);
-            word.innerHTML = i;
-            count.innerHTML = obj[i];
+            tableRef.append('<tr><td>' + i + '</td>' + '<td>' + obj[i] + '</td></tr>');
         }
     }
 

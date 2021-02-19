@@ -4,11 +4,11 @@
 {% block body %}
     <div class="row g-5">
         <div class="col">
+            <div class="mb-3">
+                <h1>Introduction</h1>
+                <p>This web application receives any text and counts the frequency of each word used in the text.</p>                  
+            </div>
             <form>
-                <div class="mb-3">
-                    <h1>Introduction:</h1>
-                    <p>This web application receives any text and counts the frequency of each word used in the text.</p>                  
-                </div>
                 <div class="mb-3">
                     <textarea id="textarea" class="form-control" rows="10" placeholder="Enter any text"></textarea>
                 </div>
@@ -34,6 +34,6 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'vocabulary/index.js' %}"></script>
-    <!-- <script src="{% static 'vocabulary/js-playground-jQuery.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'vocabulary/index.js' %}"></script>
+    <!-- <script type="text/javascript" src="{% static 'vocabulary/js-playground-jQuery.js' %}"></script> -->
 {% endblock %}
