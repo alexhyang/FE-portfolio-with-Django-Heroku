@@ -10,7 +10,7 @@
             </div>
             <form>
                 <div class="mb-3">
-                    <textarea id="textarea" class="form-control" rows="10" placeholder="Enter any text"></textarea>
+                    <textarea id="textarea" class="form-control" rows="16" placeholder="Enter any text"></textarea>
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
@@ -31,8 +31,14 @@
                     <th>Count</th>
                 </tr>
             </table>
-            <div class="mb-3">                    
-                <button id="save" class="btn btn-primary" type="submit">Save Table</button>
+            <div class="mb-3">
+                <select class="form-select" aria-label=".form-select-lg example">
+                    <option selected>Select a list</option>
+                    <option value="list1">List 1</option>
+                    <option value="list2">List 2</option>
+                    <option value="list3">List 3</option>
+                  </select>
+                <button id="save" class="btn btn-primary" type="submit">Save Result</button>
             </div>
         </div>
     </div>
