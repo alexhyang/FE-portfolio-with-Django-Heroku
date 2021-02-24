@@ -1,10 +1,8 @@
 $(function(){
 
-    let existingFreqObj = {};
-
     $('#count').on('click', () => {
         let textDict = countFreq(strToArr($('#textarea').val()));
-        showTable(textDict, $('#freq-table'), $('#addToLastCheck').is(':checked'));
+        showTable(textDict, $('#freq-table'));
         return false;
     })
 
@@ -36,21 +34,10 @@ $(function(){
         return freqObj;
     }
 
-    function showTable(freqObj, tableRef, update) {
+    function showTable(freqObj, tableRef) {
         // obj, table jQuery object -> update table
         // include frequency information in a string
 
-        // update freqObj
-        if (update === true){ 
-            for (key in freqObj) {
-                if (key in existingFreqObj) {
-                    existingFreqObj[key] += freqObj[key];
-                } else {
-                    existingFreqObj[key] = freqObj[key];
-                }
-            }            
-            freqObj = existingFreqObj;
-        }
         // reset table rows
         tableRef.find("tr:gt(0)").remove();
         // show table

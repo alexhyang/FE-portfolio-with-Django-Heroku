@@ -31,12 +31,6 @@
                     <textarea id="textarea" class="form-control" rows="14" placeholder="Enter any text"></textarea>
                 </div>
                 <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="addToLastCheck">
-                        <label class="form-check-label" for="addToLastCheck">
-                            Add result to previous table
-                        </label>
-                    </div>
                     <button id="count" class="btn btn-primary">Count Frequency</button>
                     <button id="clear" class="btn btn-danger">Clear text</button>
                 </div>
@@ -52,13 +46,16 @@
                 </table>
             </div>
             <div class="mb-3">
-                <select class="form-select" aria-label=".form-select-lg example">
-                    <option selected>Select a list</option>
-                    <option value="list1">List 1</option>
-                    <option value="list2">List 2</option>
-                    <option value="list3">List 3</option>
-                  </select>
-                <button id="save" class="btn btn-primary" type="submit">Save Result</button>
+                <form>
+                    <textarea name="result" id="result" style="display: none;"></textarea>
+                    <select class="form-select" aria-label=".form-select-lg example">
+                        <option selected>Select a list</option>
+                        <option value="list1">List 1</option>
+                        <option value="list2">List 2</option>
+                        <option value="list3">List 3</option>
+                      </select>
+                    <button id="save" class="btn btn-primary" type="submit">Save Result</button>
+                </form>
             </div>
         </div>
     </div>
