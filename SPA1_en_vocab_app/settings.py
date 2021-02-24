@@ -88,6 +88,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'vocabulary.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -143,3 +144,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Activate Django-Heroku
 django_heroku.settings(locals())
+
