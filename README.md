@@ -7,8 +7,14 @@ new features:
 
 ## v0.2 (Django + database)
 expected new features
-- Users can create an account for more functionalities including adding and removing word list, saving words to existing lists
+- Users can create an account for more functionalities including adding and removing word list
+
+## v0.3 (Django + database)
+expected new features:
+- Users now can save all words in frequency table to existing lists
+
 
 ## future version ideas
+- Users can save certain words in frequency table using checkbox
 - spaced repitition word review practice
 - dynamic Chrome dictionary extension for online article readings (updated when scrolling the window)
