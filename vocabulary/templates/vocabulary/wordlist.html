@@ -3,9 +3,15 @@
 
 {% block body %}
     <h1>{{ wordlist.name }}</h1>
-    Entries:
-    {% for word in wordlist.word.all %}
-        <li>{{ word.word }}</li>
-    {% endfor %}
+    {% if wordlist.word.all %}
+        Entries:
+        {% for word in wordlist.word.all %}
+            <li>{{ word.word }}</li>
+        {% endfor %}
+    {% else %}
+        No words in this list.
+    {% endif %}
+    <p> <a href="{% url 'remove_list' wordlist %}">Remove list</a></p>
+    <p><a href="{% url 'wordlist_index' %}">Back</a></p>
 
 {% endblock %}

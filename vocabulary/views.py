@@ -126,3 +126,12 @@ def wordlist(request, name):
     return render(request, "vocabulary/wordlist.html", {
         "wordlist": wordlist
     })
+
+@login_required
+def remove_list(request, name):
+    try:
+        wordlist = WordList.objects.get(name=name)
+    except WordList.DoesNotExist:
+        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    wordlist.delete()
+    return HttpResponseRedirect(reverse("wordlist_index"))
