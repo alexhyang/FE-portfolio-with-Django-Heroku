@@ -1,0 +1,17 @@
+{% extends "vocabulary/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h1>Wordlist</h1>
+    {% if wordlists %}
+        <ul>
+            {% for wordlist in wordlists %}
+                <li><a href="{% url 'wordlist' wordlist %}">{{wordlist}}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No wordlist found.</p>
+    {% endif %}
+    <p><a href="{% url 'add_list' %}">new list</a></p>
+
+{% endblock %}

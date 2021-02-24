@@ -18,4 +18,4 @@ class Word(models.Model):
     user = models.ManyToManyField(User, related_name="word") #User.word --> many words to many users
     
     def __str__(self):
-        return f"{self.word} in list {self.wordlist}"
+        return f"{self.word}"

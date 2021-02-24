@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, WordList, Word
+from .forms import WordForm, WordlistForm
 
 # Create your views here.
 def index(request):
@@ -58,3 +60,69 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "vocabulary/register.html")
+
+@login_required
+def save(request):
+    return render(request, "vocabulary/index.html")
+    """ if request.method == "POST":
+        user = request.user
+        result = request.POST["result"] #"result" is a long string
+        wordlist = request.POST["listOption"]
+        
+        for word in result:
+
+        try:
+            word = Word.objects.create(word=word, wordlist=wordlist, user=user)
+            word.save()
+        except IntegrityError:
+            return render(request, "vocabulary/register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "vocabulary/register.html") """
+
+@login_required  
+def wordlists(request):
+    try:
+        wordlists = WordList.objects.filter(owner = request.user)
+    except WordList.DoesNotExist:
+        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    return render(request, "vocabulary/wordlist_index.html", {
+        "wordlists": wordlists
+    })
+
+@login_required
+def add_list(request):
+    if request.method == "POST":
+        form = WordlistForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if len(WordList.objects.filter(name=name)) == 0:
+                WordList.objects.create(name=name, owner=request.user)
+                return HttpResponseRedirect(reverse("wordlist_index"))
+            else:
+                return render(request, "vocabulary/add_list.html", {
+                    "form": form,
+                    "message": f"{name} already exists."
+                })
+
+        else:
+            return render(request, "vocabulary/add_list.html", {
+                "form": form
+            })
+    else:
+        return render(request, "vocabulary/add_list.html", {
+            "form": WordlistForm()
+        })
+        
+@login_required
+def wordlist(request, name):
+    try:
+        wordlist = WordList.objects.get(name=name)
+    except WordList.DoesNotExist:
+        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    return render(request, "vocabulary/wordlist.html", {
+        "wordlist": wordlist
+    })
