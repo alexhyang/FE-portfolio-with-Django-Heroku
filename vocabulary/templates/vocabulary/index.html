@@ -1,24 +1,6 @@
 {% extends "vocabulary/layout.html" %}
 {% load static %}
 
-{% block login %}
-<!-- <form class="form-inline my-2 my-lg-0">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onclick="">Login</button>
-    <button class="btn btn-primary my-2 my-sm-0" type="submit" onclick="">Sign Up</button>
-</form> -->
-    {% if user.is_authenticated %}
-        {{ user.username }}
-        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <div>
-            <a href="{% url 'login' %}">Login</a>
-        </div>
-        <div>
-            <a href="{% url 'register' %}">Sign Up</a>
-        </div>
-    {% endif %}
-{% endblock %}
-
 {% block body %}
     <div class="row g-5">
         <div class="col">
@@ -29,6 +11,7 @@
             <form>
                 <div class="mb-3">
                     <textarea id="textarea" class="form-control" rows="14" placeholder="Enter any text"></textarea>
+                    <p id="counter"></p>
                 </div>
                 <div class="mb-3">
                     <button id="count" class="btn btn-primary">Count Frequency</button>
@@ -45,18 +28,22 @@
                     </tr>
                 </table>
             </div>
-            <div class="mb-3">
-                <form>
-                    <textarea name="result" id="result" style="display: none;"></textarea>
-                    <select class="form-select" aria-label=".form-select-lg example">
-                        <option selected>Select a list</option>
-                        <option value="list1">List 1</option>
-                        <option value="list2">List 2</option>
-                        <option value="list3">List 3</option>
-                      </select>
-                    <button id="save" class="btn btn-primary" type="submit">Save Result</button>
-                </form>
-            </div>
+            {% if user.is_authenticated %}
+                <div class="mb-3">
+                    <form action="{% url 'save' %}" method="POST">
+                        <textarea name="result" id="result" style="display: none;"></textarea>
+                        <select name="listOption" class="form-select" aria-label=".form-select-lg example">
+                            <option selected>Select a list</option>
+                            {% if True %} <!-- Change to for loop -->
+                                <option value="list1">List 1</option>
+                                <option value="list2">List 2</option>
+                                <option value="list3">List 3</option>
+                            {% endif %}
+                        </select>
+                        <button id="save" class="btn btn-primary" type="submit">Save Result</button>
+                    </form>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
