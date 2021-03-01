@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['en-vocabulary-app.herokuapp.com']
 
 INSTALLED_APPS = [
     'vocabulary',
+    'livereload',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

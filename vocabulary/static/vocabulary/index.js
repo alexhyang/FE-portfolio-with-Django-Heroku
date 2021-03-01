@@ -1,8 +1,24 @@
 $(function(){
+    /*$('#resultTable').hide();
+    $('#resultTable').show();
+
+    $('#textarea').on('keypress', () => {
+        $('#counter').html($('#textarea').val());
+         if ($('#textarea').val() !== "") {
+            $('#count').prop('diabled', false);
+            $('#clear').prop('diabled', false);
+        } else {
+            $('#count').prop('diabled', true);
+            $('#clear').prop('diabled', true);
+        } 
+    })*/
 
     $('#count').on('click', () => {
-        let textDict = countFreq(strToArr($('#textarea').val()));
-        showTable(textDict, $('#freq-table'));
+        let textArr = strToArr($('#textarea').val());
+        $('#counter').html(`${textArr.length} words`);
+        $('#result').val(textArr.join(','));
+        let textDict = countFreq(textArr);
+        showTable(textDict, $('#freq-table')); //$('#addToLastCheck').is(':checked')
         return false;
     })
 
