@@ -3,7 +3,7 @@
 
 {% block body %}
     <div class="row g-5">
-        <div class="col">
+        <div class="col-md-auto">
             <div class="mb-3">
                 <h1>Introduction</h1>
                 <p>This web application receives any text and counts the frequency of each word used in the text.</p>                  
@@ -14,12 +14,12 @@
                     <p id="counter"></p>
                 </div>
                 <div class="mb-3">
-                    <button id="count" class="btn btn-primary">Count Frequency</button>
-                    <button id="clear" class="btn btn-danger">Clear text</button>
+                    <button id="count" class="btn btn-primary">Count Frequency</button> <!-- disabled to be added -->
+                    <button id="clear" class="btn btn-danger">Clear text</button> <!-- disabled to be added -->
                 </div>
             </form>
         </div>
-        <div class="col">
+        <div class="col-md" id="resultTable" ><!-- style="display: none;" to be added -->
             <div style="overflow-y: auto; height: 500px;">
                 <table id="freq-table" class="table table-striped overflow-auto">
                     <tr>
