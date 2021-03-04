@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<!-- right column: results -->
-	<div class="col-md" id="resultTable" style="display: none;">
+	<div class="col-md" id="result-section" style="display: none;">
 		<!-- table -->
 		<div class="mb-3 mt-5" style="overflow-y: auto; height: 400px">
 			<table id="freq-table" class="table table-striped overflow-auto">
@@ -38,7 +38,7 @@
 			<form action="{% url 'save' %}" method="POST">
 				{% csrf_token %}
 				<textarea name="result" id="result" style="display: none"></textarea>
-				<select name="listOption" class="form-select mb-3" aria-label=".form-select-lg example">
+				<select name="list_option" class="form-select mb-3" aria-label=".form-select-lg example">
 					<option selected>Select a list</option>
 					{% for wordlist in wordlists %}
 					<option value="{wordlist}">{{wordlist}}</option>

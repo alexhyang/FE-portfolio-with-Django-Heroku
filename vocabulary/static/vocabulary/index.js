@@ -4,7 +4,7 @@ $(function () {
 	$("#count").on("click", () => {
 		const inputText = $("#textarea").val();
 		if (inputText.length > 0) {
-			$('#resultTable').show();
+			$('#result-section').show();
 			updateTotalNumber(inputText, $("#counter"));
 			showTable(inputText, $("#freq-table"));
 		} else {
