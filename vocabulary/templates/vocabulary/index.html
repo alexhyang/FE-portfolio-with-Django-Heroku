@@ -1,53 +1,62 @@
-{% extends "vocabulary/layout.html" %}
-{% load static %}
-
-{% block body %}
-    <div class="row g-5">
-        <div class="col-md-auto">
-            <div class="mb-3">
-                <h1>Introduction</h1>
-                <p>This web application receives any text and counts the frequency of each word used in the text.</p>                  
-            </div>
-            <form>
-                <div class="mb-3">
-                    <textarea id="textarea" class="form-control" rows="14" placeholder="Enter any text"></textarea>
-                    <p id="counter"></p>
-                </div>
-                <div class="mb-3">
-                    <button id="count" class="btn btn-primary">Count Frequency</button> <!-- disabled to be added -->
-                    <button id="clear" class="btn btn-danger">Clear text</button> <!-- disabled to be added -->
-                </div>
-            </form>
-        </div>
-        <div class="col-md" id="resultTable" ><!-- style="display: none;" to be added -->
-            <div style="overflow-y: auto; height: 500px;">
-                <table id="freq-table" class="table table-striped overflow-auto">
-                    <tr>
-                        <th>Word</th>
-                        <th>Count</th>
-                    </tr>
-                </table>
-            </div>
-            {% if user.is_authenticated %}
-                <div class="mb-3">
-                    <form action="{% url 'save' %}" method="POST">
-                        <textarea name="result" id="result" style="display: none;"></textarea>
-                        <select name="listOption" class="form-select" aria-label=".form-select-lg example">
-                            <option selected>Select a list</option>
-                            {% if True %} <!-- Change to for loop -->
-                                <option value="list1">List 1</option>
-                                <option value="list2">List 2</option>
-                                <option value="list3">List 3</option>
-                            {% endif %}
-                        </select>
-                        <button id="save" class="btn btn-primary" type="submit">Save Result</button>
-                    </form>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
-
-{% block script %}
-    <script type="text/javascript" src="{% static 'vocabulary/index.js' %}"></script>
+{% extends "vocabulary/layout.html" %} {% load static %} {% block body %}
+<div class="row g-5">
+	<!-- left column: inputs -->
+	<div class="col-md-auto">
+		<!-- Description -->
+		<div class="mb-3">
+			<h1>Introduction</h1>
+			<p>
+				This web application receives any text and counts the frequency of each
+				word used in the text.
+			</p>
+		</div>
+		<!-- Form input -->
+		<form class="mb-3">
+				<textarea id="textarea" class="form-control" rows="14" placeholder="Enter any text"></textarea>
+				<p id="counter"></p>
+		</form>
+		<!-- User Action -->
+		<div class="mb-3">
+			<button id="count" class="btn btn-primary">Count Frequency</button>
+			<button id="clear" class="btn btn-danger">Clear text</button>
+		</div>
+	</div>
+	<!-- right column: results -->
+	<div class="col-md" id="resultTable">
+		<!-- style="display: none;" to be added -->
+		<!-- table -->
+		<div style="overflow-y: auto; height: 500px">
+			<table id="freq-table" class="table table-striped overflow-auto">
+				<tr>
+					<th>Word</th>
+					<th>Count</th>
+				</tr>
+			</table>
+		</div>
+		<!-- User Action -->
+		{% if user.is_authenticated %}
+		<div class="mb-3">
+			<form action="{% url 'save' %}" method="POST">
+				{% csrf_token %}
+				<textarea name="result" id="result" style="display: none"></textarea>
+				<select name="listOption" class="form-select" aria-label=".form-select-lg example">
+					<option selected>Select a list</option>
+					{% if True %}
+					<!-- Change to for loop -->
+					<option value="list1">List 1</option>
+					<option value="list2">List 2</option>
+					<option value="list3">List 3</option>
+					{% endif %}
+				</select>
+				<button id="save" class="btn btn-primary" type="submit">
+					Save Result
+				</button>
+			</form>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %} {% block script %}
+<script type="text/javascript" src="{% static 'vocabulary/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'vocabulary/helper.js' %}"></script>
 {% endblock %}
