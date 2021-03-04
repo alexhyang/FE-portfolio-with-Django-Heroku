@@ -22,10 +22,9 @@
 		</div>
 	</div>
 	<!-- right column: results -->
-	<div class="col-md" id="resultTable">
-		<!-- style="display: none;" to be added -->
+	<div class="col-md" id="resultTable" style="display: none;">
 		<!-- table -->
-		<div style="overflow-y: auto; height: 500px">
+		<div class="mb-3 mt-5" style="overflow-y: auto; height: 400px">
 			<table id="freq-table" class="table table-striped overflow-auto">
 				<tr>
 					<th>Word</th>
@@ -39,14 +38,11 @@
 			<form action="{% url 'save' %}" method="POST">
 				{% csrf_token %}
 				<textarea name="result" id="result" style="display: none"></textarea>
-				<select name="listOption" class="form-select" aria-label=".form-select-lg example">
+				<select name="listOption" class="form-select mb-3" aria-label=".form-select-lg example">
 					<option selected>Select a list</option>
-					{% if True %}
-					<!-- Change to for loop -->
-					<option value="list1">List 1</option>
-					<option value="list2">List 2</option>
-					<option value="list3">List 3</option>
-					{% endif %}
+					{% for wordlist in wordlists %}
+					<option value="{wordlist}">{{wordlist}}</option>
+					{% endfor %}
 				</select>
 				<button id="save" class="btn btn-primary" type="submit">
 					Save Result

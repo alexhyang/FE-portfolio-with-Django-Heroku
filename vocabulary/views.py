@@ -10,7 +10,13 @@ from .forms import WordForm, WordlistForm
 
 # Create your views here.
 def index(request):
-    return render(request, "vocabulary/index.html")
+    try:
+        wordlists = WordList.objects.filter(owner = request.user)
+    except WordList.DoesNotExist:
+        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    return render(request, "vocabulary/index.html", {
+        "wordlists": wordlists
+    })
 
 def login_view(request):
     if request.method == "POST":
