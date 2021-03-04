@@ -8,15 +8,20 @@ from django.urls import reverse
 from .models import User, WordList, Word
 from .forms import WordForm, WordlistForm
 
+import re
+
 # Create your views here.
 def index(request):
-    try:
-        wordlists = WordList.objects.filter(owner = request.user)
-    except WordList.DoesNotExist:
-        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-    return render(request, "vocabulary/index.html", {
-        "wordlists": wordlists
-    })
+    if request.user.is_authenticated:
+        try:
+            wordlists = WordList.objects.filter(owner = request.user)
+        except WordList.DoesNotExist:
+            raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+        return render(request, "vocabulary/index.html", {
+            "wordlists": wordlists
+        })
+    else:
+        return render(request, "vocabulary/index.html")
 
 def login_view(request):
     if request.method == "POST":
@@ -75,16 +80,18 @@ def save(request):
         result = request.POST["result"] #"result" is a long string
         wordlist = request.POST["listOption"]
         
-        for word in result:
+        uniqueWords = set(re.split(r'[^A-Za-z\-]+', result))
+        
+        for word in uniqueWords:
+            
+            try:
+                word = Word.objects.create(word=word, wordlist=wordlist, user=user)
+                word.save()
+            except IntegrityError:
+                return render(request, "vocabulary/register.html", {
+                    "message": "Username already taken."
+                })
 
-        try:
-            word = Word.objects.create(word=word, wordlist=wordlist, user=user)
-            word.save()
-        except IntegrityError:
-            return render(request, "vocabulary/register.html", {
-                "message": "Username already taken."
-            })
-        login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "vocabulary/register.html") """
