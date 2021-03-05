@@ -3,10 +3,10 @@
 
 {% block body %}
     <h1>{{ wordlist.name }}</h1>
-    {% if wordlist.word.all %}
+    {% if wordlist.words.all %}
         Entries:
-        {% for word in wordlist.word.all %}
-            <li>{{ word.word }}</li>
+        {% for word in wordlist.words.all %}
+            <li>{{ word }}</li>
         {% endfor %}
     {% else %}
         No words in this list.

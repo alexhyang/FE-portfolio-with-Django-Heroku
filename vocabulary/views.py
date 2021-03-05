@@ -74,27 +74,27 @@ def register(request):
 
 @login_required
 def save(request):
-    return render(request, "vocabulary/index.html")
-    """ if request.method == "POST":
+    if request.method == "POST":
+        # Get submission info
         user = request.user
-        result = request.POST["result"] #"result" is a long string
-        wordlist = request.POST["listOption"]
+        words = request.POST["result"] #"result" is a long string
+        list_name = request.POST["list_option"]
         
-        uniqueWords = set(re.split(r'[^A-Za-z\-]+', result))
+        # Handle submission data
+        unique_words = set(re.split(r'[^A-Za-z\-]+', words))
+        clean_unique_words = [word for word in unique_words if word != ""]
         
-        for word in uniqueWords:
-            
-            try:
-                word = Word.objects.create(word=word, wordlist=wordlist, user=user)
-                word.save()
-            except IntegrityError:
-                return render(request, "vocabulary/register.html", {
-                    "message": "Username already taken."
-                })
+        # Connect to database
+        wordlist = WordList.objects.get(name = list_name, owner = user)
+        
+        # Modify database if condition satisfied
+        for word in clean_unique_words:
+            if True:
+                word = Word.objects.create(word=word)
+                word.users.add(user)
+                word.wordlists.add(wordlist)
 
-        return HttpResponseRedirect(reverse("index"))
-    else:
-        return render(request, "vocabulary/register.html") """
+    return HttpResponseRedirect(reverse("index"))
 
 @login_required  
 def wordlists(request):

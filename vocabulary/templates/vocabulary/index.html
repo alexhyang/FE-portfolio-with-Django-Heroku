@@ -41,7 +41,7 @@
 				<select name="list_option" class="form-select mb-3" aria-label=".form-select-lg example">
 					<option selected>Select a list</option>
 					{% for wordlist in wordlists %}
-					<option value="{wordlist}">{{wordlist}}</option>
+					<option value="{{wordlist.name}}">{{wordlist.name}}</option>
 					{% endfor %}
 				</select>
 				<button id="save" class="btn btn-primary" type="submit">
