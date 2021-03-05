@@ -3,16 +3,15 @@ This single page application is a personal English vocabulary application.
 
 ## v0.1 (Django + JavaScript)
 new features:
-- App receives a sentence or paragraph of plain text and count the frequency of each word used in the text. Then the page will show the results in a frequency table.
+- App receives a sentence or paragraph of plain text and counts the frequency of each word used in the text. The page will then show the results in a frequency table.
 
 ## v0.2 (Django + database)
-expected new features
-- Users can create an account for more functionalities including adding and removing word list
+new features:
+- Users can now create accounts to save results in their word list.
 
-## v0.3 (Django + database)
+## v0.3 (Django + dictionary APIs)
 expected new features:
-- Users now can save all words in frequency table to existing lists
-
+- The meaning of saved words will be automatically fetched using dictionary APIs (Oxford and Merriam Webster) and displayed on list page.
 
 ## future version ideas
 - Users can save certain words in frequency table using checkbox
