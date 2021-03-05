@@ -1,6 +1,7 @@
 function updateTotalNumber(inputText, element) {
 	let textArr = strToArr(inputText);
-	element.html(`${textArr.length} words`);
+	let uniqueNumber = uniqueWords(textArr);
+	element.html(`${uniqueNumber} / ${textArr.length} (unique / total words)`);
 }
 
 function showTable(inputText, tableRef) {
@@ -51,6 +52,16 @@ function createTable(freqObj, tableRef) {
 			"<tr><td>" + key + "</td>" + "<td>" + freqObj[key] + "</td></tr>"
 		);
 	}
+}
+
+function uniqueWords(textArr) {
+	let arr = [];
+	for (var i in textArr) {
+		if (!arr.includes(textArr[i])) {
+			arr.push(textArr[i]);
+		}
+	}
+	return arr.length;
 }
 
 //export { updateTotalNumber, showTable };
