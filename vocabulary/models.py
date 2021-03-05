@@ -10,7 +10,7 @@ class WordDict(models.Model):
     meaning = models.TextField()
     
     def __str__(self):
-        return f"{self.word}"
+        return f"{self.word}: {self.meaning}"
 
 class WordList(models.Model):
     name = models.CharField(max_length=64)
@@ -21,8 +21,8 @@ class WordList(models.Model):
 
 class Word(models.Model):
     word = models.CharField(max_length=32)
-    wordlist = models.ManyToManyField(WordList, blank=True, related_name="word") #Words.list --> many words to many wordlists
-    user = models.ManyToManyField(User, related_name="word") #User.word --> many words to many users
+    wordlists = models.ManyToManyField(WordList, blank=True, related_name="words") #Wordlist.word --> many words to many wordlists
+    users = models.ManyToManyField(User, related_name="words") #User.word --> many words to many users
     
     def __str__(self):
         return f"{self.word}"
