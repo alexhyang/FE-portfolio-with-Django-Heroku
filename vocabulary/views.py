@@ -77,7 +77,7 @@ def save(request):
     if request.method == "POST":
         # Get submission info
         user = request.user
-        words = request.POST["result"] #"result" is a long string
+        words = request.POST["result"].lower() #"result" is a long string
         list_name = request.POST["list_option"]
         
         # Handle submission data
@@ -88,8 +88,10 @@ def save(request):
         wordlist = WordList.objects.get(name = list_name, owner = user)
         
         # Modify database if condition satisfied
+        words_saved = 0
         for word in clean_unique_words:
-            if True:
+            if new_word(word, wordlist):
+                words_saved += 1
                 word = Word.objects.create(word=word)
                 word.users.add(user)
                 word.wordlists.add(wordlist)
@@ -148,3 +150,7 @@ def remove_list(request, name):
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
     wordlist.delete()
     return HttpResponseRedirect(reverse("wordlist_index"))
+
+def new_word(word, wordlist):
+    existing_words = wordlist.words.all().values_list('word', flat=True)
+    return word not in existing_words
