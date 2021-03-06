@@ -8,8 +8,8 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("signup", views.register, name="register"),
     path("save", views.save, name="save"),
-    path("wordlists", views.wordlists, name="wordlist_index"),
-    path("add_list", views.add_list, name="add_list"),
-    path("wordlists/<str:name>", views.wordlist, name="wordlist"),
-    path("wordlists/<str:name>/remove", views.remove_list, name="remove_list")
+    path("lists", views.my_lists, name="my_lists"),
+    path("lists/add_list", views.add_list, name="add_list"),
+    path("lists/<str:name>", views.wordlist, name="wordlist"),
+    path("lists/<str:name>/remove", views.remove_list, name="remove_list")
 ]
