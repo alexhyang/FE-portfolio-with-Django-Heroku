@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, WordList, Word
+from .models import User, WordList, Word, WordDict
 from .forms import WordForm, WordlistForm
 
 import re
@@ -87,14 +87,19 @@ def save(request):
         # Connect to database
         wordlist = WordList.objects.get(name = list_name, owner = user)
         
+        # API gets meaning of word
+        
+        
         # Modify database if condition satisfied
         words_saved = 0
         for word in clean_unique_words:
             if new_word(word, wordlist):
-                words_saved += 1
+                word_dict = WordDict.objects.create(word=word)
+                word_dict.save()
                 word = Word.objects.create(word=word)
                 word.users.add(user)
                 word.wordlists.add(wordlist)
+                words_saved += 1
 
     return HttpResponseRedirect(reverse("index"))
 
@@ -110,6 +115,10 @@ def my_lists(request):
 
 @login_required
 def add_list(request):
+    try:
+        wordlists = WordList.objects.filter(owner=request.user)
+    except WordList.DoesNotExist:
+        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
     if request.method == "POST":
         form = WordlistForm(request.POST)
         if form.is_valid():
@@ -120,26 +129,31 @@ def add_list(request):
             else:
                 return render(request, "vocabulary/add_list.html", {
                     "form": form,
-                    "message": f"{name} already exists."
+                    "message": f"{name} already exists.",
+                    "wordlists": wordlists
                 })
 
         else:
             return render(request, "vocabulary/add_list.html", {
-                "form": form
+                "form": form,
+                "wordlists": wordlists
             })
     else:
         return render(request, "vocabulary/add_list.html", {
-            "form": WordlistForm()
+            "form": WordlistForm(),
+            "wordlists": wordlists
         })
         
 @login_required
 def wordlist(request, name):
     try:
         wordlist = WordList.objects.get(name=name)
+        wordlists = WordList.objects.filter(owner=request.user)
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
     return render(request, "vocabulary/wordlist.html", {
-        "wordlist": wordlist
+        "wordlist": wordlist,
+        "wordlists": wordlists
     })
 
 @login_required

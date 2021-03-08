@@ -32,8 +32,20 @@
 						<a class="nav-link" href="{% url 'index' %}">Counter</a>
 					</li>
 					{% if user.is_authenticated %}
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'my_lists' %}">Vocabulary Lists</a>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							Vocabulary Lists
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							{% for wordlist in wordlists %}
+							<li><a class="dropdown-item" href="{% url 'wordlist' wordlist %}">{{wordlist}}</a></li>
+							{% endfor %}
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="{% url 'add_list' %}">Create new list</a></li>
+						</ul>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Review</a>
@@ -45,6 +57,15 @@
 					<div class="nav-item">
 						<a class="nav-link" href="#"><span>Hello, </span>{{ user.username }}</a>
 					</div>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							settings
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" href="{% url 'my_lists' %}">Manage lists</a></li>
+						</ul>
+					</li>
 					<div class="nav-item">
 						<a class="nav-link text-primary" href="{% url 'logout' %}">Logout</a>
 					</div>
@@ -60,7 +81,7 @@
 			</div>
 		</div>
 	</nav>
-	<div class="container">{% block body %} {% endblock %}</div>
+	<div class="container mt-3">{% block body %} {% endblock %}</div>
 	<div class="footer my-3">
 		<div>© 2021 Alex Han Yang</div>
 	</div>
