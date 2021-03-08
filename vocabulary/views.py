@@ -104,12 +104,12 @@ def save(request):
     return HttpResponseRedirect(reverse("index"))
 
 @login_required  
-def my_lists(request):
+def manage_lists(request):
     try:
         wordlists = WordList.objects.filter(owner = request.user)
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-    return render(request, "vocabulary/my_lists.html", {
+    return render(request, "vocabulary/manage_lists.html", {
         "wordlists": wordlists
     })
 
@@ -125,7 +125,7 @@ def add_list(request):
             name = form.cleaned_data["name"]
             if len(WordList.objects.filter(name=name)) == 0:
                 WordList.objects.create(name=name, owner=request.user)
-                return HttpResponseRedirect(reverse("my_lists"))
+                return HttpResponseRedirect(reverse("manage_lists"))
             else:
                 return render(request, "vocabulary/add_list.html", {
                     "form": form,
@@ -163,7 +163,7 @@ def remove_list(request, name):
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
     wordlist.delete()
-    return HttpResponseRedirect(reverse("my_lists"))
+    return HttpResponseRedirect(reverse("manage_lists"))
 
 def new_word(word, wordlist):
     existing_words = wordlist.words.all().values_list('word', flat=True)
