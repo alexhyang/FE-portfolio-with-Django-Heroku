@@ -2,16 +2,27 @@
 {% load static %}
 
 {% block body %}
-    <h1>{{ wordlist.name }}</h1>
-    {% if wordlist.words.all %}
-        Entries:
-        {% for word in wordlist.words.all %}
-            <li>{{ word }}</li>
-        {% endfor %}
-    {% else %}
-        No words in this list.
-    {% endif %}
+    <div class="row mb-3">
+        <h1>{{ wordlist.name }}</h1>
+    </div>
+    <div class="row mb-3">
+        {% if wordlist.words.all %}
+            {% for word in wordlist.words.all %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">{{ word }}</div>
+                        <p class="card-text">Example meaning</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            No words in this list.
+        {% endif %}
+    </div>
+    
     <p> <a href="{% url 'remove_list' wordlist %}">Remove list</a></p>
-    <p><a href="{% url 'wordlist_index' %}">Back</a></p>
+    <p><a href="{% url 'my_lists' %}">Back</a></p>
 
 {% endblock %}

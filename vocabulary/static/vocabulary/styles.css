@@ -5,3 +5,8 @@ h1 {
 .footer {
     text-align: center;
 }
+
+.card-title {
+    font-weight: bolder;
+    color: #255175;
+}
