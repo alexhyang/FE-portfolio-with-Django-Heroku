@@ -7,14 +7,15 @@ class User(AbstractUser):
 
 class WordDict(models.Model):
     word = models.CharField(max_length=32)
-    meaning = models.TextField()
+    meaning = models.TextField(blank=True)
     
     def __str__(self):
-        return f"{self.word}: {self.meaning}"
+        return f"{self.word}"
 
 class WordList(models.Model):
     name = models.CharField(max_length=64)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wordlist") #User.wordlist --> many wordlists to one user
+    description = models.TextField(blank=True)
     
     def __str__(self):
         return f"{self.name}"
