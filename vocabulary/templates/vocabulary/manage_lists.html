@@ -1,36 +1,33 @@
-{% extends "vocabulary/layout.html" %}
-{% load static %}
-
-{% block body %}
+{% extends "vocabulary/layout.html" %} {% load static %} {% block body %}
 <div class="row">
-    <h1>Wordlist</h1>
+  <h1>Wordlist</h1>
 </div>
 <div class="row">
-    {% if wordlists %}
-    <table class="table table-striped">
-        <thead>
-            <th scope="col">List name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Create Date</th>
-            <th scope="col">Number of words</th>
-        </thead>
-        <tbody>
-            {% for wordlist in wordlists %}
-            <tr>
-                <th scope="row">{{wordlist}}</th>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-        <p>No wordlist found.</p>
-    {% endif %}
+  {% if wordlists %}
+  <table class="table table-striped">
+    <thead>
+      <th scope="col">List name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Create Date</th>
+      <th scope="col">Number of words</th>
+    </thead>
+    <tbody>
+      {% for wordlist in wordlists %}
+      <tr>
+        <th scope="row">{{wordlist}}</th>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>No wordlist found.</p>
+  {% endif %}
 </div>
 <div class="row">
-    <p><a href="{% url 'add_list' %}">new list</a></p>
+  <p><a href="{% url 'add_list' %}">new list</a></p>
 </div>
 
 {% endblock %}
