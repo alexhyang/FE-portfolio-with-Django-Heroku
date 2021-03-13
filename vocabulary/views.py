@@ -14,14 +14,13 @@ import re
 def index(request):
     if request.user.is_authenticated:
         try:
-            wordlists = WordList.objects.filter(owner = request.user)
+            wordlists = WordList.objects.filter(owner=request.user)
         except WordList.DoesNotExist:
             raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-        return render(request, "vocabulary/index.html", {
-            "wordlists": wordlists
-        })
+        return render(request, "vocabulary/index.html", {"wordlists": wordlists})
     else:
         return render(request, "vocabulary/index.html")
+
 
 def login_view(request):
     if request.method == "POST":
@@ -36,15 +35,19 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "vocabulary/login.html", {
-                "message": "Invalid username and/or password."
-            })
+            return render(
+                request,
+                "vocabulary/login.html",
+                {"message": "Invalid username and/or password."},
+            )
     else:
         return render(request, "vocabulary/login.html")
+
 
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 def register(request):
     if request.method == "POST":
@@ -55,41 +58,54 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "vocabulary/register.html", {
-                "message": "Passwords must match."
-            })
+            return render(
+                request,
+                "vocabulary/register.html",
+                {"message": "Passwords must match."},
+            )
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "vocabulary/register.html", {
-                "message": "Username already taken."
-            })
+            return render(
+                request,
+                "vocabulary/register.html",
+                {"message": "Username already taken."},
+            )
+        try:
+            settings = Settings.objects.create(user=user)
+            settings.save()
+        except IntegrityError:
+            return render(
+                request,
+                "vocabulary/register.html",
+                {"message": "Something is wrong with settings."},
+            )
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "vocabulary/register.html")
+
 
 @login_required
 def save(request):
     if request.method == "POST":
         # Get submission info
         user = request.user
-        words = request.POST["result"].lower() #"result" is a long string
+        words = request.POST["result"].lower()  # "result" is a long string
         list_name = request.POST["list_option"]
-        
+
         # Handle submission data
-        unique_words = set(re.split(r'[^A-Za-z\-]+', words))
+        unique_words = set(re.split(r"[^A-Za-z\-]+", words))
         clean_unique_words = [word for word in unique_words if word != ""]
-        
+
         # Connect to database
-        wordlist = WordList.objects.get(name = list_name, owner = user)
-        
+        wordlist = WordList.objects.get(name=list_name, owner=user)
+
         # API gets meaning of word
-        
-        
+
         # Modify database if condition satisfied
         words_saved = 0
         for word in clean_unique_words:
@@ -103,15 +119,15 @@ def save(request):
 
     return HttpResponseRedirect(reverse("index"))
 
-@login_required  
+
+@login_required
 def manage_lists(request):
     try:
-        wordlists = WordList.objects.filter(owner = request.user)
+        wordlists = WordList.objects.filter(owner=request.user)
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-    return render(request, "vocabulary/manage_lists.html", {
-        "wordlists": wordlists
-    })
+    return render(request, "vocabulary/manage_lists.html", {"wordlists": wordlists})
+
 
 @login_required
 def add_list(request):
@@ -127,23 +143,30 @@ def add_list(request):
                 WordList.objects.create(name=name, owner=request.user)
                 return HttpResponseRedirect(reverse("manage_lists"))
             else:
-                return render(request, "vocabulary/add_list.html", {
-                    "form": form,
-                    "message": f"{name} already exists.",
-                    "wordlists": wordlists
-                })
+                return render(
+                    request,
+                    "vocabulary/add_list.html",
+                    {
+                        "form": form,
+                        "message": f"{name} already exists.",
+                        "wordlists": wordlists,
+                    },
+                )
 
         else:
-            return render(request, "vocabulary/add_list.html", {
-                "form": form,
-                "wordlists": wordlists
-            })
+            return render(
+                request,
+                "vocabulary/add_list.html",
+                {"form": form, "wordlists": wordlists},
+            )
     else:
-        return render(request, "vocabulary/add_list.html", {
-            "form": WordlistForm(),
-            "wordlists": wordlists
-        })
-        
+        return render(
+            request,
+            "vocabulary/add_list.html",
+            {"form": WordlistForm(), "wordlists": wordlists},
+        )
+
+
 @login_required
 def wordlist(request, name):
     try:
@@ -154,11 +177,12 @@ def wordlist(request, name):
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
     except Settings.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Settings not found.")
-    return render(request, "vocabulary/wordlist.html", {
-        "wordlist": wordlist,
-        "wordlists": wordlists,
-        "settings": settings
-    })
+    return render(
+        request,
+        "vocabulary/wordlist.html",
+        {"wordlist": wordlist, "wordlists": wordlists, "settings": settings},
+    )
+
 
 @login_required
 def remove_list(request, name):
@@ -169,6 +193,7 @@ def remove_list(request, name):
     wordlist.delete()
     return HttpResponseRedirect(reverse("manage_lists"))
 
+
 def new_word(word, wordlist):
-    existing_words = wordlist.words.all().values_list('word', flat=True)
+    existing_words = wordlist.words.all().values_list("word", flat=True)
     return word not in existing_words
