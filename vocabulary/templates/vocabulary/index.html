@@ -3,8 +3,12 @@
   type="text/javascript"
   src="{% static 'vocabulary/index.js' %}"
 ></script>
+<script
+  type="text/javascript"
+  src="{% static 'vocabulary/helper.js' %}"
+></script>
 {% endblock %} {% block body %}
-<div class="row g-5">
+<div class="row g-5 justify-content-center">
   <!-- left column: inputs -->
   <div class="col-md-auto">
     <!-- Description -->
@@ -20,12 +24,14 @@
       <textarea
         id="textarea"
         class="form-control"
-        rows="14"
+        rows="15"
         placeholder="Enter any text"
       ></textarea>
       <p id="counter"></p>
       <div class="mb-3">
-        <button id="count" class="btn btn-primary">Count Frequency</button>
+        <button id="count" class="btn btn-primary" type="button">
+          Count Frequency
+        </button>
         <button id="clear" class="btn btn-danger" type="reset">
           Clear text
         </button>
