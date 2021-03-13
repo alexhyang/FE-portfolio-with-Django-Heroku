@@ -27,3 +27,7 @@ class Word(models.Model):
     
     def __str__(self):
         return f"{self.word}"
+    
+class Settings(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="settings")
+    list_card_uppercase = models.BooleanField(default=False)
