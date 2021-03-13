@@ -1,12 +1,16 @@
 h1 {
-    color: #306998;
+  color: #306998;
 }
 
 .footer {
-    text-align: center;
+  text-align: center;
 }
 
 .card-title {
-    font-weight: bolder;
-    color: #255175;
+  font-weight: bolder;
+  color: #255175;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }

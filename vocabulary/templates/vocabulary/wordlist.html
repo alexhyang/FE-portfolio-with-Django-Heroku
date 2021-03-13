@@ -4,29 +4,32 @@
   src="{% static 'vocabulary/wordlist.js' %}"
 ></script>
 {% endblock %} {% block body %}
-<div class="row mb-3 align-items-center">
+<div class="row m-2 p-2 align-items-center">
   <div class="col-auto">
     <h1>{{ wordlist.name }}</h1>
   </div>
-  <div class="col-auto ms-auto">
-    <button class="btn btn-primary" id="case-toggle">Show uppercase</button>
-  </div>
 </div>
 
+<!-- cards -->
 {% if wordlist.words.all %}
-<div class="row mb-3">
+<div class="row m-2 p-2 col-rows-lg-5">
   {% for word in wordlist.words.all %}
   <div class="col-md-4">
     <div class="card">
       <div class="card-body">
         <div class="card-title">{{ word }}</div>
+        {% if settings.list_card_uppercase %}
+        <div class="card-title uppercase">{{ word }}</div>
+        {% endif %}
         <p class="card-text">Example meaning</p>
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
-<div class="row justify-content-end">
+
+<!-- User action -->
+<div class="row m-2 p-2 justify-content-end">
   <div class="col-sm-auto">
     <button id="previous" class="btn btn-primary">Previous</button>
     <button id="next" class="btn btn-primary">Next</button>

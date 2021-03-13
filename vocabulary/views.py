@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, WordList, Word, WordDict
+from .models import User, WordList, Word, WordDict, Settings
 from .forms import WordForm, WordlistForm
 
 import re
@@ -149,11 +149,15 @@ def wordlist(request, name):
     try:
         wordlist = WordList.objects.get(name=name)
         wordlists = WordList.objects.filter(owner=request.user)
+        settings = Settings.objects.get(user=request.user)
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    except Settings.DoesNotExist:
+        raise HttpResponseBadRequest("Bad Request: Settings not found.")
     return render(request, "vocabulary/wordlist.html", {
         "wordlist": wordlist,
-        "wordlists": wordlists
+        "wordlists": wordlists,
+        "settings": settings
     })
 
 @login_required
