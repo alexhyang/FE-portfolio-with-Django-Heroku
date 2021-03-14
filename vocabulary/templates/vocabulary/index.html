@@ -8,69 +8,84 @@
   src="{% static 'vocabulary/helper.js' %}"
 ></script>
 {% endblock %} {% block body %}
-<div class="row g-5 justify-content-center">
-  <!-- left column: inputs -->
-  <div class="col-md-auto">
-    <!-- Description -->
-    <div class="mb-3">
+<div class="gy-3">
+  <!-- Introduction -->
+  <div id="introduction" class="row justify-content-center">
+    <div class="col-md-6">
       <h1>Introduction</h1>
       <p>
         This web application receives any text and counts the frequency of each
         word used in the text.
       </p>
     </div>
-    <!-- Form input -->
-    <form class="mb-3">
-      <textarea
-        id="textarea"
-        class="form-control"
-        rows="15"
-        placeholder="Enter any text"
-      ></textarea>
-      <p id="counter"></p>
-      <div class="mb-3">
-        <button id="count" class="btn btn-primary" type="button">
-          Count Frequency
-        </button>
-        <button id="clear" class="btn btn-danger" type="reset">
-          Clear text
-        </button>
-      </div>
-    </form>
   </div>
-  <!-- right column: results -->
-  <div class="col-md" id="result-section" style="display: none">
-    <!-- table -->
-    <div class="mb-3 mt-5" style="overflow-y: auto; height: 400px">
-      <table id="freq-table" class="table table-striped overflow-auto">
-        <tr>
-          <th>Word</th>
-          <th>Count</th>
-        </tr>
-      </table>
-    </div>
-    <!-- User Action -->
-    {% if user.is_authenticated %}
-    <div class="mb-3">
-      <form action="{% url 'save' %}" method="POST">
-        {% csrf_token %}
-        <textarea name="result" id="result" style="display: none"></textarea>
-        <select
-          name="list_option"
-          class="form-select mb-3"
-          aria-label=".form-select-lg example"
-        >
-          <option selected disabled>Select a list</option>
-          {% for wordlist in wordlists %}
-          <option value="{{wordlist.name}}">{{wordlist.name}}</option>
-          {% endfor %}
-        </select>
-        <button id="save" class="btn btn-primary" type="submit">
-          Save Result
-        </button>
+  <div id="freq-counter-app" class="row justify-content-center">
+    <!-- left column: inputs -->
+    <div id="index-input-col" class="col-md-6">
+      <form>
+        <!-- Form input -->
+        <textarea
+          id="textarea"
+          class="form-control"
+          rows="15"
+          placeholder="Enter any text"
+        ></textarea>
+        <!-- Input control -->
+        <p id="word-counter"></p>
+        <div id="input-control" class="mb-4">
+          <button id="count" class="btn btn-primary" type="button">
+            Count Frequency
+          </button>
+          <button id="clear" class="btn btn-danger" type="reset">
+            Clear text
+          </button>
+        </div>
       </form>
     </div>
-    {% endif %}
+    <!-- right column: results -->
+    <div id="index-result-col" class="col-md-6" style="display: none">
+      <!-- table -->
+      <div style="overflow-y: auto; max-height: 390px">
+        <table id="freq-table" class="table table-striped overflow-auto">
+          <tr>
+            <th>Word</th>
+            <th>Count</th>
+          </tr>
+        </table>
+      </div>
+      <!-- result control -->
+      {% if user.is_authenticated %}
+      <div id="result-control">
+        <form action="{% url 'save' %}" method="POST">
+          {% csrf_token %}
+          <textarea name="result" id="result" style="display: none"></textarea>
+          <div class="mt-3">
+            <label for="list-option">Select a word list:</label>
+            <div class="row">
+              <div class="col">
+                <select
+                  name="list_option"
+                  id="list-option"
+                  class="form-select mb-3"
+                  aria-label=".form-select-lg example"
+                >
+                  <option selected></option>
+                  {% for wordlist in wordlists %}
+                  <option value="{{wordlist.name}}">{{wordlist.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col">
+                <button id="save" class="btn btn-primary" type="submit">
+                  Save Result
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}
