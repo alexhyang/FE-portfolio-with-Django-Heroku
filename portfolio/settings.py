@@ -24,10 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'nfo6yf_5a+8yn#t85ir*r@n)_k7nn^-q2v2&vdyfcvw-o6!--7'
+# SECRET_KEY = 'nfo6yf_5a+8yn#t85ir*r@n)_k7nn^-q2v2&vdyfcvw-o6!--7'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
 ALLOWED_HOSTS = ['alexhyang.herokuapp.com']
 
@@ -146,3 +147,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Activate Django-Heroku
 django_heroku.settings(locals())
 
+
+# Deployment security settings
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
