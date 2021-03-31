@@ -1,1 +1,1 @@
-web: gunicorn en_vocab_app.wsgi
+web: gunicorn portfolio.wsgi
