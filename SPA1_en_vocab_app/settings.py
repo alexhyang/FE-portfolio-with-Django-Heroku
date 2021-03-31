@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
-ROOT_URLCONF = 'SPA1_en_vocab_app.urls'
+ROOT_URLCONF = 'en_vocab_app.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SPA1_en_vocab_app.wsgi.application'
+WSGI_APPLICATION = 'en_vocab_app.wsgi.application'
 
 
 # Database
