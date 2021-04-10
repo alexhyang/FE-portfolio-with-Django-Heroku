@@ -51,7 +51,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">DemoWebApp</a>
+        <a class="navbar-brand" href="{% url 'vocabulary:index' %}">DemoWebApp</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -66,7 +66,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'index' %}">Frequency Counter</a>
+              <a class="nav-link" href="{% url 'vocabulary:index' %}">Frequency Counter</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
@@ -92,7 +92,7 @@
                   <hr class="dropdown-divider" />
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{% url 'add_list' %}"
+                  <a class="dropdown-item" href="{% url 'vocabulary:add_list' %}"
                     >Create new list</a
                   >
                 </li>
@@ -123,25 +123,25 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
-                  <a class="dropdown-item" href="{% url 'manage_lists' %}"
+                  <a class="dropdown-item" href="{% url 'vocabulary:manage_lists' %}"
                     >Manage lists</a
                   >
                 </li>
               </ul>
             </li>
             <div class="nav-item">
-              <a class="nav-link text-primary" href="{% url 'logout' %}"
+              <a class="nav-link text-primary" href="{% url 'vocabulary:logout' %}"
                 >Logout</a
               >
             </div>
             {% else %}
             <div class="nav-item">
-              <a class="nav-link text-primary" href="{% url 'login' %}"
+              <a class="nav-link text-primary" href="{% url 'vocabulary:login' %}"
                 >Login</a
               >
             </div>
             <div class="nav-item">
-              <a class="nav-link text-primary" href="{% url 'register' %}"
+              <a class="nav-link text-primary" href="{% url 'vocabulary:register' %}"
                 >Sign Up</a
               >
             </div>
