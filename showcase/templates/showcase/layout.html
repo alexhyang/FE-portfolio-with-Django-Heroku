@@ -30,7 +30,7 @@
     {% block script %} {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-lg">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">My Portfolio</a>
         <button
@@ -46,17 +46,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            <li class="nav-item">
+              <a class="nav-link" href="#welcome">Home</a>
             </li>
-            
+            <li class="nav-item">
+              <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contact">Contact</a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="container p-3">{% block body %} {% endblock %}</div>
-    <div class="footer p-3">
-      <div>&copy; 2021 Alex Han Yang</div>
-    </div>
+    {% block body %} {% endblock %}
+    <footer class="footer p-3">
+      <p>&copy; 2021 Alex Han Yang</p>
+    </footer>
   </body>
 </html>
