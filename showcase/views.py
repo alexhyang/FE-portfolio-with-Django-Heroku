@@ -6,3 +6,6 @@ def index(request):
 
 def survey(request):
     return render(request, 'showcase/survey.html')
+
+def tribute(request):
+    return render(request, "showcase/tribute.html")
