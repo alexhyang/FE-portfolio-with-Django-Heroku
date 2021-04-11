@@ -10,8 +10,12 @@
 
 body {
   background: var(--main-theme-color);
+  padding-top: 70px;
 }
 
+h1 {
+  color: var(--heading-color2);
+}
 
 /* || SITEWIDE */
 nav {
@@ -62,9 +66,21 @@ nav {
   margin-right: 0;
 }
 
-
 /* || UTILITIES */
+.h-margin-20 {
+  margin: 0 20%;
+}
 
+.img-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
 
 /* || PORTOFOLIO PAGE */
 .content-section {
@@ -101,12 +117,7 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
-}
-
-.welcome-section h1 {
-  color: var(--heading-color2);
-  font-size: 3rem;
+  height: 80vh;
 }
 
 .card {
@@ -122,25 +133,20 @@ hr {
 
 /* || SURVEY FORM PAGE */
 .form-customized {
-  margin: 70px 25% 30px;
+  margin: 0 25%;
   padding: 30px;
   background-color: var(--main-theme-contrast);
   border-radius: 8px;
 }
 
+/* || TRIBUTE PAGE */
+
 /* || APP PAGE */
-
-
 
 /* sections */
 
-
 /* footer */
-footer {
-  text-align: center;
-}
 
 /* responsive */
 @media (max-width: 992px) {
 }
-

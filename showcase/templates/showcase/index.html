@@ -35,27 +35,29 @@
 {% endblock %} {% block body %}
 <main>
   <section class="welcome-section" id="welcome">
-    <h1>Welcome to My Web Development Portfolio</h1>
+    <h1 class="display-5">
+      <strong>Welcome to My Web Development Portfolio</strong>
+    </h1>
   </section>
   <section class="content-section" id="about">
     <hr />
-    <header>About me</header>
+    <header><h2>About me</h2></header>
     <div class="row"></div>
   </section>
   <section class="content-section" id="projects">
     <hr />
-    <header>Projects</header>
+    <header><h2>Projects</h2></header>
     <div class="row row-cols-3">
       <div class="col">
         <div class="card">
           <img
             src="/assets/Oxford-advanced-learners.png"
-            class="card-img-top"
+            class="card-img-top img-center"
             alt="tribute page"
           />
           <div class="card-body">
             <h5 class="card-title">
-              <a href="#" target="_blank">Tribute Page</a>
+              <a href="{% url 'tribute' %}" target="_blank">Tribute Page</a>
             </h5>
           </div>
         </div>
@@ -64,7 +66,7 @@
         <div class="card">
           <img
             src="/assets/Webster.png"
-            class="card-img-top"
+            class="card-img-top img-center"
             alt="survey form"
           />
           <div class="card-body">
@@ -78,7 +80,7 @@
         <div class="card">
           <img
             src="/assets/Collins.jpg"
-            class="card-img-top"
+            class="card-img-top img-center"
             alt="Product landing page"
           />
           <div class="card-body">
@@ -90,7 +92,7 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="" class="card-img-top" alt="web application" />
+          <img src="" class="card-img-top img-center" alt="web application" />
           <div class="card-body">
             <h5 class="card-title">
               <a href="{% url 'vocabulary:index' %}" target="_blank"
@@ -104,7 +106,7 @@
   </section>
   <section class="content-section" id="contact">
     <hr />
-    <header>Contact</header>
+    <header><h2>Contact</h2></header>
     <div class="contact-links">
       <a
         class="contact-details"
