@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['alexhyang.herokuapp.com']
 
 INSTALLED_APPS = [
     'vocabulary',
+    'showcase',
     'livereload',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -149,6 +150,6 @@ django_heroku.settings(locals())
 
 
 # Deployment security settings
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True

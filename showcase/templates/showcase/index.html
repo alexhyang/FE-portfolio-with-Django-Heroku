@@ -1,0 +1,132 @@
+{% extends "showcase/layout.html" %} {% load static %} {% block script %}
+<script type="text/javascript" src="{% static 'showcase/index.js' %}"></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+{% endblock %} {% block navbarNav %}
+<button
+  class="navbar-toggler"
+  type="button"
+  data-bs-toggle="collapse"
+  data-bs-target="#navbarNav"
+  aria-controls="navbarNav"
+  aria-expanded="false"
+  aria-label="Toggle navigation"
+>
+  <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#welcome">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#about">About</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#projects">Projects</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#contact">Contact</a>
+    </li>
+  </ul>
+</div>
+{% endblock %} {% block body %}
+<main>
+  <section class="welcome-section" id="welcome">
+    <h1>Welcome to My Web Development Portfolio</h1>
+  </section>
+  <section class="content-section" id="about">
+    <hr />
+    <header>About me</header>
+    <div class="row"></div>
+  </section>
+  <section class="content-section" id="projects">
+    <hr />
+    <header>Projects</header>
+    <div class="row row-cols-3">
+      <div class="col">
+        <div class="card">
+          <img
+            src="/assets/Oxford-advanced-learners.png"
+            class="card-img-top"
+            alt="tribute page"
+          />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="#" target="_blank">Tribute Page</a>
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img
+            src="/assets/Webster.png"
+            class="card-img-top"
+            alt="survey form"
+          />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'survey' %}" target="_blank">Survey Form</a>
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img
+            src="/assets/Collins.jpg"
+            class="card-img-top"
+            alt="Product landing page"
+          />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="#" target="_blank">Product Landing Page</a>
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="" class="card-img-top" alt="web application" />
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'vocabulary:index' %}" target="_blank"
+                >Web Application</a
+              >
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="content-section" id="contact">
+    <hr />
+    <header>Contact</header>
+    <div class="contact-links">
+      <a
+        class="contact-details"
+        href="https://github.com/alexhyang"
+        target="_blank"
+        ><i class="fab fa-github"></i>Github</a
+      >
+      <a
+        class="contact-details"
+        href="https://www.freecodecamp.org/alex_hyang"
+        target="_blank"
+        ><i class="fab fa-free-code-camp"></i>freecodecamp</a
+      >
+      <a
+        class="contact-details"
+        href="https://www.linkedin.com/in/alexhanyang/"
+        target="_blank"
+        id="profile-link"
+        ><i class="fab fa-linkedin"></i>LinkedIn</a
+      >
+    </div>
+  </section>
+</main>
+
+{% endblock %}

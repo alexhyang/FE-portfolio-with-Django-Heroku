@@ -1,0 +1,146 @@
+/* || GENERAL STYLES */
+:root {
+  --main-theme-color: #eae7dc;
+  --alt-theme-color: #d8c3a5;
+  --main-theme-contrast: #e4dcea;
+  --text-color: #8e8d8a;
+  --heading-color1: #e98074;
+  --heading-color2: #e85a4f;
+}
+
+body {
+  background: var(--main-theme-color);
+}
+
+
+/* || SITEWIDE */
+nav {
+  font-size: 1.5rem;
+  background-color: var(--main-theme-color);
+}
+
+.navbar-brand,
+.navbar-brand:hover {
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.nav-item {
+  margin: 0 40px;
+}
+
+.nav-link {
+  position: relative;
+  color: var(--text-color);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.nav-link:hover {
+  color: var(--text-color);
+}
+
+.nav-link:after {
+  display: block;
+  content: "";
+  border-bottom: solid 3px var(--text-color);
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+  transform-origin: 100% 50%;
+}
+
+.nav-link:hover:after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+.navbar-nav li:nth-last-child(1) {
+  margin-right: 0;
+}
+
+
+/* || UTILITIES */
+
+
+/* || PORTOFOLIO PAGE */
+.content-section {
+  width: 100%;
+  height: 80vh;
+  font-size: 2rem;
+  text-align: center;
+  display: inline-block;
+  color: var(--heading-color2);
+  padding-top: 50px;
+}
+
+section a {
+  color: var(--heading-color1);
+  text-decoration: none;
+}
+
+section a:hover {
+  color: var(--heading-color1);
+  text-decoration: underline;
+}
+
+section header {
+  margin: 30px 0;
+}
+
+hr {
+  width: 30%;
+  margin: 10px auto;
+  color: var(--heading-color2);
+}
+
+.welcome-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+.welcome-section h1 {
+  color: var(--heading-color2);
+  font-size: 3rem;
+}
+
+.card {
+  border-color: var(--alt-theme-color);
+  /* background-color: rgba(255, 255, 255, 0); */
+  background-color: var(--main-theme-color);
+}
+
+.card img {
+  width: 200px;
+  height: 200px;
+}
+
+/* || SURVEY FORM PAGE */
+.form-customized {
+  margin: 70px 25% 30px;
+  padding: 30px;
+  background-color: var(--main-theme-contrast);
+  border-radius: 8px;
+}
+
+/* || APP PAGE */
+
+
+
+/* sections */
+
+
+/* footer */
+footer {
+  text-align: center;
+}
+
+/* responsive */
+@media (max-width: 992px) {
+}
+
