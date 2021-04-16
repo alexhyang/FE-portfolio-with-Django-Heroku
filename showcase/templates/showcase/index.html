@@ -1,9 +1,5 @@
 {% extends "showcase/layout.html" %} {% load static %} {% block script %}
 <script type="text/javascript" src="{% static 'showcase/index.js' %}"></script>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-/>
 {% endblock %} {% block navbarNav %}
 <button
   class="navbar-toggler"
@@ -34,20 +30,23 @@
 </div>
 {% endblock %} {% block body %}
 <main>
+  {% comment %} welcome section {% endcomment %}
   <section class="welcome-section" id="welcome">
     <h1 class="display-5">
       <strong>Welcome to My Web Development Portfolio</strong>
     </h1>
   </section>
+  {% comment %} about section {% endcomment %}
   <section class="content-section" id="about">
     <hr />
     <header><h2>About me</h2></header>
     <div class="row"></div>
   </section>
+  {% comment %} projects section {% endcomment %}
   <section class="content-section" id="projects">
     <hr />
     <header><h2>Projects</h2></header>
-    <div class="row row-cols-3">
+    <div class="row row-cols-3 overflow-auto">
       <div class="col">
         <div class="card">
           <img
@@ -85,7 +84,7 @@
           />
           <div class="card-body">
             <h5 class="card-title">
-              <a href="#" target="_blank">Product Landing Page</a>
+              <a href="{% url 'products' %}" target="_blank">Product Landing Page</a>
             </h5>
           </div>
         </div>
@@ -104,6 +103,7 @@
       </div>
     </div>
   </section>
+  {% comment %} contact section {% endcomment %}
   <section class="content-section" id="contact">
     <hr />
     <header><h2>Contact</h2></header>
@@ -130,5 +130,4 @@
     </div>
   </section>
 </main>
-
 {% endblock %}
