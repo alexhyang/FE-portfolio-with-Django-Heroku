@@ -9,3 +9,6 @@ def survey(request):
 
 def tribute(request):
     return render(request, "showcase/tribute.html")
+
+def products(request):
+    return render(request, "showcase/products.html")

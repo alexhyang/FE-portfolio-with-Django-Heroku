@@ -1,0 +1,95 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'showcase/styles.css' %}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <header id="header">
+      <nav id="nav-bar">
+        <div id="image">
+          <img
+            src="https://seeklogo.com/images/B/bmw-logo-248C3D90E6-seeklogo.com.png"
+            alt="bmw logo"
+            id="header-img"
+          />
+        </div>
+        <ul id="nav-ul">
+          <li><a class="nav-link" href="#models">Models</a></li>
+          <li><a class="nav-link" href="#services">Services</a></li>
+          <li><a class="nav-link" href="#discover">Discover</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="content">
+      <section>
+        <iframe
+          id="video"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/xWsn6-m03Cc"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </section>
+      <section>
+        <form id="form" action="#">
+          <div class="form-title">
+            Newsletter Registration <br />
+            Enter your details to complte the registration
+          </div>
+          <fieldset>
+            <label for="email-field">E-mail:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Please enter your email"
+              required
+            />
+          </fieldset>
+          <input type="submit" id="submit" />
+        </form>
+      </section>
+
+      <section id="models">
+        <div class="display-cards">
+          <img
+            src="https://cosystatic.bmwgroup.com/bmwweb/cosySec?COSY-EU-100-7331cqgv2Z7d%25i02uCaY3MuO2kOHUtWPfbYf6nbr10tLhu1XzWVo7puMLWFmdkAj5DOPFoxyZ8XgY1nTNIowJ4HO3zkyXq%25sGM8snGhMQSk%2508Xc9Vo74giZ8NF1VgxNJ0%25ls2oub5imC2yRCzXeTt%25ViPRKVZVYVe4Wh1DMztIAzeqVYDafHS6jmztYRSJd167aftxdTULw1RSfWQlsn%25VxdSeZGjNuzWQdjc9Ia3aeZQ6KCwfXRjcZwBE%25mrx6Kc%252NKd4WwBKupkBTFe%252B3in76Ijup2XH5cvv63iprJ8z9GwXHi4TPgR9%25rJHFlMUjou4TJIsDUML3FlTv0JGUyXIslGATs%25Crv0s9OleZE4GA0ogsTwNF9OALU0MLkIogOybMMGnvLUgChD%2545GybUEqYBF89ChbNmt1aPoEqhk7f%256MLNmqn1kHJDyk7m5VnbbYCn178z5GNtE5V1Pa1SOfNwVKJZR19mspzweqKhN7DlMA8nFB"
+            alt="BMW M2 CS"
+          />
+          <p class="display-title">BMW M2 CS</p>
+          <p class="price">Starting from $97,750</p>
+        </div>
+        <div class="display-cards">
+          <img
+            src="https://cosystatic.bmwgroup.com/bmwweb/cosySec?COSY-EU-100-7331cqgv2Z7d%25i02uCaY3MuO2kOHUtWPfbYf0jUi10tLhu1XzWVo7puMLWFmdkAj5DOPitppZ8XgY1nTNIowJ4HO3zkyXq%25sGM8snGhMQSk%2508Xc9Vo74giUFNF1VgxNJ0%25ls2oub5imC2yRCzXeTt%25ViPRKVZVYVeHWh1DMzt4i%25eqVYDafaOojmztYRSJdw67aftxdTgDw1RSfWQlEW%25VxdSeZG4NuzWQdjc9NO3aeZQ6KownXRjcZwBL1Lrx6Kc%252ywQ4WwBKupCVFFe%252B3in2ZIjup2XH51zv63iprJ8VWGwXHi4TPgR9%25rJHFlMgPou4TJIsDoiL3FlTv0YPiyXIslGAT5tCrv0s9Ol%259E4GA0og8ZTNF9OALUPwnkIogOybMxrnvLUgChDWP5GybUEqY6e89ChbNmtstPoEqhk7NigMLNmqn1kHJDyk7m5VnbbYCn178z5GPtE5V1Pa12SfNwVKJZR19mspzweqKhN7DlMA8nFB"
+            alt="BMW M3 Sedan"
+          />
+          <p class="display-title">BMW M3 Sedan</p>
+          <p class="price">Starting from $84,300</p>
+        </div>
+        <div class="display-cards">
+          <img
+            src="https://cosystatic.bmwgroup.com/bmwweb/cosySec?COSY-EU-100-7331cqgv2Z7d%25i02uCaY3MuO2kOHUtWPfbYf0jD110tLhu1XzWVo7puMLWFmdkAj5DOP5JpsZ8XgY1nTNIowJ4HO3zkyXq%25sGM8snGhMQSk%2508Xc9Vo74giU2NF1VgxNJ0%25ls2oub5imC2yRCzXeTt%25ViPRKVZVYF0VWh1DMztzr5eqVYDafHJ9jmztYRSaPP67aftxdRyxw1RSfWQvbm%25VxdSeZfFLuzWQdjcybj3aeZQ6KCHyXRjcZwBLv5rx6Kc%252y5b4WwBKupC3PFe%252B3in2ZIjup2XH5Azv63iprJyDKGwXHi4TCze9%25rJHFlERLou4TJIsIefL3FlTv0VeHyXIslGAzQdCrv0s9OD%25DE4GA0ogsuyNF9OALUPRXkIogOybMx8nvLUgChDS85GybUEqCrN89RbfKYmUrOpQhRVAf09gk2NHCL%25S"
+            alt="BMW M4 Coupe"
+          />
+          <p class="display-title">BMW M4 Coupe</p>
+          <p class="price">Starting from $84,100</p>
+        </div>
+      </section>
+      <section id="services"></section>
+      <section id="discover"></section>
+    </div>
+  </body>
+</html>
