@@ -16,7 +16,7 @@ body {
 /* || nav */
 nav {
   font-size: 1.5rem;
-  background-color: var(--alt-theme-color);
+  background-color: var(--main-theme-color);
 }
 
 .navbar-brand,
@@ -62,53 +62,31 @@ nav {
   margin-right: 0;
 }
 
-/* || PORTOFOLIO PAGE */
-.content-section {
-  width: 100%;
-  height: 80vh;
-  font-size: 2rem;
-  text-align: center;
-  display: inline-block;
-  color: var(--heading-color2);
-  padding-top: 50px;
-}
-
-section a {
-  color: var(--heading-color1);
-  text-decoration: none;
-}
-
-section a:hover {
-  color: var(--heading-color1);
-  text-decoration: underline;
-}
-
-section header {
-  margin: 30px 0;
-}
-
-hr {
-  width: 30%;
-  margin: 10px auto;
-  color: var(--heading-color2);
-}
-
-.welcome-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 95vh;
-}
-
 /* || .content */
 .content {
+  font-size: 1rem;
+}
+/* content modifiers */
+.content--hm-0 {
+  margin: auto 0;
+}
+.content--hm-10 {
+  margin: auto 10%;
+}
+.content--hm-20 {
   margin: auto 20%;
 }
 
+/* content layout */
 .content__header {
   margin: 10px auto;
 }
 
+.content__section {
+
+}
+
+/* content components */
 .content__figure {
   margin: 10px 20px;
 }
@@ -119,6 +97,53 @@ hr {
 
 .content__form {
   padding: 30px 30px 60px;
+}
+
+/* || .section */
+.section {
+}
+/* section modifiers */
+.section--center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+}
+.section-- {
+  width: 100%;
+  height: auto;
+  font-size: 2rem;
+  text-align: center;
+  display: inline-block;
+  color: var(--heading-color2);
+  padding-top: 50px;
+}
+
+/* section layout */
+.section__header {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.section__text {
+  color: var(--text-color);
+}
+
+/* section components */
+.section__link {
+  color: var(--heading-color1);
+  text-decoration: none;
+}
+
+.section__link:hover {
+  color: var(--heading-color1);
+  text-decoration: underline;
+}
+
+.section__hr {
+  width: 20%;
+  margin: 10px auto;
+  color: var(--heading-color2);
 }
 
 /* || .article */
@@ -137,6 +162,9 @@ hr {
 .header {
   color: var(--heading-color2);
   text-align: center;
+}
+
+.header__title {
 }
 
 .header__subtitle {

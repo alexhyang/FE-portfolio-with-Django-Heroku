@@ -29,23 +29,23 @@
   </ul>
 </div>
 {% endblock %} {% block body %}
-<main>
+<main class="content content--hm-0">
   {% comment %} welcome section {% endcomment %}
-  <section class="welcome-section" id="welcome">
-    <h1 class="display-5">
-      <strong>Welcome to My Web Development Portfolio</strong>
-    </h1>
+  <section class="section content__section section--center" id="welcome">
+    <header class="header section__header">
+      <h1 class="header__title fw-bold">Welcome to My Web Development Portfolio</h1>
+    </header>
   </section>
   {% comment %} about section {% endcomment %}
-  <section class="content-section" id="about">
-    <hr />
-    <header><h2>About me</h2></header>
-    <div class="row"></div>
+  <section class="section content__section" id="about">
+    <hr class="section__hr"/>
+    <header class="header section__header"><h1>About me</h1></header>
+    <div class="section__text">This is the introduction of myself.</div>
   </section>
   {% comment %} projects section {% endcomment %}
-  <section class="content-section" id="projects">
-    <hr />
-    <header><h2>Projects</h2></header>
+  <section class="section content__section" id="projects">
+    <hr class="section__hr"/>
+    <header class="header section__header"><h1>Projects</h1></header>
     <div class="row row-cols-3 overflow-auto">
       <div class="col">
         <div class="card">
@@ -84,7 +84,9 @@
           />
           <div class="card-body">
             <h5 class="card-title">
-              <a href="{% url 'products' %}" target="_blank">Product Landing Page</a>
+              <a href="{% url 'products' %}" target="_blank"
+                >Product Landing Page</a
+              >
             </h5>
           </div>
         </div>
@@ -104,9 +106,9 @@
     </div>
   </section>
   {% comment %} contact section {% endcomment %}
-  <section class="content-section" id="contact">
-    <hr />
-    <header><h2>Contact</h2></header>
+  <section class="section content__section" id="contact">
+    <hr class="section__hr"/>
+    <header class="header section__header"><h1>Contact</h1></header>
     <div class="contact-links">
       <a
         class="contact-details"
