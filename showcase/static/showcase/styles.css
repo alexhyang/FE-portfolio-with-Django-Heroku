@@ -1,4 +1,4 @@
-/* || GENERAL STYLES */
+/* || general */
 :root {
   --main-theme-color: #eae7dc;
   --alt-theme-color: #d8c3a5;
@@ -13,14 +13,10 @@ body {
   padding-top: 70px;
 }
 
-h1 {
-  color: var(--heading-color2);
-}
-
-/* || SITEWIDE */
+/* || nav */
 nav {
   font-size: 1.5rem;
-  background-color: var(--main-theme-color);
+  background-color: var(--alt-theme-color);
 }
 
 .navbar-brand,
@@ -66,26 +62,6 @@ nav {
   margin-right: 0;
 }
 
-/* || UTILITIES */
-.h-margin-20 {
-  margin: 0 20%;
-}
-
-.img-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.img-responsive {
-  max-width: 100%;
-  height: auto;
-}
-
-.overflow-auto {
-  overflow: hidden;
-}
-
 /* || PORTOFOLIO PAGE */
 .content-section {
   width: 100%;
@@ -124,23 +100,94 @@ hr {
   height: 95vh;
 }
 
+/* || .content */
+.content {
+  margin: auto 20%;
+}
+
+.content__header {
+  margin: 10px auto;
+}
+
+.content__figure {
+  margin: 10px 20px;
+}
+
+.content__article {
+  margin: 10px 20px;
+}
+
+.content__form {
+  padding: 30px 30px 60px;
+}
+
+/* || .article */
+.article {
+}
+
+.article__text {
+  margin-bottom: 1rem;
+}
+
+.article__link {
+  text-decoration: none;
+}
+
+/* || .header */
+.header {
+  color: var(--heading-color2);
+  text-align: center;
+}
+
+.header__subtitle {
+  font-style: italic;
+}
+
+/* || .figure */
+.figure {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.figure__img {
+  display: block;
+  margin: 10px auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.figure__caption {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+/* || .form */
+.form {
+  background-color: var(--main-theme-contrast);
+  border-radius: 8px;
+}
+
+/* || .card */
 .card {
   border-color: var(--alt-theme-color);
   /* background-color: rgba(255, 255, 255, 0); */
   background-color: var(--main-theme-color);
 }
 
-.card img {
+/* .card img {
   width: 200px;
   height: 200px;
-}
+} */
 
-/* || SURVEY FORM PAGE */
-.form-customized {
-  margin: 0 25%;
-  padding: 30px;
-  background-color: var(--main-theme-contrast);
-  border-radius: 8px;
+/* || responsive 992px  */
+@media (max-width: 992px) {
+  .content {
+    margin: auto 10%;
+  }
+  .content__article {
+    margin: 10px 0;
+  }
 }
 
 /* || PRODUCT PAGE */
@@ -209,7 +256,3 @@ section {
 /* sections */
 
 /* footer */
-
-/* responsive */
-@media (max-width: 992px) {
-}

@@ -1,8 +1,11 @@
 {% extends "showcase/layout.html" %} {% load static %} {% block body %}
 
-<main class="form-customized">
-  <h1 class="text-center">Survey Form</h1>
-  <form action="">
+<main class="content">
+  <header class="header content__header">
+    <h1 class="header__title">Survey Form</h1>
+  </header>
+
+  <form action="#" class="form content__form">
     <!-- simple text input -->
     <div class="mb-3">
       <label class="form-label" for="name" id="name-label">Name</label>
@@ -32,11 +35,11 @@
       <label class="form-label" for="dropdown" id="age-label">Age</label>
       <select name="age" id="dropdown" class="form-select" required>
         <option selected>Select your age</option>
-        <option value="&lt10">smaller than 10</option>
+        <option value="<10">smaller than 10</option>
         <option value="10-20">10 to 20</option>
         <option value="20-40">20 to 40</option>
         <option value="40-60">40 to 60</option>
-        <option value="&gt60">greater than 60</option>
+        <option value=">60">greater than 60</option>
       </select>
     </div>
     <!-- numeric input -->
@@ -155,7 +158,9 @@
     </div>
     <!-- submit button -->
     <div class="mb-3">
-      <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" id="submit" class="btn btn-primary float-end">
+        <i class="fa fa-paper-plane" aria-hidden="true"> </i> Submit
+      </button>
     </div>
   </form>
 </main>
