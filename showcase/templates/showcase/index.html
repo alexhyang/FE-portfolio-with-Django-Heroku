@@ -31,32 +31,41 @@
 {% endblock %} {% block body %}
 <main class="content content--hm-0">
   {% comment %} welcome section {% endcomment %}
-  <section class="section content__section section--center" id="welcome">
+  <section class="section content__section section--full-viewport" id="welcome">
     <header class="header section__header">
-      <h1 class="header__title fw-bold">Welcome to My Web Development Portfolio</h1>
+      <h1 class="header__title fw-bold">
+        Welcome to My Web Development Portfolio
+      </h1>
     </header>
   </section>
   {% comment %} about section {% endcomment %}
   <section class="section content__section" id="about">
-    <hr class="section__hr"/>
+    <hr class="section__hr" />
     <header class="header section__header"><h1>About me</h1></header>
-    <div class="section__text">This is the introduction of myself.</div>
+    <div class="text section__text text--lg">
+      This is the introduction of myself.
+    </div>
   </section>
   {% comment %} projects section {% endcomment %}
   <section class="section content__section" id="projects">
-    <hr class="section__hr"/>
+    <hr class="section__hr" />
     <header class="header section__header"><h1>Projects</h1></header>
     <div class="row row-cols-3 overflow-auto">
       <div class="col">
         <div class="card">
           <img
-            src="/assets/Oxford-advanced-learners.png"
+            src="{% static 'showcase/assets/richard-feynman.png' %}"
             class="card-img-top img-center"
             alt="tribute page"
           />
           <div class="card-body">
-            <h5 class="card-title">
-              <a href="{% url 'tribute' %}" target="_blank">Tribute Page</a>
+            <h5 class="card-title fw-bold">
+              <a
+                class="section__link"
+                href="{% static 'tribute' %}"
+                target="_blank"
+                >Tribute Page</a
+              >
             </h5>
           </div>
         </div>
@@ -64,13 +73,15 @@
       <div class="col">
         <div class="card">
           <img
-            src="/assets/Webster.png"
+            src="{% static 'showcase/assets/soccer-survey.png' %}"
             class="card-img-top img-center"
             alt="survey form"
           />
           <div class="card-body">
-            <h5 class="card-title">
-              <a href="{% url 'survey' %}" target="_blank">Survey Form</a>
+            <h5 class="card-title fw-bold">
+              <a class="section__link" href="{% url 'survey' %}" target="_blank"
+                >Survey Form</a
+              >
             </h5>
           </div>
         </div>
@@ -83,8 +94,11 @@
             alt="Product landing page"
           />
           <div class="card-body">
-            <h5 class="card-title">
-              <a href="{% url 'products' %}" target="_blank"
+            <h5 class="card-title fw-bold">
+              <a
+                class="section__link"
+                href="{% url 'products' %}"
+                target="_blank"
                 >Product Landing Page</a
               >
             </h5>
@@ -93,10 +107,17 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="" class="card-img-top img-center" alt="web application" />
+          <img
+            src="{% static 'showcase/assets/web-app.png' %}"
+            class="card-img-top img-center"
+            alt="web application"
+          />
           <div class="card-body">
-            <h5 class="card-title">
-              <a href="{% url 'vocabulary:index' %}" target="_blank"
+            <h5 class="card-title fw-bold">
+              <a
+                class="section__link"
+                href="{% url 'vocabulary:index' %}"
+                target="_blank"
                 >Web Application</a
               >
             </h5>
@@ -107,7 +128,7 @@
   </section>
   {% comment %} contact section {% endcomment %}
   <section class="section content__section" id="contact">
-    <hr class="section__hr"/>
+    <hr class="section__hr" />
     <header class="header section__header"><h1>Contact</h1></header>
     <div class="contact-links">
       <a
