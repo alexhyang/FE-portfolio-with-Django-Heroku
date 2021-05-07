@@ -1,3 +1,19 @@
+/* structure
+|| general
+|| nav
+|| .content (with modifier, layout, components)
+|| .section (with modifier, layout, components)
+|| .article 
+|| .header
+|| .group (with components)
+|| .text
+|| .figure
+|| .form (with components)
+|| .card
+|| .video
+|| @media: 992px
+*/
+
 /* || general */
 :root {
   --main-theme-color: #eae7dc;
@@ -126,7 +142,10 @@ nav {
 
 .section__text {
   margin: auto 20%;
+}
 
+.section__group {
+  max-width: 100%;
 }
 
 /* section components */
@@ -144,6 +163,10 @@ nav {
   width: 20%;
   margin: 10px auto;
   color: var(--heading-color2);
+}
+
+.section__video {
+  margin: 1rem auto;
 }
 
 /* || .article */
@@ -169,6 +192,17 @@ nav {
 
 .header__subtitle {
   font-style: italic;
+}
+
+/* || .group */
+.group {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* group components */
+.group__card {
+  text-align: center;
 }
 
 /* || .text */
@@ -203,11 +237,21 @@ nav {
   border-radius: 8px;
 }
 
+/* form components */
+.form__title {
+  font-weight: bold;
+}
+
 /* || .card */
 .card {
   border-color: var(--alt-theme-color);
   /* background-color: rgba(255, 255, 255, 0); */
   background-color: var(--main-theme-color);
+}
+
+/* ||.video */
+.video {
+  text-align: center;
 }
 
 /* .card img {
@@ -226,52 +270,11 @@ nav {
 }
 
 /* || PRODUCT PAGE */
-/* header {
-  background: #e8e8e8;
-  padding: 5px 20px;
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  top: 0;
-}
-
-#nav-bar {
-  display: flex;
-  font-size: 1.5rem;
-  align-items: center;
-}
-
-#header-img {
-  height: 60px;
-}
-
-#nav-ul {
-  margin-left: auto;
-  display: flex;
-  padding: 1rem;
-  list-style-type: none;
-  justify-content: space-between;
-}
-
-#nav-ul li {
-  margin: auto 2rem;
-}
-
-.nav-link {
-  color: #000000;
-  text-decoration: none;
-} */
 
 /* #content {
   margin-top: 200px;
 }
 
-section {
-  text-align: center;
-  margin: 1rem 20%;
-}
 
 #models {
   display: block;
@@ -283,11 +286,3 @@ section {
     justify-content: space-around;
   }
 } */
-
-/* || TRIBUTE PAGE */
-
-/* || APP PAGE */
-
-/* sections */
-
-/* footer */
