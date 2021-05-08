@@ -7,7 +7,7 @@
 <div class="text-danger">{{ message }}</div>
 {% endif %}
 
-<form action="{% url 'register' %}" method="post">
+<form action="{% url 'vocabulary:register' %}" method="post">
 	{% csrf_token %}
 	<div class="form-group mb-1">
 		<input class="form-control" autofocus type="text" name="username" placeholder="Username">
@@ -24,6 +24,6 @@
 	<input class="btn btn-primary mb-1" type="submit" value="Register">
 </form>
 
-Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+Already have an account? <a href="{% url 'vocabulary:login' %}">Log In here.</a>
 
 {% endblock %}

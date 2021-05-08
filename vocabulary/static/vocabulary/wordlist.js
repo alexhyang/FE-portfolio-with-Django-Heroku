@@ -1,4 +1,5 @@
 $(function () {
+  load_list();
   $("#case-toggle").on("click", () => {
     if ($("#case-toggle").html() === "Show uppercase") {
       $(".card-title").css("text-transform", "uppercase");
@@ -9,3 +10,9 @@ $(function () {
     }
   });
 });
+
+function load_list() {
+  // fetch list
+  // create div elements
+  // display word card
+}

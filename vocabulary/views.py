@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.urls import reverse
@@ -33,7 +33,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("vocabulary:index"))
         else:
             return render(
                 request,
@@ -46,7 +46,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("vocabulary:index"))
 
 
 def register(request):
@@ -84,7 +84,7 @@ def register(request):
                 {"message": "Something is wrong with settings."},
             )
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("vocabulary:index"))
     else:
         return render(request, "vocabulary/register.html")
 
@@ -117,7 +117,7 @@ def save(request):
                 word.wordlists.add(wordlist)
                 words_saved += 1
 
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("vocabulary:index"))
 
 
 @login_required
@@ -141,7 +141,7 @@ def add_list(request):
             name = form.cleaned_data["name"]
             if len(WordList.objects.filter(name=name)) == 0:
                 WordList.objects.create(name=name, owner=request.user)
-                return HttpResponseRedirect(reverse("manage_lists"))
+                return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
             else:
                 return render(
                     request,
@@ -183,6 +183,11 @@ def wordlist(request, name):
         {"wordlist": wordlist, "wordlists": wordlists, "settings": settings},
     )
 
+@login_required
+def wordlist2(request):
+    wordlist = WordList.objects.get(name=name)
+    wordlists = WordList.objects.filter(owner=request.user)
+    # continue from here
 
 @login_required
 def remove_list(request, name):
@@ -191,7 +196,7 @@ def remove_list(request, name):
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
     wordlist.delete()
-    return HttpResponseRedirect(reverse("manage_lists"))
+    return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
 
 
 def new_word(word, wordlist):

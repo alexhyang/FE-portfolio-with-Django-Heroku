@@ -87,7 +87,7 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for wordlist in wordlists %}
                 <li>
-                  <a class="dropdown-item" href="{% url 'wordlist' wordlist %}"
+                  <a class="dropdown-item" href="{% url 'vocabulary:wordlist' wordlist %}"
                     >{{wordlist}}</a
                   >
                 </li>

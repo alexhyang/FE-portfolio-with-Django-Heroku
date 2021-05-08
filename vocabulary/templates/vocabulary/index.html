@@ -56,7 +56,7 @@
       <!-- result control -->
       {% if user.is_authenticated %}
       <div id="result-control">
-        <form action="{% url 'save' %}" method="POST">
+        <form action="{% url 'vocabulary:save' %}" method="POST">
           {% csrf_token %}
           <textarea name="result" id="result" style="display: none"></textarea>
           <div class="mt-3">
