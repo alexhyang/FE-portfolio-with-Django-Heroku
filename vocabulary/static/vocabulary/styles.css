@@ -60,6 +60,7 @@
 
 /* || .form components */
 .form__textarea {
+  height: 400px;
 }
 
 .form__user-control {
