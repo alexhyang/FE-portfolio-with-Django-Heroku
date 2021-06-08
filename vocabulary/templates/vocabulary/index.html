@@ -8,31 +8,31 @@
   src="{% static 'vocabulary/helper.js' %}"
 ></script>
 {% endblock %} {% block body %}
-<div class="gy-3">
+<div class="content gy-3">
   <!-- Introduction -->
-  <div id="introduction" class="row justify-content-center">
+  <header id="header" class="content__header header row justify-content-center">
     <div class="col-md-6">
-      <h1>Introduction</h1>
-      <p>
+      <h1 class="header__title">Introduction</h1>
+      <p class="header__text">
         This web application receives any text and counts the frequency of each
         word used in the text.
       </p>
     </div>
-  </div>
-  <div id="freq-counter-app" class="row justify-content-center">
+  </header>
+  <div id="freq-counter-app" class="content__app app row justify-content-center">
     <!-- left column: inputs -->
-    <div id="index-input-col" class="col-md-6">
-      <form>
+    <div id="app-input-col" class="app__columm col-md-6">
+      <form class="app__form form">
         <!-- Form input -->
         <textarea
           id="textarea"
-          class="form-control"
+          class="form__textarea form-control"
           rows="15"
           placeholder="Enter any text"
         ></textarea>
-        <!-- Input control -->
+        <!-- Form control -->
         <p id="word-counter"></p>
-        <div id="input-control" class="mb-4">
+        <div id="input-control" class="form__user-control mb-4">
           <button id="count" class="btn btn-primary" type="button">
             Count Frequency
           </button>
@@ -43,10 +43,10 @@
       </form>
     </div>
     <!-- right column: results -->
-    <div id="index-result-col" class="col-md-6" style="display: none">
+    <div id="app-result-col" class="app__column col-md-6" style="display: none">
       <!-- table -->
       <div style="overflow-y: auto; max-height: 390px">
-        <table id="freq-table" class="table table-striped overflow-auto">
+        <table id="freq-table" class="app__table table table-striped overflow-auto">
           <tr>
             <th>Word</th>
             <th>Count</th>
@@ -55,7 +55,7 @@
       </div>
       <!-- result control -->
       {% if user.is_authenticated %}
-      <div id="result-control">
+      <div id="result-control" class="app__control">
         <form action="{% url 'vocabulary:save' %}" method="POST">
           {% csrf_token %}
           <textarea name="result" id="result" style="display: none"></textarea>

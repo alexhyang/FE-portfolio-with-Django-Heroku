@@ -1,11 +1,75 @@
-h1 {
+/* list of components */
+/* || root */
+/* || .content (__header, __app) */
+/* || .app (__column, __form, __table, __control) */
+/* || .header (__title, __text) */
+/* || .form (__textarea, __user-control) */
+/* || .table */
+/* || others */
+
+/* || root */
+:root {
+}
+
+/* || .content */
+.content {
+  max-width: 100%;
+}
+
+/* || .content components */
+.content__header {
+}
+
+.content__app {
+}
+
+/* || .app */
+.app {
+}
+
+/* || .app components */
+.app__column {
+}
+
+.app__form {
+}
+
+.app__table {
+}
+
+.app__control {
+}
+
+/* || .header */
+.header {
+  text-align: left;
+}
+
+/* || .header components */
+.header__title {
   color: #306998;
 }
 
-.footer {
-  text-align: center;
+.header__text {
+  font-size: 1rem;
 }
 
+/* || .form */
+.form {
+}
+
+/* || .form components */
+.form__textarea {
+}
+
+.form__user-control {
+}
+
+/* || .table */
+.table {
+}
+
+/* || others */
 .card-title {
   font-weight: bolder;
   color: #255175;
