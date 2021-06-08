@@ -1,0 +1,34 @@
+{% extends "vocabulary/layout.html" %} {% load static %} {% block body %}
+<div class="content gy-3">
+  <header class="content__header header row">
+    <h1 class="header__title">Wordlist</h1>
+  </header>
+  <div class="row">
+    {% if wordlists %}
+    <table id="lists-table" class="content__table table table-striped">
+      <thead>
+        <th scope="col">List name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Create Date</th>
+        <th scope="col">Number of words</th>
+      </thead>
+      <tbody>
+        {% for wordlist in wordlists %}
+        <tr>
+          <th scope="row">{{wordlist}}</th>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No wordlist found.</p>
+    {% endif %}
+  </div>
+  <div class="row">
+    <p><a href="{% url 'vocabulary:add_list' %}">new list</a></p>
+  </div>
+</div>
+{% endblock %}

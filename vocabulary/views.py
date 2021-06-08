@@ -126,7 +126,7 @@ def manage_lists(request):
         wordlists = WordList.objects.filter(owner=request.user)
     except WordList.DoesNotExist:
         raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-    return render(request, "vocabulary/manage_lists.html", {"wordlists": wordlists})
+    return render(request, "vocabulary/settings__manage_lists.html", {"wordlists": wordlists})
 
 
 @login_required
