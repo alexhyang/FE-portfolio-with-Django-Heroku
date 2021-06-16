@@ -5,7 +5,7 @@ from django.forms import ModelForm, Form
 class WordForm(ModelForm):
     class Meta:
         model = Word
-        fields = ['word', 'wordlists']
+        fields = ['word', 'wordlist']
         
 class WordlistForm(ModelForm):
     class Meta:
