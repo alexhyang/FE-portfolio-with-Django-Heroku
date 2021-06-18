@@ -25,7 +25,18 @@ class Dict(models.Model):
     derivatives = models.TextField(blank=True, default="No derivatives")
 
     def __str__(self):
-        return f"{self.word}"
+        return f"{self.word}, {self.lexical_category}"
+    
+    def serialize(self):
+        return {
+            "word": self.word,
+            "lexical_category": self.lexical_category,
+            "audio_link": self.audio_link,
+            "ipa": self.ipa,
+            "inflections": self.inflections,
+            "senses": self.senses,
+            "derivatives": self.derivatives
+        }
 
 
 class Merriam(Dict):
@@ -55,4 +66,4 @@ class Word(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="words")
 
     def __str__(self):
-        return f"{self.word}"
+        return f"{self.word} was saved in {self.wordlist}"
