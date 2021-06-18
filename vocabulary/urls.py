@@ -12,10 +12,12 @@ urlpatterns = [
     
     # user interaction
     path("save", views.save, name="save"),
-    path("lists", views.manage_lists, name="manage_lists"),
     path("lists/add_list", views.add_list, name="add_list"),
     path("lists/<str:name>", views.wordlist, name="wordlist"),
     path("lists/<str:name>/remove", views.remove_list, name="remove_list"),
+    
+    # settings
+    path("lists", views.manage_lists, name="manage_lists"),
     
     #  API routes
 

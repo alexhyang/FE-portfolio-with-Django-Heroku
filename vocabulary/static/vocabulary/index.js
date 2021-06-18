@@ -2,7 +2,7 @@ $(function () {
   $("#count").on("click", () => {
     const inputText = $("#textarea").val();
     if (inputText.length > 0) {
-      $("#index-result-col").show();
+      $("#app-result-col").show();
       updateTotalNumber(inputText, $("#word-counter"));
       showTable(inputText, $("#freq-table"));
     } else {
@@ -10,7 +10,7 @@ $(function () {
     }
     $("#result").val(inputText);
 
-    $("#introduction")
+    $("#header")
       .addClass("justify-content-between")
       .removeClass("justify-content-center");
 

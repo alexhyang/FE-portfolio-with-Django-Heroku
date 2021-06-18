@@ -1,6 +1,6 @@
 /* list of components */
 /* || root */
-/* || .content (__header, __app) */
+/* || .content (__header, __app, __card-group, __table, __settings) */
 /* || .app (__column, __form, __table, __control) */
 /* || .header (__title, __text) */
 /* || .form (__textarea, __user-control) */
@@ -14,6 +14,7 @@
 /* || .content */
 .content {
   max-width: 100%;
+  height: 615px;
 }
 
 /* || .content components */
@@ -21,6 +22,17 @@
 }
 
 .content__app {
+}
+
+.content__card-group {
+  margin-top: 8px;
+}
+
+.content__table {
+  margin: 0 12px;
+}
+
+.content__settings {
 }
 
 /* || .app */
@@ -47,6 +59,8 @@
 
 /* || .header components */
 .header__title {
+}
+.header__title_theme-blue {
   color: #306998;
 }
 
@@ -68,6 +82,8 @@
 
 /* || .table */
 .table {
+  table-layout: auto;
+  width: 100%;
 }
 
 /* || others */
@@ -76,6 +92,6 @@
   color: #255175;
 }
 
-.uppercase {
+.card-title_uppercase {
   text-transform: uppercase;
 }

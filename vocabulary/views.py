@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, WordList, Word, WordDict, Settings
+from .models import User, WordList, Word, Oxford, Settings
 from .forms import WordForm, WordlistForm
 
 import re
@@ -110,7 +110,7 @@ def save(request):
         words_saved = 0
         for word in clean_unique_words:
             if new_word(word, wordlist):
-                word_dict = WordDict.objects.create(word=word)
+                word_dict = Oxford.objects.create(word=word)
                 word_dict.save()
                 word = Word.objects.create(word=word)
                 word.users.add(user)
@@ -185,8 +185,9 @@ def wordlist(request, name):
 
 @login_required
 def wordlist2(request):
-    wordlist = WordList.objects.get(name=name)
-    wordlists = WordList.objects.filter(owner=request.user)
+    pass
+    # wordlist = WordList.objects.get(name=name)
+    # wordlists = WordList.objects.filter(owner=request.user)
     # continue from here
 
 @login_required

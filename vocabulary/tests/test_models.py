@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.db.models import Max
 
-from vocabulary.models import Oxford, Word, WordList, User
+from vocabulary.models import Word, WordList, Dict, User
 
 # Create your tests here.
 class WordTestCase(TestCase):
@@ -18,3 +18,9 @@ class WordTestCase(TestCase):
     def test_wordlist_count(self):
         u = User.objects.get(username="u1")
         self.assertEqual(u.wordlist.count(), 1)
+        
+class WordListTestCase(TestCase):
+    pass
+
+class DictTestCase(TestCase):
+    pass
