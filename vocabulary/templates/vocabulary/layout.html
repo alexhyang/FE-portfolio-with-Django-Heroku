@@ -40,6 +40,10 @@
       type="text/javascript"
       src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
     ></script>
+    <script
+      type="text/javascript"
+      src="{% static 'vocabulary/scripts.js' %}"
+    ></script>
     <link
       rel="stylesheet"
       type="text/css"
@@ -87,8 +91,8 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for wordlist in wordlists %}
                 <li>
-                  <a class="dropdown-item" href="{% url 'vocabulary:wordlist' wordlist %}"
-                    >{{wordlist}}</a
+                  <a class="dropdown-item" href="{% url 'vocabulary:wordlist' wordlist.id %}"
+                    >{{wordlist.name}}</a
                   >
                 </li>
                 {% endfor %}

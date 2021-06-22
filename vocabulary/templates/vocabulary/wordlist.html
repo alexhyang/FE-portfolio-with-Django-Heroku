@@ -9,17 +9,18 @@
   <header class="content__header row align-items-center">
     <div class="col-auto">
       <h1 class="header__title">{{ wordlist.name }}</h1>
+      <p id="list-id" style="display: none">{{wordlist.id}}</p>
     </div>
   </header>
 
   <!-- card group -->
   {% if wordlist.words.all %}
-  <div class="content__card-group card-group row row-cols-lg-5 row-cols-md-4">
+  <div id="card-group" class="content__card-group card-group row row-cols-lg-5 row-cols-md-4">
     {% for word in wordlist.words.all %}
     <div class="col-md">
       <div class="content__card card">
         <div class="card-body">
-          <div class="card-title">{{ word }}</div>
+          <div class="card-title">{{ word.word }}</div>
           {% if settings.list_card_uppercase %}
           <div class="card-title card-title_uppercase">{{ word }}</div>
           {% endif %}

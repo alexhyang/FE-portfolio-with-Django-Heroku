@@ -15,9 +15,9 @@
       <tbody>
         {% for wordlist in wordlists %}
         <tr>
-          <th scope="row">{{wordlist}}</th>
+          <th scope="row">{{wordlist.name}}</th>
           <td></td>
-          <td></td>
+          <td>{{wordlist.timestamp}}</td>
           <td></td>
         </tr>
         {% endfor %}
