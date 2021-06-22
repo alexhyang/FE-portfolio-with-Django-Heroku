@@ -1,3 +1,4 @@
+// update 
 function updateTotalNumber(inputText, element) {
   let textArr = strToArr(inputText);
   let uniqueNumber = uniqueWords(textArr);

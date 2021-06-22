@@ -2,21 +2,27 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
 from django.db import IntegrityError
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from .models import User, WordList, Word, Oxford, Settings
 from .forms import WordForm, WordlistForm
 
 import re
+import os
+import requests
+import json
 
-# Create your views here.
+# CONSTANTS
+WORD_EACH_PAGE = 10
+OXFORD_API_ID = os.environ.get('OXFORD_API_ID')
+OXFORD_API_KEY = os.environ.get('OXFORD_API_KEY')
+
+# index page and login, logout, registration pages
 def index(request):
     if request.user.is_authenticated:
-        try:
-            wordlists = WordList.objects.filter(owner=request.user)
-        except WordList.DoesNotExist:
-            raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+        wordlists = WordList.objects.filter(owner=request.user)
         return render(request, "vocabulary/index.html", {"wordlists": wordlists})
     else:
         return render(request, "vocabulary/index.html")
@@ -74,73 +80,62 @@ def register(request):
                 "vocabulary/register.html",
                 {"message": "Username already taken."},
             )
-        try:
-            settings = Settings.objects.create(user=user)
-            settings.save()
-        except IntegrityError:
-            return render(
-                request,
-                "vocabulary/register.html",
-                {"message": "Something is wrong with settings."},
-            )
+            
+        # create settings and default lists
+        settings = Settings.objects.create(user=user)
+        settings.save()
+        default_list = WordList.objects.create(name="default", owner=user)
+        default_list.save()
+        
         login(request, user)
         return HttpResponseRedirect(reverse("vocabulary:index"))
     else:
         return render(request, "vocabulary/register.html")
 
 
+# form action: save to list
 @login_required
-def save(request):
+def save_to_list(request):
     if request.method == "POST":
         # Get submission info
         user = request.user
-        words = request.POST["result"].lower()  # "result" is a long string
+        result = request.POST["result"].lower()  # the result is a long string
         list_name = request.POST["list_option"]
 
         # Handle submission data
-        unique_words = set(re.split(r"[^A-Za-z\-]+", words))
+        unique_words = set(re.split(r"[^A-Za-z\-]+", result))
         clean_unique_words = [word for word in unique_words if word != ""]
 
         # Connect to database
         wordlist = WordList.objects.get(name=list_name, owner=user)
 
-        # API gets meaning of word
-
-        # Modify database if condition satisfied
-        words_saved = 0
+        # add words is they are new
         for word in clean_unique_words:
-            if new_word(word, wordlist):
-                word_dict = Oxford.objects.create(word=word)
-                word_dict.save()
-                word = Word.objects.create(word=word)
-                word.users.add(user)
-                word.wordlists.add(wordlist)
-                words_saved += 1
+            if not Word.objects.filter(word=word, wordlist=wordlist).exists():
+                word = Word.objects.create(word=word, wordlist = wordlist, user=user)
+                word.save()
+                
+        # show number of words saved in a popup ???
 
     return HttpResponseRedirect(reverse("vocabulary:index"))
 
-
+# page: manage list setting
 @login_required
 def manage_lists(request):
-    try:
-        wordlists = WordList.objects.filter(owner=request.user)
-    except WordList.DoesNotExist:
-        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    wordlists = get_list_or_404(WordList, owner=request.user)
     return render(request, "vocabulary/settings__manage_lists.html", {"wordlists": wordlists})
 
-
+# page: add list (possible to use a popup?)
 @login_required
 def add_list(request):
-    try:
-        wordlists = WordList.objects.filter(owner=request.user)
-    except WordList.DoesNotExist:
-        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
+    wordlists = WordList.objects.filter(owner=request.user)
     if request.method == "POST":
         form = WordlistForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data["name"]
-            if len(WordList.objects.filter(name=name)) == 0:
-                WordList.objects.create(name=name, owner=request.user)
+            description = form.cleaned_data["description"]
+            if not WordList.objects.filter(name=name, owner=request.user).exists():
+                WordList.objects.create(name=name, owner=request.user, description=description)
                 return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
             else:
                 return render(
@@ -166,40 +161,46 @@ def add_list(request):
             {"form": WordlistForm(), "wordlists": wordlists},
         )
 
-
+# http action: remove list
 @login_required
-def wordlist(request, name):
-    try:
-        wordlist = WordList.objects.get(name=name)
-        wordlists = WordList.objects.filter(owner=request.user)
-        settings = Settings.objects.get(user=request.user)
-    except WordList.DoesNotExist:
-        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-    except Settings.DoesNotExist:
-        raise HttpResponseBadRequest("Bad Request: Settings not found.")
+def remove_list(request, name):
+    wordlist = get_object_or_404(WordList, name=name, owner=request.user)
+    wordlist.delete()
+    return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
+
+# page: wordlist
+@login_required
+def wordlist(request, list_id):
+    wordlist = get_object_or_404(WordList, pk=list_id) # for list information on page
+    wordlists = get_list_or_404(WordList, owner=request.user) # for lists in navbar dropdown button
+    settings = get_object_or_404(Settings, user=request.user) # for uppercase or lowercase
     return render(
         request,
         "vocabulary/wordlist.html",
         {"wordlist": wordlist, "wordlists": wordlists, "settings": settings},
     )
 
+# API: fetch list entries
 @login_required
-def wordlist2(request):
-    pass
-    # wordlist = WordList.objects.get(name=name)
-    # wordlists = WordList.objects.filter(owner=request.user)
-    # continue from here
-
-@login_required
-def remove_list(request, name):
-    try:
-        wordlist = WordList.objects.get(name=name)
-    except WordList.DoesNotExist:
-        raise HttpResponseBadRequest("Bad Request: Wordlist not found.")
-    wordlist.delete()
-    return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
+def list_entries(request, list_id, page_num=1):
+    wordlist = get_object_or_404(WordList, pk=list_id)
+    words = get_list_or_404(Word, wordlist=wordlist)
+    words = dictionarize(Oxford, words)
+    # pagination
+    return word_pagination(words, WORD_EACH_PAGE, page_num)
 
 
-def new_word(word, wordlist):
-    existing_words = wordlist.words.all().values_list("word", flat=True)
-    return word not in existing_words
+# helper function
+def word_pagination(words, word_each_page, page_num):
+    word_paginator = Paginator(words, word_each_page)
+    page_words = word_paginator.get_page(page_num).object_list
+    return JsonResponse([word.serialize() for word in page_words], safe=False)
+
+def dictionarize(dict, words):
+    # words in wordlist --> words in dict
+    # 1. for each word in words, find the instance in dict
+    # 2. if the instance doesn't exist, call Oxford API, save the entry, and return words
+    words = [word.word for word in words]
+    
+    return dict.objects.filter(word__in=words)
+            

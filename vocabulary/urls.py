@@ -11,14 +11,14 @@ urlpatterns = [
     path("sign_up", views.register, name="register"),
     
     # user interaction
-    path("save", views.save, name="save"),
-    path("lists/add_list", views.add_list, name="add_list"),
-    path("lists/<str:name>", views.wordlist, name="wordlist"),
-    path("lists/<str:name>/remove", views.remove_list, name="remove_list"),
+    path("lists/<int:list_id>", views.wordlist, name="wordlist"),
     
-    # settings
+    # list manipulation
+    path("save", views.save_to_list, name="save_to_list"),
+    path("lists/add_list", views.add_list, name="add_list"),
+    path("lists/<str:name>/remove", views.remove_list, name="remove_list"),
     path("lists", views.manage_lists, name="manage_lists"),
     
     #  API routes
-
+    path("lists/<int:list_id>/<int:page_num>", views.list_entries, name="fetch_wordlist"),
 ]

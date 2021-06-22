@@ -10,4 +10,4 @@ class WordForm(ModelForm):
 class WordlistForm(ModelForm):
     class Meta:
         model = WordList
-        fields = ['name']
+        fields = ['name', 'description']
