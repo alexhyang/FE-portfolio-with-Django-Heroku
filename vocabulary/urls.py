@@ -20,5 +20,5 @@ urlpatterns = [
     path("lists", views.manage_lists, name="manage_lists"),
     
     #  API routes
-    path("lists/<int:list_id>/<int:page_num>", views.list_entries, name="fetch_wordlist"),
+    path("lists/<int:list_id>/<int:page_num>", views.fetch_entries, name="fetch_wordlist"),
 ]

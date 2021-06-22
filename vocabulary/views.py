@@ -16,8 +16,8 @@ import json
 
 # CONSTANTS
 WORD_EACH_PAGE = 10
-OXFORD_API_ID = os.environ.get('OXFORD_API_ID')
-OXFORD_API_KEY = os.environ.get('OXFORD_API_KEY')
+OXFORD_API_ID = os.environ.get("OXFORD_API_ID")
+OXFORD_API_KEY = os.environ.get("OXFORD_API_KEY")
 
 # index page and login, logout, registration pages
 def index(request):
@@ -80,13 +80,13 @@ def register(request):
                 "vocabulary/register.html",
                 {"message": "Username already taken."},
             )
-            
+
         # create settings and default lists
         settings = Settings.objects.create(user=user)
         settings.save()
         default_list = WordList.objects.create(name="default", owner=user)
         default_list.save()
-        
+
         login(request, user)
         return HttpResponseRedirect(reverse("vocabulary:index"))
     else:
@@ -112,18 +112,22 @@ def save_to_list(request):
         # add words is they are new
         for word in clean_unique_words:
             if not Word.objects.filter(word=word, wordlist=wordlist).exists():
-                word = Word.objects.create(word=word, wordlist = wordlist, user=user)
+                word = Word.objects.create(word=word, wordlist=wordlist, user=user)
                 word.save()
-                
+
         # show number of words saved in a popup ???
 
     return HttpResponseRedirect(reverse("vocabulary:index"))
+
 
 # page: manage list setting
 @login_required
 def manage_lists(request):
     wordlists = get_list_or_404(WordList, owner=request.user)
-    return render(request, "vocabulary/settings__manage_lists.html", {"wordlists": wordlists})
+    return render(
+        request, "vocabulary/settings__manage_lists.html", {"wordlists": wordlists}
+    )
+
 
 # page: add list (possible to use a popup?)
 @login_required
@@ -135,7 +139,9 @@ def add_list(request):
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
             if not WordList.objects.filter(name=name, owner=request.user).exists():
-                WordList.objects.create(name=name, owner=request.user, description=description)
+                WordList.objects.create(
+                    name=name, owner=request.user, description=description
+                )
                 return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
             else:
                 return render(
@@ -161,6 +167,7 @@ def add_list(request):
             {"form": WordlistForm(), "wordlists": wordlists},
         )
 
+
 # http action: remove list
 @login_required
 def remove_list(request, name):
@@ -168,21 +175,34 @@ def remove_list(request, name):
     wordlist.delete()
     return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
 
+
 # page: wordlist
 @login_required
 def wordlist(request, list_id):
-    wordlist = get_object_or_404(WordList, pk=list_id) # for list information on page
-    wordlists = get_list_or_404(WordList, owner=request.user) # for lists in navbar dropdown button
-    settings = get_object_or_404(Settings, user=request.user) # for uppercase or lowercase
+    wordlist = get_object_or_404(WordList, pk=list_id)  # for list information on page
+    wordlists = get_list_or_404(
+        WordList, owner=request.user
+    )  # for lists in navbar dropdown button
+    settings = get_object_or_404(
+        Settings, user=request.user
+    )  # for uppercase or lowercase
+    words = Word.objects.filter(wordlist=wordlist)
+    num_pages = Paginator(words, WORD_EACH_PAGE).num_pages
     return render(
         request,
         "vocabulary/wordlist.html",
-        {"wordlist": wordlist, "wordlists": wordlists, "settings": settings},
+        {
+            "wordlist": wordlist,
+            "wordlists": wordlists,
+            "settings": settings,
+            "num_pages": num_pages,
+        },
     )
+
 
 # API: fetch list entries
 @login_required
-def list_entries(request, list_id, page_num=1):
+def fetch_entries(request, list_id, page_num=1):
     wordlist = get_object_or_404(WordList, pk=list_id)
     words = get_list_or_404(Word, wordlist=wordlist)
     words = dictionarize(Oxford, words)
@@ -196,11 +216,78 @@ def word_pagination(words, word_each_page, page_num):
     page_words = word_paginator.get_page(page_num).object_list
     return JsonResponse([word.serialize() for word in page_words], safe=False)
 
+
 def dictionarize(dict, words):
-    # words in wordlist --> words in dict
-    # 1. for each word in words, find the instance in dict
-    # 2. if the instance doesn't exist, call Oxford API, save the entry, and return words
+    # save word from Oxford dictionary API
     words = [word.word for word in words]
-    
+    app_id = OXFORD_API_ID
+    app_key = OXFORD_API_KEY
+    language = "en-gb"
+    for word in words:
+        if not dict.objects.filter(word=word).exists():
+            url = (
+                "https://od-api.oxforddictionaries.com:443/api/v2/entries/"
+                + language
+                + "/"
+                + word.lower()
+            )
+            r = requests.get(url, headers={"app_id": app_id, "app_key": app_key})
+            r_cleaned = clean_json(r.json())
+            if r_cleaned != {}:
+                new_word = Oxford.objects.create(
+                    word=r_cleaned["word"],
+                    lexical_category=r_cleaned["lexical_category"],
+                    audio_link=r_cleaned["audio_link"],
+                    ipa=r_cleaned["ipa"],
+                    inflections=r_cleaned["inflections"],
+                    senses=r_cleaned["senses"],
+                    derivatives=r_cleaned["derivatives"],
+                )
+                new_word.save()
     return dict.objects.filter(word__in=words)
-            
+
+
+def clean_json(r_json):
+    # extract information from r_json and save dict instance
+    word_json = {}
+    try:
+        results = r_json["results"][0]
+    except KeyError:
+        return word_json
+    word_json["word"] = results["word"]
+    first_lexical_entry = results["lexicalEntries"][0]
+    extract_lexical_entry(first_lexical_entry, word_json) # add other entries later
+    return word_json
+
+def extract_lexical_entry(lexical_entry, word_json):
+    word_json["lexical_category"] = lexical_entry["lexicalCategory"]["id"]
+    entry = lexical_entry["entries"][0]
+    
+    # pronunciations
+    try:
+        pronunciations = entry["pronunciations"][0]
+        word_json["audio_link"] = pronunciations["audioFile"]
+        word_json["ipa"] = pronunciations["phoneticSpelling"]
+    except KeyError:
+        pronunciations = ""
+        word_json["audio_link"] = ""
+        word_json["ipa"] = ""
+    
+    # inflection and senses
+    senses = entry["senses"][0]
+    try:
+        inflections = [inflection["inflectedForm"] for inflection in entry["inflections"]]
+        word_json["inflections"] = ', '.join(inflections)
+    except KeyError:
+        word_json["inflections"] = ""
+    try: 
+        word_json["senses"] = senses["shortDefinitions"][0]
+    except KeyError:
+        try:
+            word_json["senses"] = senses["definitions"][0]
+        except KeyError:
+            word_json["senses"] = ""
+    try:
+        word_json["derivatives"] = lexical_entry["derivatives"][0]["text"]
+    except KeyError:
+        word_json["derivatives"] = ""
