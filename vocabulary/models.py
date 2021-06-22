@@ -54,6 +54,7 @@ class Collins(Dict):
 class WordList(models.Model):
     name = models.CharField(max_length=64)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wordlist")
+    timestamp = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -62,7 +63,7 @@ class WordList(models.Model):
 
 class Word(models.Model):
     word = models.CharField(max_length=32)
-    wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, related_name="word")
+    wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, related_name="words")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="words")
 
     def __str__(self):
