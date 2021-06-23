@@ -203,48 +203,50 @@ def wordlist(request, list_id):
 # API: fetch list entries
 @login_required
 def fetch_entries(request, list_id, page_num=1):
+    # retrieve words in wordlist
     wordlist = get_object_or_404(WordList, pk=list_id)
     words = get_list_or_404(Word, wordlist=wordlist)
-    words = dictionarize(Oxford, words)
     # pagination
-    return word_pagination(words, WORD_EACH_PAGE, page_num)
-
-
-# helper function
-def word_pagination(words, word_each_page, page_num):
-    word_paginator = Paginator(words, word_each_page)
+    word_paginator = Paginator(words, WORD_EACH_PAGE)
     page_words = word_paginator.get_page(page_num).object_list
     return JsonResponse([word.serialize() for word in page_words], safe=False)
 
 
-def dictionarize(dict, words):
+# API: fetch meanings
+def fetch_meanings(request, word, dict=Oxford):
+    words_dict = dict.objects.filter(word__iexact=word)
+    if words_dict.count() != 0:
+        return JsonResponse([word.serialize() for word in words_dict], safe=False)
+    else:
+        return add_word_to_dict(word, dict)
+
+# helper function
+def add_word_to_dict(word, dict=Oxford):
     # save word from Oxford dictionary API
-    words = [word.word for word in words]
-    app_id = OXFORD_API_ID
-    app_key = OXFORD_API_KEY
-    language = "en-gb"
-    for word in words:
-        if not dict.objects.filter(word=word).exists():
-            url = (
-                "https://od-api.oxforddictionaries.com:443/api/v2/entries/"
-                + language
-                + "/"
-                + word.lower()
+    if dict == Oxford:
+        app_id = OXFORD_API_ID
+        app_key = OXFORD_API_KEY
+        language = "en-gb"
+        url = (
+            "https://od-api.oxforddictionaries.com:443/api/v2/entries/"
+            + language
+            + "/"
+            + word.lower()
+        )
+        r = requests.get(url, headers={"app_id": app_id, "app_key": app_key})
+        r_cleaned = clean_json(r.json())
+        if r_cleaned != {}:
+            new_word = Oxford.objects.create(
+                word=r_cleaned["word"],
+                lexical_category=r_cleaned["lexical_category"],
+                audio_link=r_cleaned["audio_link"],
+                ipa=r_cleaned["ipa"],
+                inflections=r_cleaned["inflections"],
+                senses=r_cleaned["senses"],
+                derivatives=r_cleaned["derivatives"],
             )
-            r = requests.get(url, headers={"app_id": app_id, "app_key": app_key})
-            r_cleaned = clean_json(r.json())
-            if r_cleaned != {}:
-                new_word = Oxford.objects.create(
-                    word=r_cleaned["word"],
-                    lexical_category=r_cleaned["lexical_category"],
-                    audio_link=r_cleaned["audio_link"],
-                    ipa=r_cleaned["ipa"],
-                    inflections=r_cleaned["inflections"],
-                    senses=r_cleaned["senses"],
-                    derivatives=r_cleaned["derivatives"],
-                )
-                new_word.save()
-    return dict.objects.filter(word__in=words)
+            new_word.save()
+        return JsonResponse([r_cleaned], safe=False)
 
 
 def clean_json(r_json):

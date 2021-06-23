@@ -14,30 +14,12 @@
   </header>
 
   <!-- card group -->
-  {% if wordlist.words.all %}
-  <div id="card-group" class="content__card-group card-group row row-cols-lg-5 row-cols-md-4">
-    {% for word in wordlist.words.all %}
-    <div class="col-md">
-      <div class="content__card card">
-        <div class="card-body">
-          <div class="card-title">{{ word.word }}</div>
-          {% if settings.list_card_uppercase %}
-          <div class="card-title card-title_uppercase">{{ word }}</div>
-          {% endif %}
-          <p class="card-text">Example meaning</p>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+  <div id="word-group" class="content__card-group card-group row row-cols-lg-5 row-cols-md-4"></div>
 
   <!-- Page navigation -->
-  <div class="row m-2 p-2 justify-content-end">
-    <div class="col-sm-auto">
-      <button id="previous" class="btn btn-primary">Previous</button>
-      <button id="next" class="btn btn-primary">Next</button>
-    </div>
-  </div>
-  {% else %} No words in this list. {% endif %}
+  <nav aria-label="Page navigation">
+    <div id="max-page" data-page="{{ num_pages }}"></div>
+    <ul class="pagination justify-content-end" id="page-nav-list"></ul>
+  </nav>
 </div>
 {% endblock %}
