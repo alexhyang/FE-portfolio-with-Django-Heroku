@@ -8,7 +8,7 @@ function load_page(api_url, page_num = 1, word_group_div_id = "#word-group") {
     .then((response) => response.json())
     .then((words) => {
       console.log(words);
-      display_words(words, word_group_div_id);
+      load_words(words, word_group_div_id);
       load_page_nav(api_url, page_num);
     })
     .catch((error) => {
@@ -16,7 +16,7 @@ function load_page(api_url, page_num = 1, word_group_div_id = "#word-group") {
     });
 }
 
-function display_words(words, word_group_div_id) {
+function load_words(words, word_group_div_id) {
   // clear group content
   const word_group = document.querySelector(word_group_div_id);
   word_group.innerHTML = "";
@@ -74,6 +74,7 @@ function load_page_nav(api_url, currentPageNum) {
   });
 }
 
+// add entries
 function addEntryToPage(entry, word_group) {
   entry = entry[0];
   if (Object.keys(entry).length != 0) {
@@ -82,7 +83,7 @@ function addEntryToPage(entry, word_group) {
     wrapper.classList.add("col-md");
 
     const card = document.createElement("div");
-    card.classList.add("content__card", "card");
+    card.classList.add("content__card", "card", "h-100");
 
     word_group.append(wrapper);
     wrapper.append(card);
@@ -90,29 +91,76 @@ function addEntryToPage(entry, word_group) {
     // prepare card elements
     var inflections = "";
     var derivatives = "";
+    var audio = "";
+    var ipa = "";
     if (entry.inflections) {
-      inflections = `<div class="word__inflections">inflections: <em>${entry.inflections}</em></div>`;
+      inflections = `<div class="word__inflections">inflections: <strong><em>${entry.inflections}</em></strong></div>`;
     }
     if (entry.derivatives) {
-      derivatives = `<div class="derivatives">derivatives: <em>${entry.derivatives}</em>`;
+      derivatives = `<div class="word__derivatives">derivatives: <strong><em>${entry.derivatives}</em></strong>`;
     }
-    
+    if (entry.audio_link) {
+      audio = `<div class="word__pronunciation">
+        <i class="fas fa-play-circle play-audio"></i>
+        <audio controls src=${entry.audio_link}>Your browser does not support the audio element.</audio>
+        </div>`;
+    }
+    if (entry.ipa) {
+      ipa = `<div class="word__ipa">UK /${entry.ipa}/</div>`;
+    }
+    if (entry.lexical_category) {
+      entry.lexical_category = shorten_category(entry.lexical_category);
+    }
 
     // add card content
     card.innerHTML = `
-    <div class="card-body word">
+    <div class="card-body word mb-3">
       <div class="word__meta">
         <div class="card-title word__word">${entry.word}</div>
-        <audio class="word__pronunciation"controls src=${entry.audio_link}>Your browser does not support the audio element.</audio>
-        <div class="word__ipa">/${entry.ipa}/</div>
+        ${audio}
+        ${ipa}
       </div>
-      <div class="card-text">
-        <div class="word__senses">${entry.senses}</div>
+      <div class="word__details card-text">
+        <div class="word__meaning">
+          <div class="word__category">${entry.lexical_category}</div> 
+          <div class="word__senses">${entry.senses}</div>
+        </div>
         <div class="word__variants">
           ${inflections}
           ${derivatives}
         </div>
       </div>
     </div>`;
+
+    // add event listener
+    $(".play-audio").on("click", (event) => {
+      var audio = event.target.parentElement.querySelector("audio");
+      audio.play();
+    });
+  }
+}
+
+function shorten_category(category) {
+  switch (category) {
+    case "noun":
+      return "n.";
+    case "verb":
+      return "v.";
+    case "adjective":
+      return "adj.";
+    case "adverb":
+      return "adv.";
+    case "auxiliary":
+      return "aux.";
+    case "pronoun":
+      return "pron.";
+    case "determiner":
+      return "det.";
+    case "conjunction":
+      return "conj.";
+    case "preposition":
+      return "prep.";
+    case "residual":
+      return "";
   }
 }

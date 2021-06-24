@@ -49,6 +49,11 @@
       type="text/css"
       href="{% static 'vocabulary/styles.css' %}"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     {% block script %} {% endblock %}
   </head>
 
@@ -91,7 +96,9 @@
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for wordlist in wordlists %}
                 <li>
-                  <a class="dropdown-item" href="{% url 'vocabulary:wordlist' wordlist.id %}"
+                  <a
+                    class="dropdown-item"
+                    href="{% url 'vocabulary:wordlist' wordlist.id %}"
                     >{{wordlist.name}}</a
                   >
                 </li>
@@ -109,7 +116,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Spaced Repetition</a>
+              <a class="nav-link" href="#">Random Words</a>
             </li>
             {% endif %}
           </ul>

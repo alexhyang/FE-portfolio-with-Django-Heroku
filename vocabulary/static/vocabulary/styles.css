@@ -4,6 +4,7 @@
 /* || .app (__column, __form, __table, __control) */
 /* || .header (__title, __text) */
 /* || .form (__textarea, __user-control) */
+/* || .word (__pronunciation) */
 /* || .table */
 /* || others */
 
@@ -19,6 +20,7 @@
 
 /* || .content components */
 .content__header {
+  margin-top: 12px;
 }
 
 .content__app {
@@ -78,6 +80,42 @@
 }
 
 .form__user-control {
+}
+
+/* || .word */
+.word {
+
+}
+
+/* || .word components */
+.word__meta {
+  display: flex;
+}
+
+.word__pronunciation {
+  margin-left: 5%;
+}
+
+.word__pronunciation audio {
+  display: none;
+}
+
+.word__pronunciation i {
+  margin-right: 3px;
+}
+
+.word__meaning {
+  padding: 0 5% 5% 0;
+}
+
+.word__category {
+  font-weight: bold;
+}
+
+.word__divider {
+  border: 0;
+  height: 1px;
+  background: #333;
 }
 
 /* || .table */

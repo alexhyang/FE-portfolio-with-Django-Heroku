@@ -6,7 +6,7 @@
 {% endblock %} {% block body %}
 <div class="content gy-3">
   <!-- header -->
-  <header class="content__header row align-items-center">
+  <header class="content__header row align-items-center mb-3">
     <div class="col-auto">
       <h1 class="header__title">{{ wordlist.name }}</h1>
       <p id="list-id" style="display: none">{{wordlist.id}}</p>
@@ -14,8 +14,7 @@
   </header>
 
   <!-- card group -->
-  <div id="word-group" class="content__card-group card-group row row-cols-lg-5 row-cols-md-4"></div>
-
+  <div id="word-group" class="content__card-group card-group row row-cols-lg-4 row-cols-md-3 mb-3"></div>
   <!-- Page navigation -->
   <nav aria-label="Page navigation">
     <div id="max-page" data-page="{{ num_pages }}"></div>

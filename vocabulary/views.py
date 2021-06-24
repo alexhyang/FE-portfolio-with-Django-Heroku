@@ -15,7 +15,7 @@ import requests
 import json
 
 # CONSTANTS
-WORD_EACH_PAGE = 10
+WORD_EACH_PAGE = 8
 OXFORD_API_ID = os.environ.get("OXFORD_API_ID")
 OXFORD_API_KEY = os.environ.get("OXFORD_API_KEY")
 
