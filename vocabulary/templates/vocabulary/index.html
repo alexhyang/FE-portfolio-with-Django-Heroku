@@ -6,6 +6,9 @@
 {% endblock %} {% block body %}
 <div class="content gy-3">
   <!-- Introduction -->
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+  {% endfor %}
   <header id="header" class="content__header header row justify-content-center">
     <div class="col-md-6">
       <h1 class="header__title header__title_theme-blue">Introduction</h1>
@@ -15,7 +18,10 @@
       </p>
     </div>
   </header>
-  <div id="freq-counter-app" class="content__app app row justify-content-center">
+  <div
+    id="freq-counter-app"
+    class="content__app app row justify-content-center"
+  >
     <!-- left column: inputs -->
     <div id="app-input-col" class="app__columm col-md-6">
       <form class="app__form form">
@@ -42,7 +48,10 @@
     <div id="app-result-col" class="app__column col-md-6" style="display: none">
       <!-- table -->
       <div style="overflow-y: auto; max-height: 400px">
-        <table id="freq-table" class="app__table table table-striped overflow-auto">
+        <table
+          id="freq-table"
+          class="app__table table table-striped overflow-auto"
+        >
           <tr>
             <th>Word</th>
             <th>Count</th>
@@ -65,7 +74,7 @@
                   class="form-select mb-3"
                   aria-label=".form-select-lg example"
                 >
-                  <option selected></option>
+                  <option selected disabled></option>
                   {% for wordlist in wordlists %}
                   <option value="{{wordlist.name}}">{{wordlist.name}}</option>
                   {% endfor %}

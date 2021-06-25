@@ -4,14 +4,9 @@
     <h1 class="header__title">Wordlist</h1>
   </header>
   <div class="row">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% if wordlists %}
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% if wordlists %}
     <table id="lists-table" class="content__table table table-striped">
       <thead>
         <th scope="col">List name</th>
@@ -26,7 +21,7 @@
           <td>{{wordlist.description}}</td>
           <td>{{wordlist.timestamp}}</td>
           <td>
-          {% if wordlist.name != "default" %}
+            {% if wordlist.name != "default" %}
             <form
               action="{% url 'vocabulary:remove_list' wordlist.name%}"
               method="POST"
@@ -35,7 +30,7 @@
               {% csrf_token %}
               <button class="btn btn-danger delete-btn">Delete</button>
             </form>
-          {% endif %}
+            {% endif %}
           </td>
         </tr>
         {% endfor %}

@@ -112,12 +112,18 @@ def save_to_list(request):
         wordlist = WordList.objects.get(name=list_name, owner=user)
 
         # add words is they are new
+        counter = 0
         for word in clean_unique_words:
             if not Word.objects.filter(word=word, wordlist=wordlist).exists():
                 word = Word.objects.create(word=word, wordlist=wordlist, user=user)
                 word.save()
+                counter += 1
 
-        # show number of words saved in a popup ???
+        # show result in a message
+        if counter == 0:
+            messages.warning(request, f'All of the words are already in your "{list_name}"')
+        else:
+            messages.success(request, f'{counter} unique words saved in "{list_name}"!')
 
     return HttpResponseRedirect(reverse("vocabulary:index"))
 
