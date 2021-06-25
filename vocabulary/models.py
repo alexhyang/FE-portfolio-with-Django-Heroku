@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.fields import CharField
 
 # admin database
 class User(AbstractUser):
@@ -58,7 +59,7 @@ class WordList(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.name} created by {self.owner}"
+        return f"{self.id}: {self.name} created by {self.owner}"
 
 
 class Word(models.Model):
@@ -68,3 +69,6 @@ class Word(models.Model):
 
     def __str__(self):
         return f"{self.word} was saved in {self.wordlist}"
+    
+    def serialize(self):
+        return {"word": self.word}
