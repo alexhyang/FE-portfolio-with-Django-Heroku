@@ -1,15 +1,14 @@
 {% extends "vocabulary/layout.html" %} {% load static %} {% block script%}
 <script
   type="text/javascript"
-  src="{% static 'vocabulary/wordlist.js' %}"
+  src="{% static 'vocabulary/random_words.js' %}"
 ></script>
 {% endblock %} {% block body %}
 <div class="content gy-3">
   <!-- header -->
   <header class="content__header row align-items-center mb-3">
     <div class="col-auto">
-      <h1 class="header__title">{{ wordlist.name }}</h1>
-      <p id="list-id" style="display: none">{{wordlist.id}}</p>
+      <h1 class="header__title">Random Words</h1>
     </div>
   </header>
 
@@ -18,10 +17,7 @@
     id="word-group"
     class="content__card-group card-group row row-cols-lg-4 row-cols-md-3 mb-3"
   ></div>
-  <!-- Page navigation -->
-  <nav aria-label="Page navigation">
-    <div id="max-page" data-page="{{ num_pages }}"></div>
-    <ul class="pagination justify-content-end" id="page-nav-list"></ul>
-  </nav>
+  <!-- reload button -->
+  <button class="btn btn-primary" id="reload">Reload</button>
 </div>
 {% endblock %}

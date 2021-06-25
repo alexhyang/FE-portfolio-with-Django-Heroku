@@ -12,6 +12,7 @@ urlpatterns = [
     
     # user interaction
     path("lists/<int:list_id>", views.wordlist, name="wordlist"),
+    path("random", views.random_words, name="random_words"),
     
     # list manipulation
     path("save", views.save_to_list, name="save_to_list"),
@@ -22,4 +23,5 @@ urlpatterns = [
     #  API routes
     path("lists/<int:list_id>/<int:page_num>", views.fetch_entries, name="fetch_wordlist"), # fetch words
     path("dict/<str:word>", views.fetch_meanings, name="fetch_wordlist"), # fetch word details
+    path("random/new", views.fetch_random_words, name="fetch_random_words"), # fetch random words
 ]

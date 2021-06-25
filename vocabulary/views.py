@@ -13,6 +13,7 @@ import re
 import os
 import requests
 import json
+import random
 
 # CONSTANTS
 WORD_EACH_PAGE = 8
@@ -293,3 +294,29 @@ def extract_lexical_entry(lexical_entry, word_json):
         word_json["derivatives"] = lexical_entry["derivatives"][0]["text"]
     except KeyError:
         word_json["derivatives"] = ""
+        
+# page: random words
+def random_words(request):
+    wordlists = WordList.objects.filter(owner=request.user)
+    return render(request, "vocabulary/random_words.html", {"wordlists": wordlists})
+
+# API: fetch random words
+# def fetch_random_words(request):
+#     # generate ten random words
+#     words = request.user.words
+#     words_count = words.count()
+#     selector = random.sample(range(0, words_count-1), WORD_EACH_PAGE)
+#     words_list = []
+#     for i in selector:
+#         words_list.append(words.all()[i])
+#     return JsonResponse([word.serialize() for word in words_list], safe=False)
+
+# API: fetch random words (modified)
+def fetch_random_words(request):
+    words = Oxford.objects.all()
+    words_count = words.count()
+    selector = random.sample(range(0, words_count-1), WORD_EACH_PAGE)
+    words_list = []
+    for i in selector:
+        words_list.append(words[i])
+    return JsonResponse([word.serialize() for word in words_list], safe=False)
