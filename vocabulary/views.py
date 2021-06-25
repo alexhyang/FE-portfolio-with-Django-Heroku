@@ -173,7 +173,8 @@ def add_list(request):
 @login_required
 def remove_list(request, name):
     wordlist = get_object_or_404(WordList, name=name, owner=request.user)
-    wordlist.delete()
+    if request.method == "POST":
+        wordlist.delete()
     return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
 
 
@@ -221,6 +222,7 @@ def fetch_meanings(request, word, dict=Oxford):
     else:
         return add_word_to_dict(word, dict)
 
+
 # helper function
 def add_word_to_dict(word, dict=Oxford):
     # save word from Oxford dictionary API
@@ -235,19 +237,27 @@ def add_word_to_dict(word, dict=Oxford):
             + word.lower()
         )
         r = requests.get(url, headers={"app_id": app_id, "app_key": app_key})
-        r_cleaned = clean_json(r.json())
-        if r_cleaned != {}:
-            new_word = Oxford.objects.create(
-                word=r_cleaned["word"],
-                lexical_category=r_cleaned["lexical_category"],
-                audio_link=r_cleaned["audio_link"],
-                ipa=r_cleaned["ipa"],
-                inflections=r_cleaned["inflections"],
-                senses=r_cleaned["senses"],
-                derivatives=r_cleaned["derivatives"],
+        if (r.status_code == 403) or (r.status_code == 404):
+            return JsonResponse(
+                [{
+                    "word": word,
+                    "error_message": "server unable to fetch entry from https://od-api.oxforddictionaries.com",
+                }], safe=False
             )
-            new_word.save()
-        return JsonResponse([r_cleaned], safe=False)
+        else:
+            r_cleaned = clean_json(r.json())
+            if r_cleaned != {}:
+                new_word = Oxford.objects.create(
+                    word=r_cleaned["word"],
+                    lexical_category=r_cleaned["lexical_category"],
+                    audio_link=r_cleaned["audio_link"],
+                    ipa=r_cleaned["ipa"],
+                    inflections=r_cleaned["inflections"],
+                    senses=r_cleaned["senses"],
+                    derivatives=r_cleaned["derivatives"],
+                )
+                new_word.save()
+            return JsonResponse([r_cleaned], safe=False)
 
 
 def clean_json(r_json):
@@ -259,13 +269,14 @@ def clean_json(r_json):
         return word_json
     word_json["word"] = results["word"]
     first_lexical_entry = results["lexicalEntries"][0]
-    extract_lexical_entry(first_lexical_entry, word_json) # add other entries later
+    extract_lexical_entry(first_lexical_entry, word_json)  # add other entries later
     return word_json
+
 
 def extract_lexical_entry(lexical_entry, word_json):
     word_json["lexical_category"] = lexical_entry["lexicalCategory"]["id"]
     entry = lexical_entry["entries"][0]
-    
+
     # pronunciations
     try:
         pronunciations = entry["pronunciations"][0]
@@ -275,15 +286,17 @@ def extract_lexical_entry(lexical_entry, word_json):
         pronunciations = ""
         word_json["audio_link"] = ""
         word_json["ipa"] = ""
-    
+
     # inflection and senses
     senses = entry["senses"][0]
     try:
-        inflections = [inflection["inflectedForm"] for inflection in entry["inflections"]]
-        word_json["inflections"] = ', '.join(inflections)
+        inflections = [
+            inflection["inflectedForm"] for inflection in entry["inflections"]
+        ]
+        word_json["inflections"] = ", ".join(inflections)
     except KeyError:
         word_json["inflections"] = ""
-    try: 
+    try:
         word_json["senses"] = senses["shortDefinitions"][0]
     except KeyError:
         try:
@@ -294,11 +307,13 @@ def extract_lexical_entry(lexical_entry, word_json):
         word_json["derivatives"] = lexical_entry["derivatives"][0]["text"]
     except KeyError:
         word_json["derivatives"] = ""
-        
+
+
 # page: random words
 def random_words(request):
     wordlists = WordList.objects.filter(owner=request.user)
     return render(request, "vocabulary/random_words.html", {"wordlists": wordlists})
+
 
 # API: fetch random words
 # def fetch_random_words(request):
@@ -311,11 +326,11 @@ def random_words(request):
 #         words_list.append(words.all()[i])
 #     return JsonResponse([word.serialize() for word in words_list], safe=False)
 
-# API: fetch random words (modified)
+# API: fetch random words (modified for reaching the max number of OXFORD_API calls)
 def fetch_random_words(request):
     words = Oxford.objects.all()
     words_count = words.count()
-    selector = random.sample(range(0, words_count-1), WORD_EACH_PAGE)
+    selector = random.sample(range(0, words_count - 1), WORD_EACH_PAGE)
     words_list = []
     for i in selector:
         words_list.append(words[i])

@@ -72,16 +72,26 @@ function load_page_nav(api_url, currentPageNum) {
 // add entries
 function addEntryToPage(entry, word_group) {
   entry = entry[0];
-  if (Object.keys(entry).length != 0) {
+  if (Object.keys(entry).length == 2) {
     // create html elements and add to page
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("col-md");
-
     const card = document.createElement("div");
-    card.classList.add("content__card", "card", "h-100");
+    addStyles(card, word_group);
 
-    word_group.append(wrapper);
-    wrapper.append(card);
+    // add card content
+    card.innerHTML = `
+    <div class="card-body word mb-3">
+    <div class="word__meta"><div class="card-title word__word">${entry.word}</div></div>
+    <div class="word__details card-text">
+      <div class="word__meaning">
+        <div class="word__error">${entry.error_message}</div>
+      </div>
+    </div>
+    </div>`;
+  }
+  if (Object.keys(entry).length == 7) {
+    // create html elements and add to page
+    const card = document.createElement("div");
+    addStyles(card, word_group);
 
     // prepare card elements
     var inflections = "";
@@ -110,20 +120,13 @@ function addEntryToPage(entry, word_group) {
     // add card content
     card.innerHTML = `
     <div class="card-body word mb-3">
-    <div class="word__meta">
-      <div class="card-title word__word">${entry.word}</div>
-      ${audio}
-      ${ipa}
-    </div>
+    <div class="word__meta"><div class="card-title word__word">${entry.word}</div>${audio}${ipa}</div>
     <div class="word__details card-text">
       <div class="word__meaning">
-      <div class="word__category">${entry.lexical_category}</div> 
-      <div class="word__senses">${entry.senses}</div>
+        <div class="word__category">${entry.lexical_category}</div> 
+        <div class="word__senses">${entry.senses}</div>
       </div>
-      <div class="word__variants">
-      ${inflections}
-      ${derivatives}
-      </div>
+      <div class="word__variants">${inflections}${derivatives}</div>
     </div>
     </div>`;
 
@@ -133,6 +136,14 @@ function addEntryToPage(entry, word_group) {
       audio.play();
     });
   }
+}
+
+function addStyles(card, word_group) {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("col-md");
+  card.classList.add("content__card", "card", "h-100");
+  word_group.append(wrapper);
+  wrapper.append(card);
 }
 
 function shorten_category(category) {
