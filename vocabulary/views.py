@@ -2,9 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse
 from django.db import IntegrityError
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 from .models import User, WordList, Word, Oxford, Settings
 from .forms import WordForm, WordlistForm
@@ -143,6 +144,7 @@ def add_list(request):
                 WordList.objects.create(
                     name=name, owner=request.user, description=description
                 )
+                messages.success(request, f'Wordlist "{name}" was created!')
                 return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
             else:
                 return render(
@@ -175,6 +177,7 @@ def remove_list(request, name):
     wordlist = get_object_or_404(WordList, name=name, owner=request.user)
     if request.method == "POST":
         wordlist.delete()
+        messages.success(request, f'Wordlist "{name}" was deleted!')
     return HttpResponseRedirect(reverse("vocabulary:manage_lists"))
 
 
