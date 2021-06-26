@@ -9,6 +9,7 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("sign_up", views.register, name="register"),
+    path("dummy", views.dummy, name="dummy"),
     
     # user interaction
     path("lists/<int:list_id>", views.wordlist, name="wordlist"),
