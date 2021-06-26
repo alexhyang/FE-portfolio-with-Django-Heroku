@@ -116,7 +116,9 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'vocabulary:random_words' %}">Random Words</a>
+              <a class="nav-link" href="{% url 'vocabulary:random_words' %}"
+                >Random Words</a
+              >
             </li>
             {% endif %}
           </ul>
@@ -156,6 +158,13 @@
               >
             </div>
             {% else %}
+            <div class="nav-item">
+              <a
+                class="nav-link text-primary"
+                href="{% url 'vocabulary:dummy' %}"
+                >click here for dummy account</a
+              >
+            </div>
             <div class="nav-item">
               <a
                 class="nav-link text-primary"

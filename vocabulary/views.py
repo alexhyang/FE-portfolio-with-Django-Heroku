@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 
 from .models import User, WordList, Word, Oxford, Settings
-from .forms import WordForm, WordlistForm
+from .forms import WordForm, WordlistForm, LoginForm
 
 import re
 import os
@@ -49,7 +49,19 @@ def login_view(request):
                 {"message": "Invalid username and/or password."},
             )
     else:
-        return render(request, "vocabulary/login.html")
+        return render(
+            request,
+            "vocabulary/login.html",
+            {"form": LoginForm()}
+        )
+
+
+def dummy(request):
+    return render(
+        request,
+        "vocabulary/login.html",
+        {"form": LoginForm({"username": "dummy", "password": "dummypassword"})},
+    )
 
 
 def logout_view(request):
@@ -121,7 +133,9 @@ def save_to_list(request):
 
         # show result in a message
         if counter == 0:
-            messages.warning(request, f'All of the words are already in your "{list_name}"')
+            messages.warning(
+                request, f'All of the words are already in your "{list_name}"'
+            )
         else:
             messages.success(request, f'{counter} unique words saved in "{list_name}"!')
 
@@ -248,10 +262,13 @@ def add_word_to_dict(word, dict=Oxford):
         r = requests.get(url, headers={"app_id": app_id, "app_key": app_key})
         if (r.status_code == 403) or (r.status_code == 404):
             return JsonResponse(
-                [{
-                    "word": word,
-                    "error_message": "server unable to fetch entry from https://od-api.oxforddictionaries.com",
-                }], safe=False
+                [
+                    {
+                        "word": word,
+                        "error_message": "server unable to fetch entry from https://od-api.oxforddictionaries.com",
+                    }
+                ],
+                safe=False,
             )
         else:
             r_cleaned = clean_json(r.json())
