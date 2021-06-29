@@ -46,7 +46,7 @@ def login_view(request):
             return render(
                 request,
                 "vocabulary/login.html",
-                {"message": "Invalid username and/or password."},
+                {"message": "Invalid username and/or password.", "form": LoginForm()},
             )
     else:
         return render(
@@ -208,9 +208,6 @@ def wordlist(request, list_id):
     wordlists = get_list_or_404(
         WordList, owner=request.user
     )  # for lists in navbar dropdown button
-    settings = get_object_or_404(
-        Settings, user=request.user
-    )  # for uppercase or lowercase
     words = Word.objects.filter(wordlist=wordlist)
     num_pages = Paginator(words, WORD_EACH_PAGE).num_pages
     return render(
@@ -219,7 +216,6 @@ def wordlist(request, list_id):
         {
             "wordlist": wordlist,
             "wordlists": wordlists,
-            "settings": settings,
             "num_pages": num_pages,
         },
     )
