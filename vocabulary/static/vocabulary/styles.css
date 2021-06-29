@@ -15,7 +15,7 @@
 /* || .content */
 .content {
   max-width: 100%;
-  height: 615px;
+  min-height: 615px;
 }
 
 /* || .content components */
@@ -106,6 +106,10 @@
 
 .word__meaning {
   padding: 0 5% 5% 0;
+}
+
+.word__error {
+  color: #f00;
 }
 
 .word__category {

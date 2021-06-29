@@ -2,7 +2,6 @@ $(function () {
   $("#count").on("click", () => {
     const inputText = $("#textarea").val();
     showResults(inputText);
-    updateLayout();
     return false; //prevent page reload after button click
   });
 });
@@ -14,10 +13,11 @@ function showResults(inputText) {
     $("#app-result-col").show();
     updateTotalNumber(inputText, $("#word-counter"));
     showTable(inputText, $("#freq-table"));
+    $("#result").val(inputText);
+    updateLayout();
   } else {
     alert("Please input valid text!");
   }
-  $("#result").val(inputText);
 }
 
 // update layout
