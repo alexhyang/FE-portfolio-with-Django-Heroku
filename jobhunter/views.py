@@ -1,6 +1,9 @@
 from django.shortcuts import get_list_or_404, render, redirect, get_object_or_404
+from django.http import JsonResponse
 from .models import Posting
 from .forms import PostingForm
+
+import collections
 
 # Create your views here.
 def index(request):
@@ -47,3 +50,15 @@ def add(request):
 def posting(request, id):
     posting = get_object_or_404(Posting, pk=id)
     return render(request, "jobhunter/posting.html", {"posting": posting})
+
+def skills(request):
+    return render(request, "jobhunter/skills.html")
+
+def fetch_skills(request):
+    postings = Posting.objects.values("skills")
+    skills = []
+    for posting in postings:
+        skills.extend(posting["skills"].split(", "))
+    counter = collections.Counter(skills)
+    counter_json = dict(counter)
+    return JsonResponse(counter_json, safe=False)

@@ -1,0 +1,14 @@
+{% extends "jobhunter\layout.html" %} {% load static %} {% block scripts %}
+<script src="{% static 'jobhunter/skills.js' %}"></script>
+{% endblock %} {% block body %}
+<h1>Skills</h1>
+<div id="skills" class="cloud-wrapper">
+  <ul
+    id="cloud"
+    class="cloud"
+    role="navigation"
+    aria-label="Webdev tag cloud"
+    data-show-value="true"
+  ></ul>
+</div>
+{% endblock %}
