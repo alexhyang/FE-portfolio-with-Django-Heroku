@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
-ALLOWED_HOSTS = ['aylearning.herokuapp.com']
+ALLOWED_HOSTS = ['alexhyang.herokuapp.com']
 
 
 # Application definition
@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ['aylearning.herokuapp.com']
 INSTALLED_APPS = [
     'vocabulary',
     'showcase',
+    'jobhunter',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

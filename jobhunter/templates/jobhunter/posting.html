@@ -1,0 +1,15 @@
+{% extends "jobhunter\layout.html" %} {% load crispy_forms_tags %}
+{% block body %}
+<h1>{{ posting }}</h1>
+<div class="posting-meta">
+  <div class="position-level">{{ posting.position_level }}</div>
+  <div class="position-type">{{ position.position_type }}</div>
+  <div class="posting-link"><a href="{{ posting.posting_url }}">link</a></div>
+</div>
+<div class="posting-details">
+  <h2>Qualifications</h2>
+  <div class="posting-qualifications">{{ posting.qualifications }}</div>
+  <h2>Skills</h2>
+  <div class="posting-skills">{{ posting.skills }}</div>
+</div>
+{% endblock %}

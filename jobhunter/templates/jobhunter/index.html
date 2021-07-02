@@ -1,0 +1,15 @@
+{% extends "jobhunter\layout.html" %} {% block body %}
+<h1>
+  Postings List
+  <span><a href="{% url 'jobhunter:add' %}">Add new posting</a></span>
+</h1>
+<div>
+  <ul>
+    {% for posting in postings %}
+    <li>
+      <a href="{% url 'jobhunter:posting' posting.id %}">{{ posting }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
