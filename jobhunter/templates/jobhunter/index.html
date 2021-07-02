@@ -3,13 +3,30 @@
   Postings List
   <span><a href="{% url 'jobhunter:add' %}">Add new posting</a></span>
 </h1>
-<div>
-  <ol>
+<table class="table table-striped">
+  <tbody>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Position</th>
+        <th>Company</th>
+        <th>Place</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
     {% for posting in postings %}
-    <li>
-      <a href="{% url 'jobhunter:posting' posting.id %}">{{ posting }}</a>
-    </li>
+    <tr>
+      <td>{{ posting.id }}</td>
+      <td>
+        <a href="{% url 'jobhunter:posting' posting.id %}"
+          >{{ posting.position }}</a
+        >
+      </td>
+      <td>{{ posting.company }}</td>
+      <td>{{ posting.place }}</td>
+      <td>{{ posting.posting_due_date }}</td>
+    </tr>
     {% endfor %}
-  </ol>
-</div>
+  </tbody>
+</table>
 {% endblock %}

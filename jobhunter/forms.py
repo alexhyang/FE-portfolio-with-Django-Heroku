@@ -6,20 +6,20 @@ from django import forms
 
 LEVEL_CHOICES = (
     ("", ""),
-    ("junior", "Junior"),
-    ("intermediate", "Intermediate"),
-    ("senior", "Senior"),
-    ("intern", "Intern"),
-    ("other", "Other"),
+    ("Junior", "Junior (less than 3 years)"),
+    ("Intermediate", "Intermediate (3~5 years)"),
+    ("Senior", "Senior (more than 5 years)"),
+    ("Intern", "Intern"),
+    ("Other", "Other"),
 )
 
 TYPE_CHOICES = (
-    ("part-time", "Part-time"),
-    ("full-time", "Full-time"),
-    ("temporary", "Temporary"),
-    ("contract", "Contract"),
-    ("remote", "Remote"),
-    ("other", "Other"),
+    ("Part-time", "Part-time"),
+    ("Full-time", "Full-time"),
+    ("Temporary", "Temporary"),
+    ("Contract", "Contract"),
+    ("Remote", "Remote"),
+    ("Other", "Other"),
 )
 
 
