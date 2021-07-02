@@ -1,8 +1,10 @@
-{% extends "jobhunter\layout.html" %} {% load crispy_forms_tags %}
-{% block body %}
+{% extends "jobhunter\layout.html" %} {% load static %} {% load crispy_forms_tags %} {% block scripts %}
+<script src="{% static 'jobhunter/add.js' %}"></script>
+{% endblock %} {% block body %}
 <h1>Add new posting</h1>
 <form action="{% url 'jobhunter:add' %}" method="POST">
   {% csrf_token %} {{ form|crispy }}
-  <button type="submit" class="btn btn-primary mt-3">Save Posting</button>
+  <button class="btn btn-primary mt-2" type="button" id="formatter">Format Textareas</button>
+  <button type="submit" class="btn btn-primary mt-2">Save Posting</button>
 </form>
 {% endblock %}
