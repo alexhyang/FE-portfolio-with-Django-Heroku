@@ -13,6 +13,7 @@
         <th>Company</th>
         <th>Place</th>
         <th>Due Date</th>
+        <th>Notes</th>
       </tr>
     </thead>
     {% for posting in postings %}
@@ -27,6 +28,11 @@
       <td>{{ posting.company }}</td>
       <td>{{ posting.place }}</td>
       <td>{{ posting.posting_due_date }}</td>
+      {% if posting.other %}
+      <td>Yes</td>
+      {% else %}
+      <td>No</td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>

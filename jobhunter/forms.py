@@ -5,12 +5,12 @@ from .models import Posting
 from django import forms
 
 LEVEL_CHOICES = (
-    ("", ""),
+    ("Unknown", "Unknown"),
     ("Junior", "Junior (less than 3 years)"),
     ("Intermediate", "Intermediate (3~5 years)"),
     ("Senior", "Senior (more than 5 years)"),
     ("Intern", "Intern"),
-    ("Other", "Other"),
+    ("Other", "Other")
 )
 
 TYPE_CHOICES = (
@@ -19,9 +19,16 @@ TYPE_CHOICES = (
     ("Temporary", "Temporary"),
     ("Contract", "Contract"),
     ("Remote", "Remote"),
-    ("Other", "Other"),
+    ("Internship", "Internship"),
+    ("Other", "Other")
 )
 
+PLACE_CHOICES = (
+    ("Vancouver, BC", "Vancouver, BC"),
+    ("Burnaby, BC", "Burnaby, BC"),
+    ("Surrey, BC", "Surrey, BC"),
+    ("Victoria, BC", "Victoria, BC")
+)
 
 class PostingForm(forms.ModelForm):
     class Meta:
@@ -42,6 +49,7 @@ class PostingForm(forms.ModelForm):
         widgets = {
             "position_level": forms.Select(choices=LEVEL_CHOICES),
             "position_type": forms.SelectMultiple(choices=TYPE_CHOICES),
+            "place": forms.Select(choices=PLACE_CHOICES),
             "posting_due_date": forms.TextInput(attrs={'type': 'date'}),
             "posting_url": forms.TextInput(attrs={'type': 'url'})
         }

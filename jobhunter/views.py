@@ -20,6 +20,7 @@ def add(request):
             position_type = form.cleaned_data["position_type"]
             posting_url = form.cleaned_data["posting_url"]
             posting_due_date = form.cleaned_data["posting_due_date"]
+            responsibilities = form.cleaned_data["responsibilities"]
             qualifications = form.cleaned_data["qualifications"]
             skills = form.cleaned_data["skills"]
             company = form.cleaned_data["company"]
@@ -32,6 +33,7 @@ def add(request):
                 position_type=position_type,
                 posting_url=posting_url,
                 posting_due_date=posting_due_date,
+                responsibilities=responsibilities,
                 qualifications=qualifications,
                 skills=skills,
                 company=company,
