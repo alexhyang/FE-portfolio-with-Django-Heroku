@@ -34,6 +34,7 @@ class PostingForm(forms.ModelForm):
             "position_type",
             "posting_url",
             "posting_due_date",
+            "responsibilities",
             "qualifications",
             "skills",
             "other",
