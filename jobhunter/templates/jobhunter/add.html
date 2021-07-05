@@ -1,6 +1,9 @@
 {% extends "jobhunter\layout.html" %} {% load static %} {% load crispy_forms_tags %} {% block scripts %}
 <script src="{% static 'jobhunter/add.js' %}"></script>
 {% endblock %} {% block body %}
+{% for message in messages %}
+<div class="alert alert-{{ messages.tags }}">{{ messages }}</div>
+{% endfor %}
 <h1>Add new posting</h1>
 <form action="{% url 'jobhunter:add' %}" method="POST">
   {% csrf_token %} {{ form|crispy }}

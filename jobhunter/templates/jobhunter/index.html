@@ -1,7 +1,9 @@
 {% extends "jobhunter\layout.html" %} {% block body %}
+{% for message in messages %}
+<div class="alert alert-{{ messages.tags }}">{{ messages }}</div>
+{% endfor %}
 <h1>
   Postings List
-  <span><a href="{% url 'jobhunter:add' %}">Add new posting</a></span>
 </h1>
 <table class="table table-striped">
   <tbody>

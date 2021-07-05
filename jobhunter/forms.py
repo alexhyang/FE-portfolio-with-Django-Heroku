@@ -20,14 +20,18 @@ TYPE_CHOICES = (
     ("Contract", "Contract"),
     ("Remote", "Remote"),
     ("Internship", "Internship"),
+    ("Co-op", "Co-op"),
     ("Other", "Other")
 )
 
 PLACE_CHOICES = (
     ("Vancouver, BC", "Vancouver, BC"),
     ("Burnaby, BC", "Burnaby, BC"),
+    ("Richmond, BC", "Richmond, BC"),
     ("Surrey, BC", "Surrey, BC"),
-    ("Victoria, BC", "Victoria, BC")
+    ("Victoria, BC", "Victoria, BC"),
+    ("Kamloops, BC", "Kamloops, BC"),
+    ("Brentwood Bay, BC", "Brentwood Bay, BC")
 )
 
 class PostingForm(forms.ModelForm):

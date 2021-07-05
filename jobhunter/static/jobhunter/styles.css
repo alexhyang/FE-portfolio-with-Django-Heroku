@@ -19,7 +19,7 @@ ul.cloud {
 ul.cloud li {
   color: #a33;
   display: block;
-  font-size: calc(var(--size) * 1rem);
+  font-size: calc(var(--size) * 0.8rem);
   padding: 0.125rem 0.25rem;
   text-decoration: none;
   position: relative;

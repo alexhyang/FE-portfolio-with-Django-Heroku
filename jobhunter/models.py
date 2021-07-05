@@ -15,4 +15,4 @@ class Posting(models.Model):
     other = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.id}: {self.position}, {self.company}, {self.place}, {self.posting_due_date}"
+        return f"{self.id}: {self.position}, {self.company}, {self.place}, {self.posting_due_date}, {self.skills}"
