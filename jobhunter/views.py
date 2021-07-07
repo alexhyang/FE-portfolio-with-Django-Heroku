@@ -19,16 +19,16 @@ def add(request):
     if request.method == "POST":
         form = PostingForm(request.POST)
         if form.is_valid():
-            posting_url = form.cleaned_data["posting_url"]
+            url = form.cleaned_data["url"]
             company = form.cleaned_data["company"]
-            if posting_exists(posting_url, company):
+            if posting_exists(url, company):
                 messages.error(request, "This posting already exists!")
                 return render(request, "jobhunter/add.html", {"form": form})
             else:
                 position = form.cleaned_data["position"]
-                position_level = form.cleaned_data["position_level"]
-                position_type = form.cleaned_data["position_type"]
-                posting_due_date = form.cleaned_data["posting_due_date"]
+                level = form.cleaned_data["level"]
+                type = form.cleaned_data["type"]
+                due_date = form.cleaned_data["due_date"]
                 responsibilities = form.cleaned_data["responsibilities"]
                 qualifications = form.cleaned_data["qualifications"]
                 skills = form.cleaned_data["skills"]
@@ -37,10 +37,10 @@ def add(request):
 
                 posting = Posting.objects.create(
                     position=position,
-                    position_level=position_level,
-                    position_type=position_type,
-                    posting_url=posting_url,
-                    posting_due_date=posting_due_date,
+                    level=level,
+                    type=type,
+                    url=url,
+                    due_date=due_date,
                     responsibilities=responsibilities,
                     qualifications=qualifications,
                     skills=skills,
@@ -60,7 +60,7 @@ def add(request):
 def posting_exists(url, company):
     postings = Posting.objects.filter(company=company)
     for posting in postings:
-        if get_jk(url) == get_jk(posting.posting_url):
+        if get_jk(url) == get_jk(posting.url):
             return True
     return False
 

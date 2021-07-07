@@ -41,19 +41,19 @@ class PostingForm(forms.ModelForm):
             "position",
             "company",
             "place",
-            "position_level",
-            "position_type",
-            "posting_url",
-            "posting_due_date",
+            "level",
+            "type",
+            "url",
+            "due_date",
             "responsibilities",
             "qualifications",
             "skills",
             "other",
         ]
         widgets = {
-            "position_level": forms.Select(choices=LEVEL_CHOICES),
-            "position_type": forms.SelectMultiple(choices=TYPE_CHOICES),
+            "level": forms.Select(choices=LEVEL_CHOICES),
+            "type": forms.SelectMultiple(choices=TYPE_CHOICES),
             #"place": forms.Select(choices=PLACE_CHOICES),
-            "posting_due_date": forms.TextInput(attrs={'type': 'date'}),
-            "posting_url": forms.TextInput(attrs={'type': 'url'})
+            "due_date": forms.TextInput(attrs={'type': 'date'}),
+            "url": forms.TextInput(attrs={'type': 'url'})
         }

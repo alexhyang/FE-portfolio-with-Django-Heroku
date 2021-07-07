@@ -14,21 +14,21 @@
         </tr>
         <tr>
           <th scope="row">Position Level</th>
-          <td>{{ posting.position_level }}</td>
+          <td>{{ posting.level }}</td>
         </tr>
-        {% if position.position_type %}
+        {% if position.type %}
         <tr>
           <th scope="row">Position Type</th>
-          <td>{{ posting.position_type }}</td>
+          <td>{{ posting.type }}</td>
         </tr>
         {% endif %}
         <tr>
           <th scope="row">Posting page</th>
-          <td><a href="{{ posting.posting_url }}" target="_blank">link</a></td>
+          <td><a href="{{ posting.url }}" target="_blank">link</a></td>
         </tr>
         <tr>
           <th scope="row">Application due date</th>
-          <td>{{ posting.posting_due_date }}</td>
+          <td>{{ posting.due_date }}</td>
         </tr>
         {% if posting.other %}
         <tr>
