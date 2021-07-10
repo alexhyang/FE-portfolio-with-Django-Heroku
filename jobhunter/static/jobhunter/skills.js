@@ -17,7 +17,7 @@ function addToPage(results) {
     const count = results[key];
     const elem = document.createElement("li");
     elem.setAttribute("data-weight", count);
-    elem.style.setProperty("--size", count);
+    elem.style.setProperty("--size", Math.log(count)*2+1);
     elem.innerHTML = key;
     ul.append(elem);
   }
