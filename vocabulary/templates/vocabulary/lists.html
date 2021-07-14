@@ -11,7 +11,7 @@
       <thead>
         <th scope="col">List name</th>
         <th scope="col">Description</th>
-        <th scope="col">Create Date</th>
+        <th scope="col">Word Count</th>
         <th scope="col">Delete list</th>
       </thead>
       <tbody>
@@ -21,7 +21,7 @@
             <a href="{% url 'vocabulary:wordlist' wordlist.id %}">{{wordlist.name}}</a>
           </th>
           <td class="align-middle">{{wordlist.description}}</td>
-          <td class="align-middle">{{wordlist.timestamp}}</td>
+          <td class="align-middle">{{wordlist.count}}</td>
           <td>
             {% if wordlist.name != "default" %}
             <form

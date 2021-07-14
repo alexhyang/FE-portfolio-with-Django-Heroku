@@ -134,6 +134,10 @@ def save_to_list(request):
             else:
                 counter_skipped += 1
 
+        # update wordlist count
+        wordlist.count = wordlist.words.all().count()
+        wordlist.save()
+
         # show result in a message
         if counter_saved == 0:
             messages.warning(
