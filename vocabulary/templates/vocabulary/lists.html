@@ -17,14 +17,17 @@
       <tbody>
         {% for wordlist in wordlists %}
         <tr>
-          <th scope="row">{{wordlist.name}}</th>
-          <td>{{wordlist.description}}</td>
-          <td>{{wordlist.timestamp}}</td>
+          <th scope="row" class="align-middle">
+            <a href="{% url 'vocabulary:wordlist' wordlist.id %}">{{wordlist.name}}</a>
+          </th>
+          <td class="align-middle">{{wordlist.description}}</td>
+          <td class="align-middle">{{wordlist.timestamp}}</td>
           <td>
             {% if wordlist.name != "default" %}
             <form
-              action="{% url 'vocabulary:remove_list' wordlist.name%}"
+              action="{% url 'vocabulary:remove_list' wordlist.name %}"
               method="POST"
+              class="align-middle"
               onsubmit="return confirm('Do you really want to delete the list?');"
             >
               {% csrf_token %}
@@ -41,7 +44,7 @@
     {% endif %}
   </div>
   <div class="row">
-    <p><a href="{% url 'vocabulary:add_list' %}">Create new list</a></p>
+    <p class="m-2"><a href="{% url 'vocabulary:add_list' %}">Create new list</a></p>
   </div>
 </div>
 {% endblock %}
