@@ -247,11 +247,11 @@ def fetch_meanings(request, word, dict=Oxford):
     if words_dict.count() != 0:
         return JsonResponse([word.serialize() for word in words_dict], safe=False)
     else:
-        return add_word_to_dict(word, dict)
+        return call_external_api(word, dict)
 
 
 # helper function
-def add_word_to_dict(word, dict=Oxford):
+def call_external_api(word, dict=Oxford):
     # save word from Oxford dictionary API
     if dict == Oxford:
         word = CallExternalOxford(word)
@@ -270,11 +270,7 @@ def add_word_to_dict(word, dict=Oxford):
             if word_json != {}:
                 new_word = Oxford.objects.create(
                     word=word_json["word"],
-                    lexical_category=word_json["lexical_category"],
-                    audio_link=word_json["audio_link"],
-                    ipa=word_json["ipa"],
-                    inflections=word_json["inflections"],
-                    senses=word_json["senses"],
+                    entries=word_json["entries"],
                     derivatives=word_json["derivatives"],
                 )
                 new_word.save()

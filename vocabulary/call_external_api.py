@@ -60,50 +60,65 @@ class CallExternalOxford:
             return self.__clean_entries(result)
 
     def __clean_entries(self, r_json):
-        # extract information from r_json and save dict instance
         word_json = {}
         try:
             results = r_json["results"][0]
         except KeyError:
             return word_json
+        return self.__extract_lexical_entries(results, word_json)
+
+    def __extract_lexical_entries(self, results, word_json):
+        # initialize word_json
         word_json["word"] = results["word"]
-        first_lexical_entry = results["lexicalEntries"][0]
-        self.__extract_lexical_entries(
-            first_lexical_entry, word_json
-        )  # add other entries later
-        return word_json
+        word_json["derivatives"] = []
+        word_json["entries"] = []
 
-    def __extract_lexical_entries(self, lexical_entry, word_json):
-        word_json["lexical_category"] = lexical_entry["lexicalCategory"]["id"]
-        entry = lexical_entry["entries"][0]
-
-        # pronunciations
-        try:
-            pronunciations = entry["pronunciations"][0]
-            word_json["audio_link"] = pronunciations["audioFile"]
-            word_json["ipa"] = pronunciations["phoneticSpelling"]
-        except KeyError:
-            pronunciations = ""
-            word_json["audio_link"] = ""
-            word_json["ipa"] = ""
-
-        # inflection and senses
-        senses = entry["senses"][0]
-        try:
-            inflections = [
-                inflection["inflectedForm"] for inflection in entry["inflections"]
-            ]
-            word_json["inflections"] = ", ".join(inflections)
-        except KeyError:
-            word_json["inflections"] = ""
-        try:
-            word_json["senses"] = senses["shortDefinitions"][0]
-        except KeyError:
+        # pass results data to word_json
+        lexical_entries = results["lexicalEntries"]  # a list of entries
+        for lexical_entry in lexical_entries:
+            # save derivatives
             try:
-                word_json["senses"] = senses["definitions"][0]
+                derivatives = lexical_entry["derivatives"]
+                for derivative in derivatives:
+                    if derivative["text"] not in word_json["derivatives"]:
+                        word_json["derivatives"].append(derivative["text"])
             except KeyError:
-                word_json["senses"] = ""
-        try:
-            word_json["derivatives"] = lexical_entry["derivatives"][0]["text"]
-        except KeyError:
-            word_json["derivatives"] = ""
+                pass
+            
+            # save entries - lexical category
+            category_senses = {}
+            category_senses["lexicalCategory"] = lexical_entry["lexicalCategory"]["text"]
+            
+            # save entries - pronunciation
+            try:
+                pronunciations = lexical_entry["entries"][0]["pronunciations"][0]
+                category_senses["pronunciation"] = [{
+                    "audioFile": pronunciations["audioFile"],
+                    "phoneticSpelling": pronunciations["phoneticSpelling"],
+                }]
+            except KeyError:
+                pass
+            
+            # save entries - definitions and short definitions
+            senses = lexical_entry["entries"][0]["senses"] # a list of senses            
+            category_senses["definitions"] = []
+            category_senses["shortDefinitions"] = []
+            for sense in senses:
+                try:
+                    category_senses["definitions"].append(sense["definitions"][0])
+                    category_senses["shortDefinitions"].append(sense["shortDefinitions"][0])
+                except KeyError:
+                    pass
+            
+            # save entries - inflections                
+            try:
+                inflections = lexical_entry["entries"][0]["inflections"] # a list of inflections
+                for inflection in inflections:
+                    if inflection["inflectedForm"] not in category_senses["inflections"]:
+                        category_senses["inflections"].append(inflection["inflectedForm"])
+            except KeyError:
+                pass
+            
+            # append entry to entries
+            word_json["entries"].append(category_senses)
+        return word_json

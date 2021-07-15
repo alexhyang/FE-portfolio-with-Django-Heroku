@@ -17,25 +17,18 @@ class Settings(models.Model):
 # word database
 class Dict(models.Model):
     word = models.CharField(max_length=32)
-    lexical_category = models.CharField(max_length=16)
-    audio_link = models.TextField(blank=False, max_length=256, default="")
-    ipa = models.CharField(max_length=32, default="")
-    inflections = models.CharField(max_length=128, default="")
-    senses = models.TextField(blank=False, default="No such word")
+    entries = models.TextField(blank=False, default="No such word")
     derivatives = models.TextField(blank=True, default="No derivatives")
 
     def __str__(self):
-        return f"{self.word}, {self.lexical_category}"
+        return f"{self.word}, derivatives: {self.derivatives}"
     
     def serialize(self):
+        derivatives = ', '.join([derivative for derivative in eval(self.derivatives)])
         return {
             "word": self.word,
-            "lexical_category": self.lexical_category,
-            "audio_link": self.audio_link,
-            "ipa": self.ipa,
-            "inflections": self.inflections,
-            "senses": self.senses,
-            "derivatives": self.derivatives
+            "entries": eval(self.entries),
+            "derivatives": derivatives
         }
 
 
