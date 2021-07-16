@@ -56,5 +56,5 @@ class PostingForm(forms.ModelForm):
             "type": forms.SelectMultiple(choices=TYPE_CHOICES),
             # "place": forms.Select(choices=PLACE_CHOICES),
             "due_date": forms.TextInput(attrs={"type": "date"}),
-            "url": forms.TextInput(attrs={"type": "url"}),
+            "url": forms.TextInput(attrs={"type": "url", "autofocus": "autofocus"}),
         }

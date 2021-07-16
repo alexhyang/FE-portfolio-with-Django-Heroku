@@ -7,8 +7,8 @@ $(function () {
           .replaceAll(/[-·][\s]+/g, "")
           .replaceAll(/[\n]+/g, " <br>\n- ");
     });
+    $("#save").prop("disabled", false);
   });
-
   autoFillDate();
 });
 
