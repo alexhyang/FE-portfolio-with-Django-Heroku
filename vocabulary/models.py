@@ -9,6 +9,7 @@ class User(AbstractUser):
 class Settings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="settings")
     list_card_uppercase = models.BooleanField(default=False)
+    short_definition = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.username}: settings"
@@ -22,13 +23,13 @@ class Dict(models.Model):
 
     def __str__(self):
         return f"{self.word}, derivatives: {self.derivatives}"
-    
+
     def serialize(self):
-        derivatives = ', '.join([derivative for derivative in eval(self.derivatives)])
+        derivatives = ", ".join([derivative for derivative in eval(self.derivatives)])
         return {
             "word": self.word,
             "entries": eval(self.entries),
-            "derivatives": derivatives
+            "derivatives": derivatives,
         }
 
 
@@ -57,11 +58,13 @@ class WordList(models.Model):
 
 class Word(models.Model):
     word = models.CharField(max_length=32)
-    wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, related_name="words")
+    wordlist = models.ForeignKey(
+        WordList, on_delete=models.CASCADE, related_name="words"
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="words")
 
     def __str__(self):
         return f"{self.word} was saved in {self.wordlist}"
-    
+
     def serialize(self):
         return {"word": self.word}
