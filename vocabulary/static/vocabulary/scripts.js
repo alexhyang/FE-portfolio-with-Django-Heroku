@@ -1,45 +1,45 @@
-function load_page(api_url, page_num = 1, word_group_div_id = "#word-group") {
-  fetch(`${api_url}${page_num}`)
+function loadPage(apiUrl, pageNum = 1, wordGroupDivId = "#word-group") {
+  fetch(`${apiUrl}${pageNum}`)
     .then((response) => response.json())
     .then((words) => {
-      console.log(words);
-      load_words(words, word_group_div_id);
-      load_page_nav(api_url, page_num);
+      // console.log(words);
+      loadWords(words, wordGroupDivId);
+      loadPageNav(apiUrl, pageNum);
     })
     .catch((error) => {
       console.log("Error: ", error);
     });
 }
 
-function load_words(words, word_group_div_id) {
+function loadWords(words, wordGroupDivId) {
   // clear group content
-  const word_group = document.querySelector(word_group_div_id);
-  word_group.innerHTML = "";
+  const wordGroup = document.querySelector(wordGroupDivId);
+  wordGroup.innerHTML = "";
 
   // create word elements
-  for (var i in words) {
+  for (let i in words) {
     const word = words[i].word;
     fetch(`/app/dict/${word}`)
       .then((response) => response.json())
-      .then((entry) => {
-        console.log(entry);
-        addEntryToPage(entry, word_group);
+      .then((word) => {
+        console.log(word);
+        addWordToPage(word, wordGroup);
       })
       .catch((error) => console.log("Error: ", error));
   }
 }
 
 // display page navigation on page
-function load_page_nav(api_url, currentPageNum) {
-  var previousPageNum = currentPageNum - 1;
-  var nextPageNum = currentPageNum + 1;
-  var maxPageNum = Number(document.querySelector("#max-page").dataset.page);
+function loadPageNav(apiUrl, currentPageNum) {
+  let previousPageNum = currentPageNum - 1;
+  let nextPageNum = currentPageNum + 1;
+  let maxPageNum = Number(document.querySelector("#max-page").dataset.page);
   // create page buttons
-  var previousPage = `<li class="page-item">
+  let previousPage = `<li class="page-item">
     <button id="page-previous" class="page-link" data-page="${previousPageNum}">Previous</button></li>`;
-  var currentPage = `<li class="page-item">
+  let currentPage = `<li class="page-item">
     <button id="page-previous" class="page-link" data-page="${currentPageNum}">${currentPageNum}</button></li>`;
-  var nextPage = `<li class="page-item">
+  let nextPage = `<li class="page-item">
     <button id="page-previous" class="page-link" data-page="${nextPageNum}">Next</button></li>`;
 
   // add buttons to page navigation
@@ -59,114 +59,197 @@ function load_page_nav(api_url, currentPageNum) {
   }
 
   // add event listener to page nav buttons
-  const pages_links = document.querySelectorAll(".page-link");
-  pages_links.forEach((element) => {
+  const pagesLinks = document.querySelectorAll(".page-link");
+  pagesLinks.forEach((element) => {
     element.addEventListener("click", () => {
       // update posts
-      var newCurrentPageNum = Number(element.dataset.page);
-      load_page(api_url, (page = newCurrentPageNum));
+      let newCurrentPageNum = Number(element.dataset.page);
+      loadPage(apiUrl, (page = newCurrentPageNum));
     });
   });
 }
 
 // add entries
-function addEntryToPage(entry, word_group) {
-  entry = entry[0];
-  if (Object.keys(entry).length == 2) {
+function addWordToPage(word, wordGroup) {
+  word = word[0];
+  // word retrieve failed
+  if (Object.keys(word).length == 2) {
     // create html elements and add to page
     const card = document.createElement("div");
-    addStyles(card, word_group);
+    addStyles(card, wordGroup);
 
     // add card content
     card.innerHTML = `
     <div class="card-body word mb-3">
-    <div class="word__meta"><div class="card-title word__word">${entry.word}</div></div>
+    <div class="word__meta"><div class="card-title word__word">${word.word}</div></div>
     <div class="word__details card-text">
       <div class="word__meaning">
-        <div class="word__error">${entry.error_message}</div>
+        <div class="word__error">${word.error_message}</div>
       </div>
     </div>
     </div>`;
   }
-  if (Object.keys(entry).length == 7) {
+  // word retrieve succeeded
+  if (Object.keys(word).length == 3) {
     // create html elements and add to page
     const card = document.createElement("div");
-    addStyles(card, word_group);
+    addStyles(card, wordGroup);
 
-    // prepare card elements
-    var inflections = "";
-    var derivatives = "";
-    var audio = "";
-    var ipa = "";
-    if (entry.inflections) {
-      inflections = `<div class="word__inflections">inflections: <strong><em>${entry.inflections}</em></strong></div>`;
+    // single or multiple audio?
+    console.log(word.entries);
+    if (singlePronunciation(word)) {
+      console.log("single pronunciation");
+      createWordCard(word, card, (audioType = "single"));
+    } else {
+      console.log("multiple pronunciation");
+      createWordCard(word, card, (audioType = "multiple"));
     }
-    if (entry.derivatives) {
-      derivatives = `<div class="word__derivatives">derivatives: <strong><em>${entry.derivatives}</em></strong>`;
-    }
-    if (entry.audio_link) {
-      audio = `<div class="word__pronunciation">
-      <i class="fas fa-play-circle play-audio"></i>
-      <audio controls src=${entry.audio_link}>Your browser does not support the audio element.</audio>
-      </div>`;
-    }
-    if (entry.ipa) {
-      ipa = `<div class="word__ipa">UK /${entry.ipa}/</div>`;
-    }
-    if (entry.lexical_category) {
-      entry.lexical_category = shorten_category(entry.lexical_category);
-    }
-
-    // add card content
-    card.innerHTML = `
-    <div class="card-body word mb-3">
-    <div class="word__meta"><div class="card-title word__word">${entry.word}</div>${audio}${ipa}</div>
-    <div class="word__details card-text">
-      <div class="word__meaning">
-        <div class="word__category">${entry.lexical_category}</div> 
-        <div class="word__senses">${entry.senses}</div>
-      </div>
-      <div class="word__variants">${inflections}${derivatives}</div>
-    </div>
-    </div>`;
 
     // add event listener
-    $(".play-audio").on("click", (event) => {
-      var audio = event.target.parentElement.querySelector("audio");
-      audio.play();
-    });
+    // $(".play-audio").on("click", (event) => {
+    //   let audio = event.target.parentElement.querySelector("audio");
+    //   audio.play();
+    // });
   }
 }
 
-function addStyles(card, word_group) {
+function addStyles(card, wordGroup) {
   const wrapper = document.createElement("div");
   wrapper.classList.add("col-md");
   card.classList.add("content__card", "card", "h-100");
-  word_group.append(wrapper);
+  wordGroup.append(wrapper);
   wrapper.append(card);
 }
 
-function shorten_category(category) {
+function singlePronunciation(word) {
+  const audio = word.entries[0].pronunciation[0].audioFile;
+  for (let i in word.entries) {
+    newAudio = word.entries[i].pronunciation[0].audioFile;
+    if (newAudio != audio) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function createWordCard(word, card, audioType) {
+  let pronunciationHtml = "";
+
+  // word pronunciation
+  if (audioType == "single") {
+    let pronunciation = word.entries[0].pronunciation[0];
+    pronunciationHtml = preparePronunciationHtml(pronunciation);
+  }
+
+  // word entries
+  let entriesHtml = prepareEntriesHtml(word, audioType);
+
+  // word derivatives
+  let derivativesHtml = prepareDerivativesHtml(word);
+
+  card.innerHTML = `
+  <div class="card-body word mb-3">
+    <div class="word__meta">
+      <div class="word__word card-title">${word.word}</div>
+      ${pronunciationHtml}
+    </div>
+    ${entriesHtml}
+    ${derivativesHtml}
+  </div>`;
+}
+
+function preparePronunciationHtml(pronunciation) {
+  /* obj -> str, return HTML for .word__pronunciation */
+  let pronunciationHtml = "";
+  let audioFile = pronunciation.audioFile;
+  let phoneticSpelling = pronunciation.phoneticSpelling;
+  if (phoneticSpelling != "") {
+    pronunciationHtml = `<div class="word__pronunciation">
+        <i class="fas fa-play-circle play-audio"></i>
+        <audio controls src="${audioFile}">Your browser does not support the audio element.</audio>
+        <div class="word__ipa">UK /${phoneticSpelling}/</div>
+      </div>`;
+  }
+  return pronunciationHtml;
+}
+
+function prepareEntriesHtml(word, audioType) {
+  let entriesHtml = "";
+  for (let i in word.entries) {
+    entriesHtml += prepareOneEntryHtml(word.entries[i], audioType);
+  }
+  return entriesHtml;
+}
+
+function prepareOneEntryHtml(entry, audioType) {
+  let entryHtml = "";
+
+  // lexical category
+  let category = shortenCategory(entry.lexicalCategory);
+  let lexicalCategoryHtml = `<div class="entry__lexical-category">${category}</div>`;
+
+  // pronunciation
+  let pronunciationHtml = "";
+  if (audioType == "multiple") {
+    pronunciationHtml = preparePronunciationHtml(entry.pronunciation[0]);
+  }
+
+  // definitions
+  let definitionsHtml = "";
+  let definitions = "";
+  for (var i in entry.shortDefinitions) {
+    let index = parseInt(i) + 1;
+    definitions += `<span class="entry__sense">
+    <strong>${index}.</strong> 
+    <span>${entry.definitions[i]}</span>
+    <span>`;
+  }
+  definitionsHtml = `<div class="entry__definitions">${definitions}</div>`;
+
+  // inflections
+  let inflectionsHtml = "";
+  if (entry.inflections.length != 0) {
+    inflectionsHtml = `<div class="entry__inflections">inflections: ${entry.inflections}</div>`;
+  }
+
+  entryHtml = `<div class="entry">
+    <div class="entry__meta">${lexicalCategoryHtml}${pronunciationHtml}</div>
+    ${definitionsHtml}
+    ${inflectionsHtml}
+  </div>`;
+
+  return entryHtml;
+}
+
+function prepareDerivativesHtml(word) {
+  let derivativesHtml = "";
+  if (word.derivatives != "") {
+    derivativesHtml = `<div class="word__derivatives">derivatives: <em>${word.derivatives}<em></div>`;
+  }
+  return derivativesHtml;
+}
+
+function shortenCategory(category) {
   switch (category) {
-    case "noun":
+    case "Noun":
       return "n.";
-    case "verb":
+    case "Verb":
       return "v.";
-    case "adjective":
+    case "Adjective":
       return "adj.";
-    case "adverb":
+    case "Adverb":
       return "adv.";
-    case "auxiliary":
+    case "Auxiliary":
       return "aux.";
-    case "pronoun":
+    case "Pronoun":
       return "pron.";
-    case "determiner":
+    case "Determiner":
       return "det.";
-    case "conjunction":
+    case "Conjunction":
       return "conj.";
-    case "preposition":
+    case "Preposition":
       return "prep.";
-    case "residual":
+    case "Residual":
       return "";
   }
 }

@@ -84,41 +84,58 @@ class CallExternalOxford:
                         word_json["derivatives"].append(derivative["text"])
             except KeyError:
                 pass
-            
+
             # save entries - lexical category
             category_senses = {}
-            category_senses["lexicalCategory"] = lexical_entry["lexicalCategory"]["text"]
-            
+            category_senses["lexicalCategory"] = lexical_entry["lexicalCategory"][
+                "text"
+            ]
+
             # save entries - pronunciation
+            category_senses["pronunciation"] = [
+                {"audioFile": "", "phoneticSpelling": ""}
+            ]
             try:
                 pronunciations = lexical_entry["entries"][0]["pronunciations"][0]
-                category_senses["pronunciation"] = [{
-                    "audioFile": pronunciations["audioFile"],
-                    "phoneticSpelling": pronunciations["phoneticSpelling"],
-                }]
+                category_senses["pronunciation"] = [
+                    {
+                        "audioFile": pronunciations["audioFile"],
+                        "phoneticSpelling": pronunciations["phoneticSpelling"],
+                    }
+                ]
             except KeyError:
                 pass
-            
+
             # save entries - definitions and short definitions
-            senses = lexical_entry["entries"][0]["senses"] # a list of senses            
+            senses = lexical_entry["entries"][0]["senses"]  # a list of senses
             category_senses["definitions"] = []
             category_senses["shortDefinitions"] = []
             for sense in senses:
                 try:
                     category_senses["definitions"].append(sense["definitions"][0])
-                    category_senses["shortDefinitions"].append(sense["shortDefinitions"][0])
+                    category_senses["shortDefinitions"].append(
+                        sense["shortDefinitions"][0]
+                    )
                 except KeyError:
                     pass
-            
-            # save entries - inflections                
+
+            # save entries - inflections
+            category_senses["inflections"] = []
             try:
-                inflections = lexical_entry["entries"][0]["inflections"] # a list of inflections
+                inflections = lexical_entry["entries"][0][
+                    "inflections"
+                ]  # a list of inflections
                 for inflection in inflections:
-                    if inflection["inflectedForm"] not in category_senses["inflections"]:
-                        category_senses["inflections"].append(inflection["inflectedForm"])
+                    if (
+                        inflection["inflectedForm"]
+                        not in category_senses["inflections"]
+                    ):
+                        category_senses["inflections"].append(
+                            inflection["inflectedForm"]
+                        )
             except KeyError:
                 pass
-            
+
             # append entry to entries
             word_json["entries"].append(category_senses)
         return word_json
