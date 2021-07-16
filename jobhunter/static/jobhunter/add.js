@@ -3,10 +3,29 @@ $(function () {
     document.querySelectorAll("textarea").forEach((textarea) => {
       textarea.value =
         "- " +
-        textarea.value.replaceAll(/[-·][\s]+/g, "").replaceAll(/[\n]+/g, " <br>\n- ");
+        textarea.value
+          .replaceAll(/[-·][\s]+/g, "")
+          .replaceAll(/[\n]+/g, " <br>\n- ");
     });
   });
+
+  autoFillDate();
 });
+
+function autoFillDate() {
+  let today = new Date();
+  let dueMonth = correctMonthDateFormat(today.getMonth() + 2);
+  let dueDate = correctMonthDateFormat(today.getDate());
+  document.querySelector("#id_due_date").value =
+    today.getFullYear() + "-" + dueMonth + "-" + dueDate;
+}
+
+function correctMonthDateFormat(dateOrMonth) {
+  if (dateOrMonth < 10) {
+    dateOrMonth = "0" + dateOrMonth;
+  }
+  return dateOrMonth;
+}
 
 // add autocomplete service
 let autocomplete;

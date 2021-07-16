@@ -10,7 +10,7 @@ LEVEL_CHOICES = (
     ("Intermediate", "Intermediate (3~5 years)"),
     ("Senior", "Senior (more than 5 years)"),
     ("Intern", "Intern"),
-    ("Other", "Other")
+    ("Other", "Other"),
 )
 
 TYPE_CHOICES = (
@@ -21,7 +21,7 @@ TYPE_CHOICES = (
     ("Remote", "Remote"),
     ("Internship", "Internship"),
     ("Co-op", "Co-op"),
-    ("Other", "Other")
+    ("Other", "Other"),
 )
 
 PLACE_CHOICES = (
@@ -31,19 +31,20 @@ PLACE_CHOICES = (
     ("Surrey, BC", "Surrey, BC"),
     ("Victoria, BC", "Victoria, BC"),
     ("Kamloops, BC", "Kamloops, BC"),
-    ("Brentwood Bay, BC", "Brentwood Bay, BC")
+    ("Brentwood Bay, BC", "Brentwood Bay, BC"),
 )
+
 
 class PostingForm(forms.ModelForm):
     class Meta:
         model = Posting
         fields = [
+            "url",
             "position",
             "company",
             "place",
-            "level",
             "type",
-            "url",
+            "level",
             "due_date",
             "responsibilities",
             "qualifications",
@@ -53,7 +54,7 @@ class PostingForm(forms.ModelForm):
         widgets = {
             "level": forms.Select(choices=LEVEL_CHOICES),
             "type": forms.SelectMultiple(choices=TYPE_CHOICES),
-            #"place": forms.Select(choices=PLACE_CHOICES),
-            "due_date": forms.TextInput(attrs={'type': 'date'}),
-            "url": forms.TextInput(attrs={'type': 'url'})
+            # "place": forms.Select(choices=PLACE_CHOICES),
+            "due_date": forms.TextInput(attrs={"type": "date"}),
+            "url": forms.TextInput(attrs={"type": "url"}),
         }
