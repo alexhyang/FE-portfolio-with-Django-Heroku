@@ -84,42 +84,34 @@
 
 /* || .word */
 .word {
-
 }
 
 /* || .word components */
 .word__meta {
   display: flex;
-}
-
-.word__pronunciation {
-  margin-left: 5%;
-}
-
-.word__pronunciation audio {
-  display: none;
-}
-
-.word__pronunciation i {
-  margin-right: 3px;
-}
-
-.word__meaning {
-  padding: 0 5% 5% 0;
+  align-items: center;
 }
 
 .word__error {
   color: #f00;
 }
 
-.word__category {
-  font-weight: bold;
+.word__entry {
+  margin: 8px auto;
 }
 
-.word__divider {
-  border: 0;
-  height: 1px;
-  background: #333;
+.word__derivatives {
+  margin-top: 6px;
+}
+
+/* || .entry */
+.entry {
+}
+
+/* || .entry components */
+.entry__meta {
+  display: flex;
+  align-items: center;
 }
 
 /* || .table */
@@ -129,9 +121,28 @@
 }
 
 /* || others */
+.pronunciation {
+  display: flex;
+  align-items: center;
+  margin-left: 5%;
+}
+
+.pronunciation audio {
+  display: none;
+}
+
+.pronunciation i {
+  margin-right: 3px;
+}
+
+/* span.entry__sense::after {
+  content: "  ";
+} */
+
 .card-title {
   font-weight: bolder;
   color: #255175;
+  margin-bottom: 0;
 }
 
 .card-title_uppercase {

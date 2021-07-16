@@ -106,10 +106,10 @@ function addWordToPage(word, wordGroup) {
     }
 
     // add event listener
-    // $(".play-audio").on("click", (event) => {
-    //   let audio = event.target.parentElement.querySelector("audio");
-    //   audio.play();
-    // });
+    $(".play-audio").on("click", (event) => {
+      let audio = event.target.parentElement.querySelector("audio");
+      audio.play();
+    });
   }
 }
 
@@ -159,15 +159,15 @@ function createWordCard(word, card, audioType) {
 }
 
 function preparePronunciationHtml(pronunciation) {
-  /* obj -> str, return HTML for .word__pronunciation */
+  /* obj -> str, return HTML for .pronunciation */
   let pronunciationHtml = "";
   let audioFile = pronunciation.audioFile;
   let phoneticSpelling = pronunciation.phoneticSpelling;
   if (phoneticSpelling != "") {
-    pronunciationHtml = `<div class="word__pronunciation">
+    pronunciationHtml = `<div class="pronunciation">
         <i class="fas fa-play-circle play-audio"></i>
         <audio controls src="${audioFile}">Your browser does not support the audio element.</audio>
-        <div class="word__ipa">UK /${phoneticSpelling}/</div>
+        <div class="ipa">UK /${phoneticSpelling}/</div>
       </div>`;
   }
   return pronunciationHtml;
@@ -197,22 +197,28 @@ function prepareOneEntryHtml(entry, audioType) {
   // definitions
   let definitionsHtml = "";
   let definitions = "";
-  for (var i in entry.shortDefinitions) {
-    let index = parseInt(i) + 1;
-    definitions += `<span class="entry__sense">
-    <strong>${index}.</strong> 
-    <span>${entry.definitions[i]}</span>
+  if (entry.shortDefinitions.length == 1) {
+    definitions = `<span class="entry__sense">
+    ${entry.definitions[0]}
     <span>`;
+  } else {
+    for (var i in entry.shortDefinitions) {
+      let index = parseInt(i) + 1;
+      definitions += `<span class="entry__sense">
+      <strong>${index}.</strong> 
+      <span>${entry.definitions[i]}</span>
+      <span>`;
+    }
   }
   definitionsHtml = `<div class="entry__definitions">${definitions}</div>`;
 
   // inflections
   let inflectionsHtml = "";
   if (entry.inflections.length != 0) {
-    inflectionsHtml = `<div class="entry__inflections">inflections: ${entry.inflections}</div>`;
+    inflectionsHtml = `<div class="entry__inflections">(inflections: ${entry.inflections})</div>`;
   }
 
-  entryHtml = `<div class="entry">
+  entryHtml = `<div class="word__entry entry">
     <div class="entry__meta">${lexicalCategoryHtml}${pronunciationHtml}</div>
     ${definitionsHtml}
     ${inflectionsHtml}
@@ -249,6 +255,8 @@ function shortenCategory(category) {
       return "conj.";
     case "Preposition":
       return "prep.";
+    case "Interjection":
+      return "int.";
     case "Residual":
       return "";
   }
