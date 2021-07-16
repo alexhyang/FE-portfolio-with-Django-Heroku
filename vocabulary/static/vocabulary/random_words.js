@@ -1,16 +1,16 @@
 $(function () {
-  load_random_page();
+  loadRandomPage();
   $("#reload").on("click", () => {
-    load_random_page();
+    loadRandomPage();
   });
 });
 
-function load_random_page() {
+function loadRandomPage() {
   fetch("/app/random/new")
     .then((response) => response.json())
     .then((words) => {
       console.log(words);
-      load_words(words, "#word-group");
+      loadWords(words, "#word-group");
     })
     .catch((error) => console.log("Error: ", error));
 }

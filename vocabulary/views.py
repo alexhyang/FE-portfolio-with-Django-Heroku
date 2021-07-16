@@ -16,7 +16,7 @@ import json
 import random
 
 # page config
-WORD_EACH_PAGE = 8
+WORD_EACH_PAGE = 3
 
 
 # index page and login, logout, registration pages
