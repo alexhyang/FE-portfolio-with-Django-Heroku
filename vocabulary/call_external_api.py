@@ -18,7 +18,7 @@ class CallExternalOxford:
         # url = https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/pretty?fields=definitions%2Cpronunciations&strictMatch=false
         if endpoint == "entries":
             url = (
-                f"https://od-api.oxforddictionaries.com:443/api/v2/entries/en-gb/"
+                f"https://od-api.oxforddictionaries.com:443/api/v2/entries/en-us/"
                 + self.word.lower()
             )
         elif endpoint == "lemmas":
@@ -96,13 +96,16 @@ class CallExternalOxford:
                 {"audioFile": "", "phoneticSpelling": ""}
             ]
             try:
-                pronunciations = lexical_entry["entries"][0]["pronunciations"][0]
-                category_senses["pronunciation"] = [
-                    {
-                        "audioFile": pronunciations["audioFile"],
-                        "phoneticSpelling": pronunciations["phoneticSpelling"],
-                    }
-                ]
+                pronunciations = lexical_entry["entries"][0]["pronunciations"]
+                for pronunciation in pronunciations:
+                    if pronunciation["phoneticNotation"] == "IPA":
+                        category_senses["pronunciation"] = [
+                            {
+                                "audioFile": pronunciation["audioFile"],
+                                "phoneticSpelling": pronunciation["phoneticSpelling"],
+                            }
+                        ]
+                        break
             except KeyError:
                 pass
 

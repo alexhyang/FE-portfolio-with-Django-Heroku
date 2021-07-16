@@ -167,7 +167,7 @@ function preparePronunciationHtml(pronunciation) {
     pronunciationHtml = `<div class="pronunciation">
         <i class="fas fa-play-circle play-audio"></i>
         <audio controls src="${audioFile}">Your browser does not support the audio element.</audio>
-        <div class="ipa">UK /${phoneticSpelling}/</div>
+        <div class="ipa">US /${phoneticSpelling}/</div>
       </div>`;
   }
   return pronunciationHtml;
