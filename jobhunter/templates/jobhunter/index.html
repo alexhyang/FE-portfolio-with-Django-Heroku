@@ -1,10 +1,8 @@
-{% extends "jobhunter\layout.html" %} {% block body %}
+{% extends "jobhunter\layout.html" %} {% block body %} 
 {% for message in messages %}
-<div class="alert alert-{{ messages.tags }}">{{ messages }}</div>
+<div class="alert {{ message.tags }}">{{ message }}</div>
 {% endfor %}
-<h1>
-  Postings List
-</h1>
+<h1>Postings List</h1>
 <table class="table table-striped">
   <tbody>
     <thead>

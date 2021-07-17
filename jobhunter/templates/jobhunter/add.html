@@ -1,7 +1,8 @@
-{% extends "jobhunter\layout.html" %} {% load static %} {% load crispy_forms_tags %} {% block scripts %}
+{% extends "jobhunter\layout.html" %} {% load static %} 
+{% load crispy_forms_tags %} {% block scripts %}
 <script src="{% static 'jobhunter/add.js' %}"></script>
 {% endblock %} {% block body %} {% for message in messages %}
-<div class="alert alert-{{ messages.tags }}">{{ messages }}</div>
+<div class="alert {{ message.tags }}">{{ message }}</div>
 {% endfor %}
 <h1>Add new posting</h1>
 <form action="{% url 'jobhunter:add' %}" method="POST">
@@ -9,9 +10,10 @@
   <button class="btn btn-primary mt-2" type="button" id="formatter">
     Format Textareas
   </button>
-  <button type="submit" class="btn btn-primary mt-2" id="save" disabled>
+  <button type="submit" class="btn btn-primary mt-2" id="save">
     Save Posting
   </button>
+  <button type="reset" class="btn btn-danger mt-2">Reset</button>
 </form>
 {% endblock %} {% block asyncscript %} {% comment %}
 <script

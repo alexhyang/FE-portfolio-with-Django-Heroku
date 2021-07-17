@@ -1,4 +1,7 @@
 $(function () {
+  if ($(".alert").length == 0) {
+    $("#save").prop("disabled", true);
+  }
   $("#formatter").on("click", () => {
     document.querySelectorAll("textarea").forEach((textarea) => {
       textarea.value =

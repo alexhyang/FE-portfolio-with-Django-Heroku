@@ -268,11 +268,7 @@ def call_external_api(word, dict=Oxford):
             )
         else:
             if word_json != {}:
-                new_word = Oxford.objects.create(
-                    word=word_json["word"],
-                    entries=word_json["entries"],
-                    derivatives=word_json["derivatives"],
-                )
+                new_word = Oxford.objects.create(**word_json)
                 new_word.save()
             return JsonResponse([word_json], safe=False)
 
