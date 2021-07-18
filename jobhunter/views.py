@@ -11,7 +11,7 @@ import collections
 
 # Create your views here.
 def index(request):
-    postings = Posting.objects.all()
+    postings = Posting.objects.all().order_by("-id")
     return render(request, "jobhunter/index.html", {"postings": postings})
 
 
