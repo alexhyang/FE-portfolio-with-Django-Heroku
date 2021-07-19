@@ -1,30 +1,36 @@
 $(function () {
-  $("#count").on("click", () => {
-    const inputText = $("#textarea").val();
-    showResults(inputText);
-    return false; //prevent page reload after button click
-  });
+  listenToInput();
 });
 
 // helper functions
-// show results
+// add event listen to "count" button
+function listenToInput() {
+  const inputText = $("#textarea").val();
+  $("#count").on("click", () => {
+    if (inputText.length == 0) {
+      alert("Please input valid text!");
+    } else if (inputText.length == 1) {
+    } else {
+      showResults(inputText);
+    }
+    return false; //prevent page reload after button click
+  });
+}
+
+// show results after "count" button clicked
 function showResults(inputText) {
-  if (inputText.length > 0) {
-    $("#app-result-col").show();
-    updateTotalNumber(inputText, $("#word-counter"));
-    showTable(inputText, $("#freq-table"));
-    $("#result").val(inputText);
-    updateLayout();
-  } else {
-    alert("Please input valid text!");
-  }
+  $("#app-result-col").show();
+  updateTotalNumber(inputText, $("#word-counter"));
+  showTable(inputText, $("#freq-table"));
+  $("#result").val(inputText);
+  updateLayout();
 }
 
 // update layout
 function updateLayout() {
   $("#header")
-      .addClass("justify-content-between")
-      .removeClass("justify-content-center");
+    .addClass("justify-content-between")
+    .removeClass("justify-content-center");
   $("#freq-counter-app")
     .addClass("justify-content-between")
     .removeClass("justify-content-center");

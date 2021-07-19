@@ -13,8 +13,8 @@ function loadPage(apiUrl, pageNum = 1, wordGroupDivId = "#word-group") {
 
 function loadWords(words, wordGroupDivId) {
   // clear group content
-  const wordGroup = document.querySelector(wordGroupDivId);
-  wordGroup.innerHTML = "";
+  const wordGroupDiv = document.querySelector(wordGroupDivId);
+  wordGroupDiv.innerHTML = "";
 
   // create word elements
   for (let i in words) {
@@ -23,17 +23,18 @@ function loadWords(words, wordGroupDivId) {
       .then((response) => response.json())
       .then((word) => {
         console.log(word);
-        addWordToPage(word, wordGroup);
+        addWordToPage(word, wordGroupDiv);
       })
       .catch((error) => console.log("Error: ", error));
   }
 }
 
-// display page navigation on page
 function loadPageNav(apiUrl, currentPageNum) {
+  // initialize variables for page buttons
   let previousPageNum = currentPageNum - 1;
   let nextPageNum = currentPageNum + 1;
   let maxPageNum = Number(document.querySelector("#max-page").dataset.page);
+
   // create page buttons
   let previousPage = `<li class="page-item">
     <button id="page-previous" class="page-link" data-page="${previousPageNum}">Previous</button></li>`;
@@ -69,16 +70,11 @@ function loadPageNav(apiUrl, currentPageNum) {
   });
 }
 
-// add entries
-function addWordToPage(word, wordGroup) {
+function addWordToPage(word, wordGroupDiv) {
   word = word[0];
   // word retrieve failed
   if (Object.keys(word).length == 2) {
-    // create html elements and add to page
-    const card = document.createElement("div");
-    addStyles(card, wordGroup);
-
-    // add card content
+    const card = newCard((parentDiv = wordGroupDiv));
     card.innerHTML = `
     <div class="card-body word mb-3">
     <div class="word__meta"><div class="card-title word__word">${word.word}</div></div>
@@ -89,21 +85,11 @@ function addWordToPage(word, wordGroup) {
     </div>
     </div>`;
   }
+
   // word retrieve succeeded
   if (Object.keys(word).length == 3) {
-    // create html elements and add to page
-    const card = document.createElement("div");
-    addStyles(card, wordGroup);
-
-    // single or multiple audio?
-    console.log(word.entries);
-    if (singlePronunciation(word)) {
-      console.log("single pronunciation");
-      createWordCard(word, card, (audioType = "single"));
-    } else {
-      console.log("multiple pronunciation");
-      createWordCard(word, card, (audioType = "multiple"));
-    }
+    // create card
+    createWordCard(word, (parentDiv = wordGroupDiv));
 
     // add event listener
     $(".play-audio").on("click", (event) => {
@@ -113,12 +99,15 @@ function addWordToPage(word, wordGroup) {
   }
 }
 
-function addStyles(card, wordGroup) {
+function newCard(parentDiv) {
   const wrapper = document.createElement("div");
   wrapper.classList.add("col-md");
+  parentDiv.append(wrapper);
+
+  const card = document.createElement("div");
   card.classList.add("content__card", "card", "h-100");
-  wordGroup.append(wrapper);
   wrapper.append(card);
+  return card;
 }
 
 function singlePronunciation(word) {
@@ -132,17 +121,19 @@ function singlePronunciation(word) {
   return true;
 }
 
-function createWordCard(word, card, audioType) {
+function createWordCard(word, parentDiv) {
+  card = newCard(parentDiv);
   let pronunciationHtml = "";
+  let singleAudio = singlePronunciation(word);
 
-  // word pronunciation
-  if (audioType == "single") {
+  // if word has single pronunciation, add it after word title
+  if (singleAudio) {
     let pronunciation = word.entries[0].pronunciation[0];
     pronunciationHtml = preparePronunciationHtml(pronunciation);
   }
 
   // word entries
-  let entriesHtml = prepareEntriesHtml(word, audioType);
+  let entriesHtml = prepareEntriesHtml(word, singleAudio);
 
   // word derivatives
   let derivativesHtml = prepareDerivativesHtml(word);
@@ -173,15 +164,15 @@ function preparePronunciationHtml(pronunciation) {
   return pronunciationHtml;
 }
 
-function prepareEntriesHtml(word, audioType) {
+function prepareEntriesHtml(word, singleAudio) {
   let entriesHtml = "";
   for (let i in word.entries) {
-    entriesHtml += prepareOneEntryHtml(word.entries[i], audioType);
+    entriesHtml += prepareOneEntryHtml(word.entries[i], singleAudio);
   }
   return entriesHtml;
 }
 
-function prepareOneEntryHtml(entry, audioType) {
+function prepareOneEntryHtml(entry, singleAudio) {
   let entryHtml = "";
 
   // lexical category
@@ -190,7 +181,7 @@ function prepareOneEntryHtml(entry, audioType) {
 
   // pronunciation
   let pronunciationHtml = "";
-  if (audioType == "multiple") {
+  if (!singleAudio) {
     pronunciationHtml = preparePronunciationHtml(entry.pronunciation[0]);
   }
 
@@ -215,7 +206,9 @@ function prepareOneEntryHtml(entry, audioType) {
   // inflections
   let inflectionsHtml = "";
   if (entry.inflections.length != 0) {
-    inflectionsHtml = `<div class="entry__inflections">(inflections: ${entry.inflections})</div>`;
+    inflectionsHtml = `<div class="entry__inflections">(inflections: <em>${entry.inflections.join(
+      ", "
+    )}</em>)</div>`;
   }
 
   entryHtml = `<div class="word__entry entry">
