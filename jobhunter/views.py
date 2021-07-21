@@ -14,6 +14,9 @@ def index(request):
     postings = Posting.objects.all().order_by("-id")
     return render(request, "jobhunter/index.html", {"postings": postings})
 
+def notes(request):
+    postings = Posting.objects.all().order_by("-id")
+    return render(request, "jobhunter/notes.html", {"postings": postings})
 
 def add(request):
     if request.method == "POST":

@@ -8,7 +8,9 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("add", views.add, name="add"),
     path("skills", views.skills, name="skills"),
+    path("notes", views.notes, name="notes"),
     path("posting/<int:id>", views.posting, name="posting"),
+    
     
     #API routes
     path("skills/fetch", views.fetch_skills, name="fetch_skills")
