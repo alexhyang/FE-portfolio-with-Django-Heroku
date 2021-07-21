@@ -1,5 +1,6 @@
-{% extends "jobhunter\layout.html" %} {% block body %} 
-{% for message in messages %}
+{% extends "jobhunter\layout.html" %} {% block scripts %} {% load static %}
+<script type="text/javascript" src="{% static 'jobhunter/index.js' %}"></script>
+{% endblock %} {% block body %} {% for message in messages %}
 <div class="alert {{ message.tags }}">{{ message }}</div>
 {% endfor %}
 <h1>Postings List</h1>
