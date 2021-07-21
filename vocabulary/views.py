@@ -107,12 +107,8 @@ def save_to_list(request):
     if request.method == "POST":
         # Get submission info
         user = request.user
-        result = request.POST["result"].lower()  # the result is a long string
+        unique_words = request.POST["result"].lower().split(",")  # the result is a long string
         list_name = request.POST["list"]
-
-        # Handle submission data
-        unique_words = set(re.split(r"[^A-Za-z\-]+", result))
-        unique_words = [word for word in unique_words if word != ""]
 
         # Connect to database
         wordlist = WordList.objects.get(name=list_name, owner=user)

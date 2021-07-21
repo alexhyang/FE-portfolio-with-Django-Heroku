@@ -17,7 +17,7 @@ function listenToInput() {
     } else {
       showResultTable(words, uniqueWords.length, "#result-output");
     }
-    $("#result").val(inputText);
+    $("#result").val(uniqueWords);
     
     return false; //prevent page reload after button click
   });
