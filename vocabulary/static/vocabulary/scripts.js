@@ -70,8 +70,8 @@ function loadPageNav(apiUrl, currentPageNum) {
   });
 }
 
-function addWordToPage(word, wordGroupDiv) {
-  word = word[0];
+function addWordToPage(word_js, wordGroupDiv) {
+  word = word_js[0];
   // word retrieve failed
   if (Object.keys(word).length == 2) {
     const card = newCard((parentDiv = wordGroupDiv));

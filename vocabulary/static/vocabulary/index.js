@@ -5,16 +5,71 @@ $(function () {
 // helper functions
 // add event listen to "count" button
 function listenToInput() {
-  const inputText = $("#textarea").val();
   $("#count").on("click", () => {
-    if (inputText.length == 0) {
+    let inputText = $("#textarea").val();
+    let words = getWords(inputText);
+    let uniqueWords = getUniqueWords(words);
+    if (uniqueWords.length == 0) {
       alert("Please input valid text!");
-    } else if (inputText.length == 1) {
+      return false;
+    } else if (uniqueWords.length == 1) {
+      showResultCard([{ word: uniqueWords[0] }], "#result-output");
     } else {
-      showResults(inputText);
+      showResultTable(words, uniqueWords.length, "#result-output");
     }
+    $("#result").val(inputText);
+    
     return false; //prevent page reload after button click
   });
+}
+
+function getWords(str) {
+  return str
+    .trim()
+    .split(/[^A-Za-z\-]+/)
+    .filter((str) => str !== "");
+}
+
+function getUniqueWords(words) {
+  let arr = [];
+  for (var i in words) {
+    if (!arr.includes(words[i])) {
+      arr.push(words[i]);
+    }
+  }
+  return arr;
+}
+
+function showResultCard(word_js, resultDisplayId) {
+  loadWords(word_js, resultDisplayId);
+  $("#app-result-col").show();
+  updateLayout();
+}
+
+function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
+  // update word counter
+  $("#word-counter").html(`${uniqueWordsNumber} / ${words.length} (unique / total words)`);
+  // initialize table
+  let tableHtml = `<div style="overflow-y: auto; max-height: 400px">
+    <table
+      id="freq-table"
+      class="app__table table table-striped overflow-auto"
+    >
+      <tr>
+        <th>Word</th>
+        <th>Count</th>
+      </tr>
+    </table>
+  </div>`;
+  $(resultDisplayId).html(tableHtml);
+
+  // display results
+  const resultDiv = $(resultDisplayId);
+  let textDict = countFreq(words);
+  createTable(textDict, $("#freq-table"));
+
+  $("#app-result-col").show();
+  updateLayout();
 }
 
 // show results after "count" button clicked
@@ -31,7 +86,7 @@ function updateLayout() {
   $("#header")
     .addClass("justify-content-between")
     .removeClass("justify-content-center");
-  $("#freq-counter-app")
+  $("#application")
     .addClass("justify-content-between")
     .removeClass("justify-content-center");
 }
@@ -43,30 +98,7 @@ function updateTotalNumber(inputText, element) {
   element.html(`${uniqueNumber} / ${textArr.length} (unique / total words)`);
 }
 
-// show frequency table
-function showTable(inputText, tableRef) {
-  let textDict = countFreq(strToArr(inputText));
-  createTable(textDict, tableRef);
-}
-
-function strToArr(str) {
-  // str -> arr
-  // extract each word in the long string and store the words in an arr
-
-  if (true) {
-    // change condition later???
-    str = str.toLowerCase();
-  }
-  return str
-    .trim()
-    .split(/[^A-Za-z\-]+/)
-    .filter((str) => str !== "");
-}
-
 function countFreq(arr) {
-  // arr -> object
-  // calculate the frequency of each word and store count in an object
-
   let freqObj = {};
   for (var i in arr) {
     if (arr[i] in freqObj) {
@@ -79,9 +111,6 @@ function countFreq(arr) {
 }
 
 function createTable(freqObj, tableRef) {
-  // obj, table jQuery object -> update table
-  // include frequency information in a string
-
   // reset table rows
   tableRef.find("tr:gt(0)").remove();
   // show table
@@ -90,14 +119,4 @@ function createTable(freqObj, tableRef) {
       "<tr><td>" + key + "</td>" + "<td>" + freqObj[key] + "</td></tr>"
     );
   }
-}
-
-function uniqueWords(textArr) {
-  let arr = [];
-  for (var i in textArr) {
-    if (!arr.includes(textArr[i])) {
-      arr.push(textArr[i]);
-    }
-  }
-  return arr.length;
 }
