@@ -41,6 +41,10 @@ function getUniqueWords(words) {
 }
 
 function showResultCard(word_js, resultDisplayId) {
+  // reset word counter
+  $("#word-counter").html("");
+
+  // load card
   loadWords(word_js, resultDisplayId);
   updateLayout();
 }
@@ -76,7 +80,7 @@ function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
 
 function updateLayout() {
   // change style from centering one column
-  // to centering two columns   
+  // to centering two columns
   $("#header")
     .addClass("justify-content-between")
     .removeClass("justify-content-center");
