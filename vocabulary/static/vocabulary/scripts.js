@@ -19,7 +19,7 @@ function loadWords(words, wordGroupDivId) {
   // create word elements
   for (let i in words) {
     const word = words[i].word;
-    fetch(`/app/dict/${word}`)
+    fetch(`/vocabulary-app/dict/${word}`)
       .then((response) => response.json())
       .then((word) => {
         console.log(word);

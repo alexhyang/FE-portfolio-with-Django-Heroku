@@ -1,5 +1,5 @@
 $(function () {
   const listId = $("#list-id").text();
-  loadPage(`/app/lists/${listId}/`);
+  loadPage(`/vocabulary-app/lists/${listId}/`);
 });
 

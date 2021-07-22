@@ -6,7 +6,7 @@ $(function () {
 });
 
 function loadRandomPage() {
-  fetch("/app/random/new")
+  fetch("/vocabulary-app/random/new")
     .then((response) => response.json())
     .then((words) => {
       console.log(words);
