@@ -7,8 +7,8 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .models import User, WordList, Word, Oxford, Settings
-from .forms import WordForm, WordlistForm, LoginForm
+from .models import User, WordList, Word, Oxford, Setting
+from .forms import SettingForm, WordlistForm, LoginForm
 from .call_external_api import *
 
 import re
@@ -23,7 +23,13 @@ WORD_EACH_PAGE = 3
 def index(request):
     if request.user.is_authenticated:
         wordlists = WordList.objects.filter(owner=request.user)
-        return render(request, "vocabulary/index.html", {"wordlists": wordlists})
+        setting = Setting.objects.get(user=request.user)
+        definition = setting.word_definition
+        return render(
+            request,
+            "vocabulary/index.html",
+            {"wordlists": wordlists, "setting": setting, "definition": definition},
+        )
     else:
         return render(request, "vocabulary/index.html")
 
@@ -90,7 +96,7 @@ def register(request):
             )
 
         # create settings and default lists
-        settings = Settings.objects.create(user=user)
+        settings = Setting.objects.create(user=user)
         settings.save()
         default_list = WordList.objects.create(name="default", owner=user)
         default_list.save()
@@ -107,7 +113,9 @@ def save_to_list(request):
     if request.method == "POST":
         # Get submission info
         user = request.user
-        unique_words = request.POST["result"].lower().split(",")  # the result is a long string
+        unique_words = (
+            request.POST["result"].lower().split(",")
+        )  # the result is a long string
         list_name = request.POST["list"]
 
         # Connect to database
@@ -152,7 +160,7 @@ def save_to_list(request):
 @login_required
 def manage_lists(request):
     wordlists = get_list_or_404(WordList, owner=request.user)
-    return render(request, "vocabulary/lists.html", {"wordlists": wordlists})
+    return render(request, "vocabulary/manage_lists.html", {"wordlists": wordlists})
 
 
 # page: add list (possible to use a popup?)
@@ -171,12 +179,12 @@ def add_list(request):
                 messages.success(request, f'Wordlist "{name}" was created!')
                 return redirect("vocabulary:manage_lists")
             else:
+                messages.warning(request, f"{name} already exists.")
                 return render(
                     request,
                     "vocabulary/add_list.html",
                     {
                         "form": form,
-                        "message": f"{name} already exists.",
                         "wordlists": wordlists,
                     },
                 )
@@ -192,6 +200,36 @@ def add_list(request):
             request,
             "vocabulary/add_list.html",
             {"form": WordlistForm(), "wordlists": wordlists},
+        )
+
+
+# page & http action: update account setting
+@login_required
+def update_account_settings(request):
+    wordlists = WordList.objects.filter(owner=request.user)
+    if request.method == "POST":
+        form = SettingForm(request.POST)
+        if form.is_valid():
+            title_case = form.cleaned_data["word_title_case"]
+            definition = form.cleaned_data["word_definition"]
+            Setting.objects.filter(user=request.user).update(
+                word_title_case=title_case, word_definition=definition
+            )
+            messages.success(request, f"Account settings updated!")
+            return redirect("vocabulary:update_account_settings")
+
+        else:
+            return render(
+                request,
+                "vocabulary/manage_account.html",
+                {"form": form, "wordlists": wordlists},
+            )
+    else:
+        setting = Setting.objects.get(user=request.user)
+        return render(
+            request,
+            "vocabulary/manage_account.html",
+            {"form": SettingForm(instance=setting), "wordlists": wordlists},
         )
 
 
@@ -212,8 +250,10 @@ def wordlist(request, list_id):
     wordlist = get_object_or_404(WordList, pk=list_id, owner=request.user)
     # the lists in navbar dropdown button
     wordlists = get_list_or_404(WordList, owner=request.user)
+
     words = Word.objects.filter(wordlist=wordlist)
     num_pages = Paginator(words, WORD_EACH_PAGE).num_pages
+    setting = Setting.objects.get(user=request.user)
     return render(
         request,
         "vocabulary/wordlist.html",
@@ -221,6 +261,7 @@ def wordlist(request, list_id):
             "wordlist": wordlist,
             "wordlists": wordlists,
             "num_pages": num_pages,
+            "setting": setting,
         },
     )
 
@@ -272,7 +313,12 @@ def call_external_api(word, dict=Oxford):
 # page: random words
 def random_words(request):
     wordlists = WordList.objects.filter(owner=request.user)
-    return render(request, "vocabulary/random_words.html", {"wordlists": wordlists})
+    setting = Setting.objects.get(user=request.user)
+    return render(
+        request,
+        "vocabulary/random_words.html",
+        {"wordlists": wordlists, "setting": setting},
+    )
 
 
 # API: fetch random words from all lists

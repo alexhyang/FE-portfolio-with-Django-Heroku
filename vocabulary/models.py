@@ -6,10 +6,10 @@ class User(AbstractUser):
     pass
 
 
-class Settings(models.Model):
+class Setting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="settings")
-    list_card_uppercase = models.BooleanField(default=False)
-    short_definition = models.BooleanField(default=False)
+    word_title_case = models.CharField(default="normal", max_length=16)
+    word_definition = models.CharField(default="short", max_length=16)
 
     def __str__(self):
         return f"{self.user.username}: settings"

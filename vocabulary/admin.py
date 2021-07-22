@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import User, WordList, Word, Oxford, Settings
+from .models import User, WordList, Word, Oxford, Setting
 
 # Register your models here.
 admin.site.register(User)
 admin.site.register(WordList)
 admin.site.register(Word)
 admin.site.register(Oxford)
-admin.site.register(Settings)
+admin.site.register(Setting)

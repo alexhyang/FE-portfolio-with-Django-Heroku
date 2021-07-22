@@ -5,6 +5,11 @@
 ></script>
 {% endblock %} {% block body %}
 <div class="content gy-3">
+  <div id="setting-title" data-titlecase="{{ setting.word_title_case }}"></div>
+  <div
+    id="setting-definition"
+    data-definition="{{ setting.word_definition }}"
+  ></div>
   <!-- Introduction -->
   {% for message in messages %}
   <div class="alert {{ message.tags }}">{{ message }}</div>
@@ -18,10 +23,7 @@
       </p>
     </div>
   </header>
-  <div
-    id="application"
-    class="content__app app row justify-content-center"
-  >
+  <div id="application" class="content__app app row justify-content-center">
     <!-- left column: inputs -->
     <div id="app-input-col" class="app__columm col-md-6">
       <form class="app__form form">

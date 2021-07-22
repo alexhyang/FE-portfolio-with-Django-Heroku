@@ -25,4 +25,5 @@ urlpatterns = [
     path("lists/<int:list_id>/<int:page_num>", views.fetch_entries, name="fetch_wordlist"), # fetch words
     path("dict/<str:word>", views.fetch_meanings, name="fetch_wordlist"), # fetch word details
     path("random/new", views.fetch_random_words, name="fetch_random_words"), # fetch random words
+    path("account", views.update_account_settings, name="update_account_settings"), # update account settings
 ]
