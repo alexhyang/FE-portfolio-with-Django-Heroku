@@ -18,7 +18,7 @@ function listenToInput() {
       showResultTable(words, uniqueWords.length, "#result-output");
     }
     $("#result").val(uniqueWords);
-    
+
     return false; //prevent page reload after button click
   });
 }
@@ -42,13 +42,15 @@ function getUniqueWords(words) {
 
 function showResultCard(word_js, resultDisplayId) {
   loadWords(word_js, resultDisplayId);
-  $("#app-result-col").show();
   updateLayout();
 }
 
 function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
   // update word counter
-  $("#word-counter").html(`${uniqueWordsNumber} / ${words.length} (unique / total words)`);
+  $("#word-counter").html(
+    `${uniqueWordsNumber} / ${words.length} (unique / total words)`
+  );
+
   // initialize table
   let tableHtml = `<div style="overflow-y: auto; max-height: 400px">
     <table
@@ -66,38 +68,25 @@ function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
   // display results
   const resultDiv = $(resultDisplayId);
   let textDict = countFreq(words);
-  createTable(textDict, $("#freq-table"));
+  addWordsToTable(textDict, $("#freq-table"));
 
-  $("#app-result-col").show();
+  // update layout
   updateLayout();
 }
 
-// show results after "count" button clicked
-function showResults(inputText) {
-  $("#app-result-col").show();
-  updateTotalNumber(inputText, $("#word-counter"));
-  showTable(inputText, $("#freq-table"));
-  $("#result").val(inputText);
-  updateLayout();
-}
-
-// update layout
 function updateLayout() {
+  // change style from centering one column
+  // to centering two columns   
   $("#header")
     .addClass("justify-content-between")
     .removeClass("justify-content-center");
   $("#application")
     .addClass("justify-content-between")
     .removeClass("justify-content-center");
+  $("#app-result-col").show();
 }
 
-// update word counter
-function updateTotalNumber(inputText, element) {
-  let textArr = strToArr(inputText);
-  let uniqueNumber = uniqueWords(textArr);
-  element.html(`${uniqueNumber} / ${textArr.length} (unique / total words)`);
-}
-
+// count word frequency in the original input
 function countFreq(arr) {
   let freqObj = {};
   for (var i in arr) {
@@ -110,13 +99,10 @@ function countFreq(arr) {
   return freqObj;
 }
 
-function createTable(freqObj, tableRef) {
-  // reset table rows
+// add words to table
+function addWordsToTable(freqObj, tableRef) {
   tableRef.find("tr:gt(0)").remove();
-  // show table
   for (var key in freqObj) {
-    tableRef.append(
-      "<tr><td>" + key + "</td>" + "<td>" + freqObj[key] + "</td></tr>"
-    );
+    tableRef.append(`<tr><td>${key}</td><td>${freqObj[key]}</td></tr>`);
   }
 }
