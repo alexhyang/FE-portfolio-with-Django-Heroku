@@ -24,6 +24,7 @@ function loadWords(words, wordGroupDivId) {
       .then((word) => {
         console.log(word);
         addWordToPage(word, wordGroupDiv);
+        updateWordTitleStyle();
       })
       .catch((error) => console.log("Error: ", error));
   }
@@ -96,6 +97,12 @@ function addWordToPage(word_js, wordGroupDiv) {
       let audio = event.target.parentElement.querySelector("audio");
       audio.play();
     });
+  }
+}
+
+function updateWordTitleStyle() {
+  if ($("#setting-title").data("titlecase") == "uppercase") {
+    $(".word__word").addClass("uppercase");
   }
 }
 
@@ -187,21 +194,27 @@ function prepareOneEntryHtml(entry, singleAudio) {
 
   // definitions
   let definitionsHtml = "";
-  let definitions = "";
-  if (entry.shortDefinitions.length == 1) {
-    definitions = `<span class="entry__sense">
-    ${entry.definitions[0]}
+  let definitions = [];
+  if ($("#setting-definition").data("definition") == "short") {
+    definitions = entry.shortDefinitions;
+  } else {
+    definitions = entry.definitions;
+  }
+  let senses = "";
+  if (definitions.length == 1) {
+    senses = `<span class="entry__sense">
+    ${definitions[0]}
     <span>`;
   } else {
-    for (var i in entry.shortDefinitions) {
+    for (var i in definitions) {
       let index = parseInt(i) + 1;
-      definitions += `<span class="entry__sense">
+      senses += `<span class="entry__sense">
       <strong>${index}.</strong> 
-      <span>${entry.definitions[i]}</span>
+      <span>${definitions[i]}</span>
       <span>`;
     }
   }
-  definitionsHtml = `<div class="entry__definitions">${definitions}</div>`;
+  definitionsHtml = `<div class="entry__definitions">${senses}</div>`;
 
   // inflections
   let inflectionsHtml = "";
