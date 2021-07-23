@@ -5,7 +5,7 @@ $(function () {
 // helper functions
 // add event listen to "count" button
 function listenToInput() {
-  $("#count").on("click", () => {
+  $("#count").on("click", (e) => {
     let inputText = $("#textarea").val();
     let words = getWords(inputText);
     let uniqueWords = getUniqueWords(words);
@@ -19,7 +19,7 @@ function listenToInput() {
     }
     $("#result").val(uniqueWords);
 
-    return false; //prevent page reload after button click
+    e.preventDefault();
   });
 }
 
@@ -70,7 +70,6 @@ function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
   $(resultDisplayId).html(tableHtml);
 
   // display results
-  const resultDiv = $(resultDisplayId);
   let textDict = countFreq(words);
   addWordsToTable(textDict, $("#freq-table"));
 

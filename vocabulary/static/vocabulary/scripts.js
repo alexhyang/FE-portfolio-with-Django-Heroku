@@ -263,7 +263,7 @@ function shortenCategory(category) {
       return "prep.";
     case "Interjection":
       return "int.";
-    case "Residual":
+    default:
       return "";
   }
 }

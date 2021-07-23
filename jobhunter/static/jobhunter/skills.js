@@ -3,7 +3,7 @@ $(function () {
 });
 
 function loadPage() {
-  fetch("/jobhunter/skills/fetch")
+  fetch("/jobhunter-app/skills/fetch")
     .then((response) => response.json())
     .then((results) => {
       addToPage(results);
