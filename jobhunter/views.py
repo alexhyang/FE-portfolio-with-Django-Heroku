@@ -23,8 +23,7 @@ def add(request):
         form = PostingForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
-            company = form.cleaned_data["company"]
-            if posting_exists(url, company):
+            if posting_exists(url):
                 messages.error(request, "This posting already exists!")
                 return render(request, "jobhunter/add.html", {"form": form})
             else:
@@ -39,8 +38,8 @@ def add(request):
         return render(request, "jobhunter/add.html", {"form": PostingForm()})
 
 
-def posting_exists(url, company):
-    postings = Posting.objects.filter(company=company)
+def posting_exists(url):
+    postings = Posting.objects.all()
     for posting in postings:
         if get_jk(url) == get_jk(posting.url):
             return True
@@ -61,6 +60,7 @@ def skills(request):
     return render(request, "jobhunter/skills.html")
 
 
+# API: fetch skills
 def fetch_skills(request):
     postings = Posting.objects.values("skills")
     skills = []
@@ -69,3 +69,11 @@ def fetch_skills(request):
     counter = collections.Counter(skills)
     counter_json = dict(counter)
     return JsonResponse(counter_json, safe=False)
+
+
+# API: url existing
+def check_url(request, url):
+    if posting_exists(url):
+        return JsonResponse({"result": True})
+    else:
+        return JsonResponse({"result": False})

@@ -2,6 +2,26 @@ $(function () {
   if ($(".alert").length == 0) {
     $("#save").prop("disabled", true);
   }
+  // checkUrl();
+  listenToFormatter();
+  autoFillDate();
+});
+
+// function checkUrl() {
+//   $("#id_url").on("blur", (e) => {
+//     const url = e.target.value;
+//     fetch("/jobhunter-app/add/check", {
+//       method: "GET",
+//       body: JSON.stringify({
+//         url: url,
+//       }),
+//     }).then((result) => {
+//       console.log(result);
+//     });
+//   });
+// }
+
+function listenToFormatter() {
   $("#formatter").on("click", () => {
     document.querySelectorAll("textarea").forEach((textarea) => {
       textarea.value =
@@ -12,8 +32,7 @@ $(function () {
     });
     $("#save").prop("disabled", false);
   });
-  autoFillDate();
-});
+}
 
 function autoFillDate() {
   let today = new Date();
@@ -30,7 +49,7 @@ function correctMonthDateFormat(dateOrMonth) {
   return dateOrMonth;
 }
 
-// add autocomplete service
+// add autocomplete service (Google Places API)
 let autocomplete;
 let positionCity;
 function initAutocomplete() {

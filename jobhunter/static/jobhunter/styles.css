@@ -13,7 +13,7 @@ ul.cloud {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  line-height: 2.5rem;
+  line-height: 4rem;
 }
 
 ul.cloud li {

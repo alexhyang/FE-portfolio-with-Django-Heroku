@@ -13,5 +13,6 @@ urlpatterns = [
     
     
     #API routes
+    path("add/check", views.check_url, name="check_url"),
     path("skills/fetch", views.fetch_skills, name="fetch_skills")
 ]
