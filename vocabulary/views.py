@@ -148,9 +148,12 @@ def save_to_list(request):
                 request, f'No new words are saved in your list "{list_name}"!'
             )
         else:
+            skip_message = ""
+            if counter_skipped != 0:
+                skip_message = f'{counter_skipped} unique words are skipped.'
             messages.success(
                 request,
-                f'{counter_saved} unique words saved in list "{list_name}"! {counter_skipped} unique words are skipped.',
+                f'{counter_saved} unique words saved in list "{list_name}"! {skip_message}',
             )
 
     return redirect("vocabulary:index")
