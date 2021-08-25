@@ -2,36 +2,16 @@ $(function () {
   if ($(".alert").length == 0) {
     $("#save").prop("disabled", true);
   }
-  // checkUrl();
-  listenToFormatter();
+  createCheckResultElem();
   autoFillDate();
+  listenToUrlChange();
+  listenToFormatter();
 });
 
-// function checkUrl() {
-//   $("#id_url").on("blur", (e) => {
-//     const url = e.target.value;
-//     fetch("/jobhunter-app/add/check", {
-//       method: "GET",
-//       body: JSON.stringify({
-//         url: url,
-//       }),
-//     }).then((result) => {
-//       console.log(result);
-//     });
-//   });
-// }
-
-function listenToFormatter() {
-  $("#formatter").on("click", () => {
-    document.querySelectorAll("textarea").forEach((textarea) => {
-      textarea.value =
-        "- " +
-        textarea.value
-          .replaceAll(/[-·][\s]+/g, "")
-          .replaceAll(/[\n]+/g, " <br>\n- ");
-    });
-    $("#save").prop("disabled", false);
-  });
+function createCheckResultElem() {
+  let urlResultElem = document.createElement("p");
+  urlResultElem.setAttribute("id", "url-checker");
+  document.querySelector("#div_id_url").append(urlResultElem);
 }
 
 function autoFillDate() {
@@ -49,47 +29,45 @@ function correctMonthDateFormat(dateOrMonth) {
   return dateOrMonth;
 }
 
-// add autocomplete service (Google Places API)
-let autocomplete;
-let positionCity;
-function initAutocomplete() {
-  positionCity = document.querySelector("#id_place");
-  // create the autocomplete object
-  // restricting the search predictions to cities in Canada
-  autocomplete = new google.maps.places.Autocomplete(positionCity, {
-    componentRestrictions: { country: "ca" },
-    fields: ["address_components"],
-    types: ["(cities)", "administrative_level_1"],
-  });
-  // when the user selects a city from the drop-down, populate
-  // the field with city and province
-  autocomplete.addListener("place_changed", fillInAddress);
+function updateCheckResultDiv(url_is_new) {
+  let urlResultElem = document.querySelector("#url-checker");
+  urlResultElem.innerHTML = url_is_new ? "posting is new" : "posting existed";
+  let style = url_is_new ? "text-success" : "text-danger";
+  urlResultElem.classList.add(style);
 }
 
-// fill in address
-function fillInAddress() {
-  // get place details from the autocomplete object
-  const place = autocomplete.getPlace();
-  // get each component of the position city from the
-  // place details, and fill-in the corresponding field on the form
-  for (const component of place.address_components) {
-    const componentType = component.types[0];
-    let cityProvince = "";
-
-    switch (componentType) {
-      case "locality": {
-        cityProvince = `${component.long_name}`;
-        break;
-      }
-      case "administrative_area_level_3": {
-        cityProvince = `${component.long_name}`;
-        break;
-      }
-      case "administrative_area_level_1": {
-        cityProvince += `, ${component.short_name}`;
-        break;
-      }
+function listenToUrlChange() {
+  $("#id_url").on("change", (e) => {
+    const url = e.target.value;
+    if (url !== "") {
+      let jobKey = getJobKey(url);
+      fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          updateCheckResultDiv(result.url_is_new);
+        })
+        .catch((error) => console.log("Error: ", error));
     }
-    positionCity.value = cityProvince;
-  }
+  });
+}
+
+function getJobKey(url) {
+  return url
+    .split(/[?&]/)
+    .filter((section) => /^jk/.test(section))[0]
+    .slice(3);
+}
+
+function listenToFormatter() {
+  $("#formatter").on("click", () => {
+    document.querySelectorAll("textarea").forEach((textarea) => {
+      textarea.value =
+        "- " +
+        textarea.value
+          .replaceAll(/[-·][\s]+/g, "")
+          .replaceAll(/[\n]+/g, " <br>\n- ");
+    });
+    $("#save").prop("disabled", false);
+  });
 }

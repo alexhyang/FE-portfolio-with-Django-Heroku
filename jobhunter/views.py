@@ -14,9 +14,11 @@ def index(request):
     postings = Posting.objects.all().order_by("-id")
     return render(request, "jobhunter/index.html", {"postings": postings})
 
+
 def notes(request):
     postings = Posting.objects.all().order_by("-id")
     return render(request, "jobhunter/notes.html", {"postings": postings})
+
 
 def add(request):
     if request.method == "POST":
@@ -72,8 +74,12 @@ def fetch_skills(request):
 
 
 # API: url existing
-def check_url(request, url):
-    if posting_exists(url):
-        return JsonResponse({"result": True})
+def url_is_new(request):
+    if request.method == "GET":
+        jk = request.GET["jk"]
+        for posting in Posting.objects.all():
+            if jk == get_jk(posting.url):
+                return JsonResponse({"url_is_new": False, "jk": jk})
+        return JsonResponse({"url_is_new": True, "jk": jk})
     else:
-        return JsonResponse({"result": False})
+        return JsonResponse({"Error message": "GET method is required."}, status=400)
