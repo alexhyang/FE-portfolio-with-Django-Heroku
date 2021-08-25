@@ -61,13 +61,15 @@ function getJobKey(url) {
 
 function listenToFormatter() {
   $("#formatter").on("click", () => {
-    document.querySelectorAll("textarea").forEach((textarea) => {
-      textarea.value =
+    document.querySelectorAll("textarea").forEach(formatTextarea);
+    $("#save").prop("disabled", false);
+  });
+}
+
+function formatTextarea(textarea) {
+  textarea.value =
         "- " +
         textarea.value
           .replaceAll(/[-·][\s]+/g, "")
-          .replaceAll(/[\n]+/g, " <br>\n- ");
-    });
-    $("#save").prop("disabled", false);
-  });
+          .replaceAll(/(\s*<br>)*[\n]+/g, " <br>\n- ");
 }
