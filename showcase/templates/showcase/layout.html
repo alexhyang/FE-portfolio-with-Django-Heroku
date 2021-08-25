@@ -34,17 +34,6 @@
     {% block script %} {% endblock %}
   </head>
   <body>
-    <nav class="navbar fixed-top navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">My Portfolio</a>
-        {% block navbarNav %} {% endblock %}
-      </div>
-    </nav>
     {% block body %} {% endblock %}
-    <footer class="footer p-3 text-center">
-      <p>
-        &copy; 2021 Alex Han Yang | <span>Powered by Django &#38; Heroku</span>
-      </p>
-    </footer>
   </body>
 </html>
