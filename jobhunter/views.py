@@ -6,13 +6,20 @@ from .models import Posting
 from .forms import PostingForm
 from django.contrib import messages
 from urllib.parse import urlparse, parse_qs
+from django.core.paginator import Paginator
 
 import collections
 
+POSTING_PER_PAGE = 20
+
 # Create your views here.
 def index(request):
-    postings = Posting.objects.all().order_by("-id")
-    return render(request, "jobhunter/index.html", {"postings": postings})
+    postings = Posting.objects.all().order_by("-id")    
+    posting_paginator = Paginator(postings, POSTING_PER_PAGE)
+    page_num = request.GET.get('page')
+    page = posting_paginator.get_page(page_num)
+    
+    return render(request, "jobhunter/index.html", {"page": page})
 
 
 def notes(request):
