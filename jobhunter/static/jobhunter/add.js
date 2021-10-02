@@ -15,6 +15,7 @@ function createCheckResultElem() {
 }
 
 function autoFillDate() {
+  // to refactor: Aug. 31 but no Sept. 31
   let today = new Date();
   let dueMonth = correctMonthDateFormat(today.getMonth() + 2);
   let dueDate = correctMonthDateFormat(today.getDate());
@@ -33,13 +34,23 @@ function updateCheckResultDiv(url_is_new) {
   let urlResultElem = document.querySelector("#url-checker");
   urlResultElem.innerHTML = url_is_new ? "posting is new" : "posting existed";
   let style = url_is_new ? "text-success" : "text-danger";
+  urlResultElem.className = "";
   urlResultElem.classList.add(style);
+}
+
+function resetCheckResultDiv() {
+  // reset style and text
+  let urlResultElem = document.querySelector("#url-checker");
+  urlResultElem.innerHTML = "";
+  urlResultElem.className = "";
 }
 
 function listenToUrlChange() {
   $("#id_url").on("change", (e) => {
     const url = e.target.value;
-    if (url !== "") {
+    // if url value is not empty, then update the result div
+    // otherwise, clear text in result div
+    if (url != "") {
       let jobKey = getJobKey(url);
       fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
         .then((response) => response.json())
@@ -48,6 +59,8 @@ function listenToUrlChange() {
           updateCheckResultDiv(result.url_is_new);
         })
         .catch((error) => console.log("Error: ", error));
+    } else {
+      resetCheckResultDiv();
     }
   });
 }
@@ -68,8 +81,8 @@ function listenToFormatter() {
 
 function formatTextarea(textarea) {
   textarea.value =
-        "- " +
-        textarea.value
-          .replaceAll(/[-·][\s]+/g, "")
-          .replaceAll(/(\s*<br>)*[\n]+/g, " <br>\n- ");
+    "- " +
+    textarea.value
+      .replaceAll(/[-·][\s]+/g, "")
+      .replaceAll(/(\s*<br>)*[\n]+/g, " <br>\n- ");
 }
