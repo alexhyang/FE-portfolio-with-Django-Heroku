@@ -6,16 +6,16 @@ This portfolio demonstrates my full-stack web development skills, including HTML
 
 My first app is a vocabulary builder web application. It contains two major components: a **frequency counter** to break down any given text and a **vocabulary lists system** to organize and review the saved words. Additionally, there is a Random Words page to play with any eight words from the server. A potential functionality is to add a spaced repetition tool be better memorize the desired words.
 
-The reason I took CS50 Web Programming was because I wanted to create a customized vocabulary builder that satisfies my own needs. The vocabulary/dictionary applications I could find online are helpful in terms of single word, but they are not able to perform patch look-ups. I believe patch search will be extremely helpful when I read long articles online.
+This project was created based on my capstone project in CS50 Web Programming. The reason I built this application was because I wanted to create a customized vocabulary builder that satisfies my own needs. The vocabulary/dictionary applications I could find online are helpful in terms of single word, but they are not able retrieve definitions of multiple words at the same time.
 
 ## How to run the app
 
 This app is fairly easy to use:
 
-- input a paragraph of text, and the results will be returned as a frequency table
-- create new word lists, save words accordingly
-- review the senses of words
-- Notice: this project relies on an external Oxford API, and there is a [monthly limit (1000 calls)](https://developer.oxforddictionaries.com/FAQ#monthly_limits), please do not use a super long text for evaluation. Thank you.
+- enter a paragraph of text and receive the results as a frequency table, or a single word to get the definition
+- create new word lists and save words to the desired list
+- review the definitions of saved words
+- Notice: this project relies on the external Oxford API, and there is a [monthly limit (1000 calls)](https://developer.oxforddictionaries.com/FAQ#monthly_limits), please do not use a super long text for evaluation. Thank you.
 
 ## Distinctiveness and Complexity
 
