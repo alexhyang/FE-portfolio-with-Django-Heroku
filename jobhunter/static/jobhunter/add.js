@@ -45,6 +45,13 @@ function resetCheckResultDiv() {
   urlResultElem.className = "";
 }
 
+function jkError() {
+  let urlResultElem = document.querySelector("#url-checker");
+  urlResultElem.innerHTML =
+    "Can't find job key! Please make sure your url is in correct format.";
+  urlResultElem.className = "text-danger";
+}
+
 function listenToUrlChange() {
   $("#id_url").on("change", (e) => {
     const url = e.target.value;
@@ -52,13 +59,17 @@ function listenToUrlChange() {
     // otherwise, clear text in result div
     if (url != "") {
       let jobKey = getJobKey(url);
-      fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          updateCheckResultDiv(result.url_is_new);
-        })
-        .catch((error) => console.log("Error: ", error));
+      if (jobKey == "") {
+        jkError();
+      } else {
+        fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            updateCheckResultDiv(result.url_is_new);
+          })
+          .catch((error) => console.log("Error: ", error));
+      }
     } else {
       resetCheckResultDiv();
     }
@@ -66,10 +77,12 @@ function listenToUrlChange() {
 }
 
 function getJobKey(url) {
-  return url
-    .split(/[?&]/)
-    .filter((section) => /^jk/.test(section))[0]
-    .slice(3);
+  let jk = url.split(/[?&]/).filter((section) => /^jk/.test(section));
+  if (jk.length === 0) {
+    return "";
+  } else {
+    return jk[0].slice(3);
+  }
 }
 
 function listenToFormatter() {
