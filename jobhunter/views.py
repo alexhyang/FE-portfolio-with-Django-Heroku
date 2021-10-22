@@ -82,12 +82,12 @@ def fetch_skills(request):
 
 
 # API: url existing
-def url_is_new(request):
+def posting_is_new(request):
     if request.method == "GET":
-        jk = request.GET["jk"]
+        job_key = request.GET["jk"]
         for posting in Posting.objects.all():
-            if jk == get_jk(posting.url):
-                return JsonResponse({"url_is_new": False, "jk": jk})
-        return JsonResponse({"url_is_new": True, "jk": jk})
+            if job_key == get_jk(posting.url):
+                return JsonResponse({"posting_is_new": False, "job_key": job_key})
+        return JsonResponse({"posting_is_new": True, "job_key": job_key})
     else:
         return JsonResponse({"Error message": "GET method is required."}, status=400)
