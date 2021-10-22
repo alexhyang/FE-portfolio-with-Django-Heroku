@@ -28,14 +28,14 @@ def notes(request):
     return render(request, "jobhunter/notes.html", {"postings": postings})
 
 
-def add(request):
+def add_posting(request):
     if request.method == "POST":
         form = PostingForm(request.POST)
         if form.is_valid():
             url = form.cleaned_data["url"]
             if posting_exists(url):
                 messages.error(request, "This posting already exists!")
-                return render(request, "jobhunter/add.html", {"form": form})
+                return render(request, "jobhunter/add_posting.html", {"form": form})
             else:
                 posting = Posting.objects.create(**form.cleaned_data)
                 posting.save()
@@ -43,9 +43,9 @@ def add(request):
                 return redirect("jobhunter:index")
 
         else:
-            return render(request, "jobhunter/add.html", {"form": form})
+            return render(request, "jobhunter/add_posting.html", {"form": form})
     else:
-        return render(request, "jobhunter/add.html", {"form": PostingForm()})
+        return render(request, "jobhunter/add_posting.html", {"form": PostingForm()})
 
 
 def posting_exists(url):
@@ -66,8 +66,8 @@ def posting(request, id):
     return render(request, "jobhunter/posting.html", {"posting": posting})
 
 
-def skills(request):
-    return render(request, "jobhunter/skills.html")
+def skill_summary(request):
+    return render(request, "jobhunter/skill_summary.html")
 
 
 # API: fetch skills

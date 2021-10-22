@@ -6,8 +6,8 @@ app_name = "jobhunter"
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("add", views.add, name="add"),
-    path("skills", views.skills, name="skills"),
+    path("add_posting", views.add_posting, name="add_posting"),
+    path("skills", views.skill_summary, name="skill_summary"),
     path("notes", views.notes, name="notes"),
     path("posting/<int:id>", views.posting, name="posting"),
     

@@ -15,10 +15,10 @@ function addToPage(results) {
   const ul = document.querySelector("#cloud");
   for (var key in results) {
     const count = results[key];
-    const elem = document.createElement("li");
-    elem.setAttribute("data-weight", count);
-    elem.style.setProperty("--size", Math.log(count)*2+1);
-    elem.innerHTML = key;
-    ul.append(elem);
+    const skillElem = document.createElement("li");
+    skillElem.setAttribute("data-weight", count);
+    skillElem.style.setProperty("--size", Math.log(count) * 2 + 1);
+    skillElem.innerHTML = key;
+    ul.append(skillElem);
   }
 }
