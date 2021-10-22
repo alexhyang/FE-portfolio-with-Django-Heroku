@@ -2,78 +2,87 @@ $(function () {
   if ($(".alert").length == 0) {
     $("#save").prop("disabled", true);
   }
-  createCheckResultElem();
-  autoFillDate();
-  listenToUrlChange();
-  listenToFormatter();
+  createUrlCheckResultElem();
+  autoFillDueDate();
+  listenToUrlFieldChange();
+  listenToFormatterBtn();
 });
 
-function createCheckResultElem() {
+function createUrlCheckResultElem() {
   let urlResultElem = document.createElement("p");
   urlResultElem.setAttribute("id", "url-checker");
   document.querySelector("#div_id_url").append(urlResultElem);
 }
 
-function autoFillDate() {
-  // to refactor: Aug. 31 but no Sept. 31
+function autoFillDueDate() {
   let today = new Date();
-  let dueMonth = correctMonthDateFormat(today.getMonth() + 2);
-  let dueDate = correctMonthDateFormat(today.getDate());
+  let thirtyDaysAfterToday = new Date(new Date().setDate(today.getDate() + 30));
+  let dueMonth = convertToTwoDigits(thirtyDaysAfterToday.getMonth() + 1);
+  let dueDate = convertToTwoDigits(thirtyDaysAfterToday.getDate());
   document.querySelector("#id_due_date").value =
-    today.getFullYear() + "-" + dueMonth + "-" + dueDate;
+    thirtyDaysAfterToday.getFullYear() + "-" + dueMonth + "-" + dueDate;
 }
 
-function correctMonthDateFormat(dateOrMonth) {
+function convertToTwoDigits(dateOrMonth) {
   if (dateOrMonth < 10) {
     dateOrMonth = "0" + dateOrMonth;
   }
   return dateOrMonth;
 }
 
-function updateCheckResultDiv(url_is_new) {
-  let urlResultElem = document.querySelector("#url-checker");
-  urlResultElem.innerHTML = url_is_new ? "posting is new" : "posting existed";
-  let style = url_is_new ? "text-success" : "text-danger";
-  urlResultElem.className = "";
-  urlResultElem.classList.add(style);
+function listenToUrlFieldChange() {
+  $("#id_url").on("change", (e) => {
+    const url = e.target.value;
+    if (url != "") {
+      let jobKey = getJobKey(url);
+      if (jobKey !== "" && validURL(url)) {
+        fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result);
+            updateUrlCheckResultElem(true, result.posting_is_new);
+          })
+          .catch((error) => console.log("Error: ", error));
+      } else {
+        updateUrlCheckResultElem(false);
+      }
+    } else {
+      resetUrlCheckResultElem();
+    }
+  });
 }
 
-function resetCheckResultDiv() {
-  // reset style and text
+function updateUrlCheckResultElem(urlIsValid, posting_is_new = false) {
+  let urlResultElem = document.querySelector("#url-checker");
+  if (urlIsValid) {
+    urlResultElem.innerHTML = posting_is_new ? "posting is new" : "posting existed";
+    let style = posting_is_new ? "text-success" : "text-danger";
+    urlResultElem.className = "";
+    urlResultElem.classList.add(style);
+  } else {
+    urlResultElem.innerHTML =
+    "Invalid URL! Please make sure your url is in correct format.";
+    urlResultElem.className = "text-danger";
+  }
+}
+
+function resetUrlCheckResultElem() {
   let urlResultElem = document.querySelector("#url-checker");
   urlResultElem.innerHTML = "";
   urlResultElem.className = "";
 }
 
-function jkError() {
-  let urlResultElem = document.querySelector("#url-checker");
-  urlResultElem.innerHTML =
-    "Can't find job key! Please make sure your url is in correct format.";
-  urlResultElem.className = "text-danger";
-}
-
-function listenToUrlChange() {
-  $("#id_url").on("change", (e) => {
-    const url = e.target.value;
-    // if url value is not empty, then update the result div
-    // otherwise, clear text in result div
-    if (url != "") {
-      let jobKey = getJobKey(url);
-      if (jobKey == "") {
-        jkError();
-      } else {
-        fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
-          .then((response) => response.json())
-          .then((result) => {
-            console.log(result);
-            updateCheckResultDiv(result.url_is_new);
-          })
-          .catch((error) => console.log("Error: ", error));
-      }
-    } else {
-      resetCheckResultDiv();
-    }
-  });
+function validURL(str) {
+  var pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  ); // fragment locator
+  return !!pattern.test(str);
 }
 
 function getJobKey(url) {
@@ -85,7 +94,7 @@ function getJobKey(url) {
   }
 }
 
-function listenToFormatter() {
+function listenToFormatterBtn() {
   $("#formatter").on("click", () => {
     document.querySelectorAll("textarea").forEach(formatTextarea);
     $("#save").prop("disabled", false);
