@@ -1,6 +1,4 @@
-{% extends "showcase/layout.html" %} {% load static %} {% block script %}
-<script type="text/javascript" src="{% static 'showcase/index.js' %}"></script>
-{% endblock %} {% block body %}
+{% extends "showcase/layout.html" %} {% load static %} {% block body %}
 <main class="content content--hm-0">
   <section class="section content__section section--full-viewport" id="welcome">
     <header class="header section__header">
@@ -15,16 +13,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="narrow-table-cell">
-              <a
-                href="https://main.d3jxktapnx8jp1.amplifyapp.com/"
-                target="_blank"
-                >Web Map by React <br />[prototype]</a
-              >
-            </td>
-            <td>ArcGIS API, React, Redux, AWS Amplify</td>
-          </tr>
           <tr>
             <td class="narrow-table-cell">
               <a href="{% url 'vocabulary:index' %}" target="_blank"
@@ -42,6 +30,16 @@
             <td>
               JavaScript, DOM Events, HTML Form, Django, Bootstrap, Fetch API
             </td>
+          </tr>
+          <tr>
+            <td class="narrow-table-cell">
+              <a
+                href="https://main.d3jxktapnx8jp1.amplifyapp.com/"
+                target="_blank"
+                >Web Map <br />[prototype]</a
+              >
+            </td>
+            <td>React, Redux, AWS Amplify</td>
           </tr>
         </tbody>
       </table>
