@@ -1,0 +1,31 @@
+span {
+  font-size: 0.5em;
+}
+
+.cloud-wrapper {
+  margin-top: 5rem;
+}
+
+ul.cloud {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  line-height: 4rem;
+}
+
+ul.cloud li {
+  color: #a33;
+  display: block;
+  font-size: calc(var(--size) * 1rem);
+  padding: 0.75rem 0.25rem;
+  text-decoration: none;
+  position: relative;
+}
+
+ul.cloud[data-show-value] li::after {
+  content: " (" attr(data-weight) ")";
+  font-size: 1rem;
+}
