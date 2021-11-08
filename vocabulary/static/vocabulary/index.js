@@ -7,17 +7,17 @@ $(function () {
 function listenToInput() {
   $("#count").on("click", (e) => {
     let inputText = $("#textarea").val();
-    let words = getWords(inputText);
-    let uniqueWords = getUniqueWords(words);
-    if (uniqueWords.length == 0) {
+    let wordsArray = getWords(inputText);
+    let uniqueWordsArray = getUniqueWords(wordsArray);
+    if (uniqueWordsArray.length == 0) {
       alert("Please input valid text!");
       return false;
-    } else if (uniqueWords.length == 1) {
-      showResultCard([{ word: uniqueWords[0] }], "#result-output");
+    } else if (uniqueWordsArray.length == 1) {
+      showResultCard([{ word: uniqueWordsArray[0] }], "#result-output");
     } else {
-      showResultTable(words, uniqueWords.length, "#result-output");
+      showResultTable(wordsArray, uniqueWordsArray.length, "#result-output");
     }
-    $("#result").val(uniqueWords);
+    $("#result").val(uniqueWordsArray);
 
     e.preventDefault();
   });
@@ -30,29 +30,29 @@ function getWords(str) {
     .filter((str) => str !== "");
 }
 
-function getUniqueWords(words) {
+function getUniqueWords(wordsArray) {
   let arr = [];
-  for (var i in words) {
-    if (!arr.includes(words[i])) {
-      arr.push(words[i]);
+  for (var i in wordsArray) {
+    if (!arr.includes(wordsArray[i])) {
+      arr.push(wordsArray[i]);
     }
   }
   return arr;
 }
 
-function showResultCard(word_js, resultDisplayId) {
+function showResultCard(wordJson, resultDisplayId) {
   // reset word counter
   $("#word-counter").html("");
 
   // load card
-  loadWords(word_js, resultDisplayId);
+  loadWords(wordJson, resultDisplayId);
   updateLayout();
 }
 
-function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
+function showResultTable(wordsArray, uniqueWordsNumber, resultDisplayId) {
   // update word counter
   $("#word-counter").html(
-    `${uniqueWordsNumber} / ${words.length} (unique / total words)`
+    `${uniqueWordsNumber} / ${wordsArray.length} (unique / total words)`
   );
 
   // initialize table
@@ -70,8 +70,8 @@ function showResultTable(words, uniqueWordsNumber, resultDisplayId) {
   $(resultDisplayId).html(tableHtml);
 
   // display results
-  let textDict = countFreq(words);
-  addWordsToTable(textDict, $("#freq-table"));
+  let textObj = countFreq(wordsArray);
+  addWordsToTable(textObj, $("#freq-table"));
 
   // update layout
   updateLayout();
