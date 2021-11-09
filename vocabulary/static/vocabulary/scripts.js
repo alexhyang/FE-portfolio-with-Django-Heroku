@@ -301,7 +301,7 @@ const addWordToPage = (wordObj, wordGroupDiv) => {
   const wrapper = createCardWrapper();
   const card = createCard();
   addCardBody(wordObj, card);
-  enablePronunciation();
   wordGroupDiv.append(wrapper);
   wrapper.append(card);
+  enablePronunciation();
 };
