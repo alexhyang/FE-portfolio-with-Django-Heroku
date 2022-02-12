@@ -96,6 +96,11 @@ body {
   padding-right: 10%;
 }
 
+.table__skills {
+  padding-bottom: 0.5em;
+  font-style: italic;
+}
+
 .narrow-table-cell {
   width: 350px;
 }
