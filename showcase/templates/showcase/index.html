@@ -1,69 +1,92 @@
 {% extends "showcase/layout.html" %} {% load static %} {% block body %}
 <main class="content content--hm-0">
-  <section class="section content__section section--full-viewport" id="welcome">
-    <header class="header section__header">
-      <h1 class="fw-bold">Welcome to My Web Development Portfolio</h1>
-    </header>
-    <div class="table-container">
-      <table class="table borderless">
-        <thead>
-          <tr>
-            <th class="narrow-table-cell">Project</th>
-            <th>Skills Demostrated</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="narrow-table-cell">
-              <a href="{% url 'vocabulary:index' %}" target="_blank"
-                >Vocabulary Builder <br />[alpha testing]</a
-              >
-            </td>
-            <td>Django, Bootstrap, Fetch API</td>
-          </tr>
-          <tr>
-            <td class="narrow-table-cell">
-              <a href="{% url 'jobhunter:index' %}" target="_blank"
-                >Job Hunter <br />[alpha testing]</a
-              >
-            </td>
-            <td>
-              JavaScript, DOM Events, HTML Form, Django, Bootstrap, Fetch API
-            </td>
-          </tr>
-          <tr>
-            <td class="narrow-table-cell">
-              <a
-                href="https://main.d3jxktapnx8jp1.amplifyapp.com/"
-                target="_blank"
-                >Web Map <br />[prototype]</a
-              >
-            </td>
-            <td>React, Redux, AWS Amplify</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="contact-links">
-      <a
-        class="contact-details"
-        href="https://github.com/alexhyang"
-        target="_blank"
-        title="GitHub"
-        ><i class="fab fa-github"></i
-      ></a>
-      <a
-        class="contact-details"
-        href="https://www.linkedin.com/in/alexhanyang/"
-        target="_blank"
-        id="profile-link"
-        title="LinkedIn"
-        ><i class="fab fa-linkedin"></i
-      ></a>
-    </div>
-  </section>
+  <header class="header section__header">
+    <h1 class="fw-bold">Welcome to My Web Development Portfolio</h1>
+  </header>
+  <div class="table-container table-responsive-lg">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Project prototype</th>
+          <th>Description</th>
+          <th>Skills Demostrated</th>
+          <th>Tech stack</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <a
+              href="https://main.d3jxktapnx8jp1.amplifyapp.com/"
+              target="_blank"
+              >Web Map</a
+            >
+          </td>
+          <td>A geospatial analysis tool</td>
+          <td></td>
+          <td>React, Redux, AWS Amplify, HTML, CSS, JavaScript</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="{% url 'vocabulary:index' %}" target="_blank"
+              >Vocabulary Builder</a
+            >
+          </td>
+          <td>An app to help users build their vocabulary</td>
+          <td>
+            1) <i>Designed and configured Heroku cloud app architecture </i>
+            <br />
+            2)
+            <i
+              >Utilized Python and Django to establish client-server
+              communication via HTTP </i
+            ><br />
+            3)
+            <i
+              >Created SQLite database models and performed SQL query with
+              Django API </i
+            ><br />
+            4)
+            <i
+              >Achieved client-side user interaction and data entry with
+              JavaScript and HTML
+            </i>
+          </td>
+          <td>Django, Bootstrap, jQuery, HTML, CSS, JavaScript, REST API</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="{% url 'jobhunter:index' %}" target="_blank">Job Hunter</a>
+          </td>
+          <td>
+            A collection of web developer postings and a summary of required
+            skills
+          </td>
+          <td></td>
+          <td>
+            JavaScript, DOM Events, HTML Form, Django, Bootstrap, Fetch API
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="contact-links">
+    <a
+      class="contact-details"
+      href="https://github.com/alexhyang"
+      target="_blank"
+      title="GitHub"
+      ><i class="fab fa-github"></i
+    ></a>
+    <a
+      class="contact-details"
+      href="https://www.linkedin.com/in/alexhanyang/"
+      target="_blank"
+      id="profile-link"
+      title="LinkedIn"
+      ><i class="fab fa-linkedin"></i
+    ></a>
+  </div>
 </main>
-<footer class="footer pt-4 text-center">
-  <p>&copy; 2021 Alex Han Yang | <span>Powered by Django &#38; Heroku</span></p>
-</footer>
+
 {% endblock %}
