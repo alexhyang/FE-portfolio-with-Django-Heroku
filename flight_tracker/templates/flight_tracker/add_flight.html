@@ -1,0 +1,13 @@
+{% extends "flight_tracker/layout.html" %} 
+{% load static %} {% load crispy_forms_tags %}
+{% block body %} {% for message in messages %}
+<div class="alert {{ message.tags }}">{{ message }}</div>
+{% endfor %}
+<h1>Add new flight</h1>
+<form action="{% url 'flight_tracker:add_flight' %}" method="POST">
+  {% csrf_token %} {{ form|crispy }}
+  <button type="submit" class="btn btn-primary mt-2" id="save">
+    Save Posting
+  </button>
+</form>
+{% endblock %}

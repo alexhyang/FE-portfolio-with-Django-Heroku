@@ -21,5 +21,5 @@ urlpatterns = [
     path('', include('showcase.urls')),
     path('vocabulary-app/', include('vocabulary.urls')),
     path('jobhunter-app/', include('jobhunter.urls')),
-    path('flight-api/', include('flight_tracker.urls'))
+    path('flights/', include('flight_tracker.urls'))
 ]
