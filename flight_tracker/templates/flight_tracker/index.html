@@ -3,32 +3,34 @@
 <div class="alert {{ message.tags }}">{{ message }}</div>
 {% endfor %}
 <h1>Flights List</h1>
-<table class="table table-striped">
-  <tbody>
-    <thead>
+<div style="overflow-x: auto;">
+  <table class="table table-striped">
+    <tbody>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Flight #</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Date</th>
+          <th>Duration</th>
+          <th>Aircraft</th>
+          <th>Distance</th>
+        </tr>
+      </thead>
+      {% for flight in flights %}
       <tr>
-        <th>ID</th>
-        <th>Flight #</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Date</th>
-        <th>Duration</th>
-        <th>Aircraft</th>
-        <th>Distance</th>
+        <td>{{ flight.id }}</td>
+        <td><a href="https://flightaware.com/live/flight/{{ flight.flight_number }}">{{ flight.flight_number }}</a></td>
+        <td>{{ flight.origin }} ({{ flight.origin_code }})</td>
+        <td>{{ flight.destination }} ({{ flight.destination_code }})</td>
+        <td>{{ flight.date }}</td>
+        <td>{{ flight.duration }}</td>
+        <td>{{ flight.aircraft_type }}</td>
+        <td>{{ flight.distance }} nm</td>
       </tr>
-    </thead>
-    {% for flight in flights %}
-    <tr>
-      <td>{{ flight.id }}</td>
-      <td><a href="https://flightaware.com/live/flight/{{ flight.flight_number }}">{{ flight.flight_number }}</a></td>
-      <td>{{ flight.origin }} ({{ flight.origin_code }})</td>
-      <td>{{ flight.destination }} ({{ flight.destination_code }})</td>
-      <td>{{ flight.date }}</td>
-      <td>{{ flight.duration }}</td>
-      <td>{{ flight.aircraft_type }}</td>
-      <td>{{ flight.distance }} nm</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
