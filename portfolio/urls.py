@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('showcase.urls')),
     path('vocabulary-app/', include('vocabulary.urls')),
-    path('jobhunter-app/', include('jobhunter.urls'))
+    path('jobhunter-app/', include('jobhunter.urls')),
+    path('flight-api/', include('flight_tracker.urls'))
 ]

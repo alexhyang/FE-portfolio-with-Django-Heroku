@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'vocabulary',
     'showcase',
     'jobhunter',
+    'flight_tracker',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
