@@ -23,8 +23,12 @@ const loadWords = (words, wordGroupDivId) => {
   wordGroupDiv.innerHTML = "";
 
   // create word elements
-  for (let i in words) {
-    const word = words[i].word;
+
+  const logError = (error) => {
+    console.log("Error: ", error);
+  };
+
+  const fetchAndAddWordToPage = (word) => {
     fetch(`/vocabulary-app/dict/${word}`)
       .then((response) => response.json())
       .then((word) => {
@@ -32,7 +36,11 @@ const loadWords = (words, wordGroupDivId) => {
         addWordToPage(word[0], wordGroupDiv);
         updateWordTitleStyle();
       })
-      .catch((error) => console.log("Error: ", error));
+      .catch(logError);
+  };
+
+  for (let word of words) {
+    fetchAndAddWordToPage(word);
   }
 };
 
