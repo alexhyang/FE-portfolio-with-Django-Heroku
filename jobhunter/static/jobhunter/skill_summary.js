@@ -17,7 +17,7 @@ function addToPage(results) {
     const count = results[key];
     const skillElem = document.createElement("li");
     skillElem.setAttribute("data-weight", count);
-    skillElem.style.setProperty("--size", Math.log(count) + 1);
+    skillElem.style.setProperty("--size", Math.log(count) * 2 + 1);
     skillElem.innerHTML = key;
     ul.append(skillElem);
   }
