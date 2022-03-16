@@ -77,7 +77,7 @@ def fetch_skills(request):
     for posting in postings:
         skills.extend(posting["skills"].split(", "))
     counter = collections.Counter(skills)
-    counter_json = dict(counter)
+    counter_json = dict(sorted(counter.items(), key=lambda item: item[1], reverse=True))
     return JsonResponse(counter_json, safe=False)
 
 
