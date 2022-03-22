@@ -23,20 +23,18 @@ const loadWords = (words, wordGroupDivId) => {
   wordGroupDiv.innerHTML = "";
 
   // create word elements
-
-  const logError = (error) => {
-    console.log("Error: ", error);
-  };
-
   const fetchAndAddWordToPage = (word) => {
-    fetch(`/vocabulary-app/dict/${word}`)
+    console.log(word);
+    fetch(`/vocabulary-app/dict/${word.word}`)
       .then((response) => response.json())
       .then((word) => {
         console.log(word);
         addWordToPage(word[0], wordGroupDiv);
         updateWordTitleStyle();
       })
-      .catch(logError);
+      .catch((error) => {
+        console.log("Error: ", error);
+      });
   };
 
   for (let word of words) {
