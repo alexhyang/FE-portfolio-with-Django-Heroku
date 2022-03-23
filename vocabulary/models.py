@@ -27,7 +27,7 @@ class Dict(models.Model):
     def serialize(self):
         derivatives = ", ".join([derivative for derivative in eval(self.derivatives)])
         return {
-            "word": self.word,
+            "id": self.word,
             "entries": eval(self.entries),
             "derivatives": derivatives,
         }

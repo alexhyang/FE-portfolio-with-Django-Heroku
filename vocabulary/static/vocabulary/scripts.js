@@ -25,7 +25,7 @@ const loadWords = (words, wordGroupDivId) => {
   // create word elements
   const fetchAndAddWordToPage = (word) => {
     console.log(word);
-    fetch(`/vocabulary-app/dict/${word.word}`)
+    fetch(`/vocabulary-app/dict/${word.id}`)
       .then((response) => response.json())
       .then((word) => {
         console.log(word);
@@ -98,7 +98,7 @@ const addWordToPage = (wordObj, wordGroupDiv) => {
   function prepareCardHtmlWhenNoEntryFound(wordObj, card) {
     card.innerHTML = `
     <div class="card-body word mb-3">
-    <div class="word__meta"><div class="card-title word__word">${wordObj.word}</div></div>
+    <div class="word__meta"><div class="card-title word__word">${wordObj.id}</div></div>
     <div class="word__details card-text">
       <div class="word__meaning">
         <div class="word__error">${wordObj.error_message}</div>
@@ -282,7 +282,7 @@ const addWordToPage = (wordObj, wordGroupDiv) => {
     card.innerHTML = `
     <div class="card-body word mb-3">
       <div class="word__meta">
-        <div class="word__word card-title">${wordObj.word}</div>
+        <div class="word__word card-title">${wordObj.id}</div>
         ${singlePronunciationHtml}
       </div>
       ${entriesHtml}

@@ -13,7 +13,7 @@ function listenToInput() {
       alert("Please input valid text!");
       return false;
     } else if (uniqueWordsArray.length == 1) {
-      showResultCard([{ word: uniqueWordsArray[0] }], "#result-output");
+      showResultCard([{ id: uniqueWordsArray[0] }], "#result-output");
     } else {
       showResultTable(wordsArray, uniqueWordsArray.length, "#result-output");
     }
