@@ -6,21 +6,16 @@ $(function () {
 // add event listen to "count" button
 function listenToInput() {
   $("#count").on("click", (e) => {
-    let inputText = $("#textarea").val();
-    let wordsArray = getWords(inputText);
-    let uniqueWordsArray = getUniqueWords(wordsArray);
-    if (uniqueWordsArray.length == 0) {
-      alert("Please input valid text!");
-      return false;
-    } else if (uniqueWordsArray.length == 1) {
-      showResultCard([{ word: uniqueWordsArray[0] }], "#result-output");
-    } else {
-      showResultTable(wordsArray, uniqueWordsArray.length, "#result-output");
-    }
+    let uniqueWordsArray = getUniqueWordsArray();
+    showResult(uniqueWordsArray);
+    updateLayout();
     $("#result").val(uniqueWordsArray);
-
     e.preventDefault();
   });
+}
+
+function getUniqueWordsArray() {
+  return getUniqueWords(getWords($("#textarea").val()));
 }
 
 function getWords(str) {
@@ -32,12 +27,23 @@ function getWords(str) {
 
 function getUniqueWords(wordsArray) {
   let arr = [];
-  for (var i in wordsArray) {
-    if (!arr.includes(wordsArray[i])) {
-      arr.push(wordsArray[i]);
+  for (let word of wordsArray) {
+    if (!arr.includes(word)) {
+      arr.push(word);
     }
   }
   return arr;
+}
+
+function showResult(uniqueWordsArray) {
+  if (uniqueWordsArray.length == 0) {
+    alert("Please input valid text!");
+    return false;
+  } else if (uniqueWordsArray.length == 1) {
+    showResultCard([{ word: uniqueWordsArray[0] }], "#result-output");
+  } else {
+    showResultTable(wordsArray, uniqueWordsArray.length, "#result-output");
+  }
 }
 
 function showResultCard(wordJson, resultDisplayId) {
@@ -45,8 +51,7 @@ function showResultCard(wordJson, resultDisplayId) {
   $("#word-counter").html("");
 
   // load card
-  loadWords(wordJson, resultDisplayId);
-  updateLayout();
+  renderWordCards(wordJson, resultDisplayId);
 }
 
 function showResultTable(wordsArray, uniqueWordsNumber, resultDisplayId) {
@@ -72,9 +77,6 @@ function showResultTable(wordsArray, uniqueWordsNumber, resultDisplayId) {
   // display results
   let textObj = countFreq(wordsArray);
   addWordsToTable(textObj, $("#freq-table"));
-
-  // update layout
-  updateLayout();
 }
 
 function updateLayout() {
