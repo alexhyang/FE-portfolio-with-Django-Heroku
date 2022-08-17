@@ -1,4 +1,4 @@
-Qualifications:
+# Qualifications:
 - BSc. in Computer Science or equivalent combination and experience in software development role
 - >= 2 years full-stack web application developing experience
 - demonstrated experience with REST Web API
@@ -6,8 +6,9 @@ Qualifications:
 - working knowledge of automated end-to-end tests and unit tests
 - Assets: Django, TypeScripts, AWS services
 
-Skills:
-software: 
+# Skills:
+## software: 
 REST, React, Python/Node/Java, Django, TypeScripts, AWS
-soft skills: 
+
+## soft skills: 
 software engineering best practices, cost-effective solutions, organizational skills, attention to detail, written and verbal communication skills, judgment in interpersonal relationships
