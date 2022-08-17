@@ -42,7 +42,7 @@ class PostingForm(forms.ModelForm):
             "url",
             "position",
             "company",
-            "place",
+            "location",
             "type",
             "level",
             "due_date",

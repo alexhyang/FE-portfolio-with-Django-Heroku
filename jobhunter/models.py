@@ -11,8 +11,8 @@ class Posting(models.Model):
     qualifications = models.TextField()
     skills = models.CharField(max_length=256)
     company = models.CharField(max_length=64)
-    place = models.CharField(max_length=32)
+    location = models.CharField(max_length=32)
     other = models.CharField(max_length=256, blank=True)
 
     def __str__(self):
-        return f"{self.id}: {self.position}, {self.company}, {self.place}, {self.due_date}, {self.skills}"
+        return f"{self.id}: {self.position}, {self.company}, {self.location}, {self.due_date}, {self.skills}"
