@@ -1,6 +1,6 @@
 {% extends "jobhunter/layout.html" %} {% load crispy_forms_tags %} {% block body %}
-<div class="row row-cols-1 row-cols-lg-2 g-5">
-  <div class="col posting-meta">
+<div class="row row-cols-1 justify-content-center g-4">
+  <div class="col col-lg-8 posting-meta">
     <h1>{{ posting.position }}</h1>
     <table class="table table-striped table-posting">
       <tbody>
@@ -39,15 +39,15 @@
       </tbody>
     </table>
   </div>
-  <div class="col posting-skills">
+  <div class="col col-lg-8 posting-skills">
     <h2>Skills</h2>
     <p>{{ posting.skills }}</p>
   </div>
-  <div class="col posting-responsibilities">
+  <div class="col col-lg-8 posting-responsibilities">
     <h2>Responsibilities</h2>
     <p>{{ posting.responsibilities|safe }}</p>
   </div>
-  <div class="col posting-qualifications">
+  <div class="col col-lg-8 posting-qualifications">
     <h2>Qualifications</h2>
     <p>{{ posting.qualifications|safe }}</p>
   </div>
