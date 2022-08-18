@@ -27,12 +27,12 @@
       </td>
       <td>{{ posting.level }}</td>
       <td>{{ posting.company }}</td>
-      <td>{{ posting.place }}</td>
+      <td>{{ posting.location }}</td>
       <td>{{ posting.due_date }}</td>
       {% if posting.other %}
       <td>Yes</td>
       {% else %}
-      <td>No</td>
+      <td></td>
       {% endif %}
     </tr>
     {% endfor %}
