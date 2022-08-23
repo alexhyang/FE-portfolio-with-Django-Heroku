@@ -4,7 +4,7 @@ import_json.py
 .vscode/
 vocabulary/tests/test_data/
 package-lock.json
-staticfiles
+staticfiles/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
