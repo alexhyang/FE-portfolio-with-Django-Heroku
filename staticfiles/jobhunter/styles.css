@@ -26,6 +26,6 @@ ul.cloud li {
 }
 
 ul.cloud[data-show-value] li::after {
-  content: " (" attr(data-weight) ")";
+  content: attr(data-weight);
   font-size: 1rem;
 }

@@ -1,16 +1,15 @@
 $(function () {
-  loadRandomPage();
+  renderRandomList();
   $("#reload").on("click", () => {
-    loadRandomPage();
+    renderRandomList();
   });
 });
 
-function loadRandomPage() {
+function renderRandomList() {
   fetch("/vocabulary-app/random/new")
     .then((response) => response.json())
     .then((words) => {
-      console.log(words);
-      loadWords(words, "#word-group");
+      renderWordCards(words, "#word-group");
     })
     .catch((error) => console.log("Error: ", error));
 }
