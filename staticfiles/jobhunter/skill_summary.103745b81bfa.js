@@ -17,7 +17,8 @@ function addToPage(results) {
     const count = results[key];
     const skillElem = document.createElement("li");
     if (count > 10) {
-      skillElem.setAttribute("data-weight", count);
+      countText = " (" + count + ") ";
+      skillElem.setAttribute("data-weight", countText);
     }
     skillElem.style.setProperty("--size", Math.log(count) + 1);
     skillElem.innerHTML = key;
