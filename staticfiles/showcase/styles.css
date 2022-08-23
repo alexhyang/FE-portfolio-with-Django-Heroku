@@ -22,9 +22,8 @@
 
 body {
   background: var(--main-theme-color);
-  padding-top: 3%;
+  /* padding-top: 3%; */
 }
-
 
 /* || .content */
 .content {
@@ -45,7 +44,6 @@ body {
 .content__section {
   padding: 0 30%;
 }
-
 
 /* || .section */
 .section {
@@ -69,14 +67,11 @@ body {
   text-align: center;
 }
 
-
 /* || .header */
 .header {
   color: var(--heading-color2);
   text-align: center;
 }
-
-
 
 /* || misc */
 .contact-links {
@@ -99,6 +94,11 @@ body {
   padding-top: 30px;
   padding-left: 10%;
   padding-right: 10%;
+}
+
+.table__skills {
+  padding-bottom: 0.5em;
+  font-style: italic;
 }
 
 .narrow-table-cell {

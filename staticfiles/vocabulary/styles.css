@@ -92,6 +92,23 @@
   align-items: center;
 }
 
+.word__audio {
+  display: flex;
+  align-items: center;
+  margin-left: 5%;
+}
+
+.word__audio audio {
+  display: none;
+}
+
+.word__audio i {
+  margin-right: 3px;
+}
+
+.word__ipa {
+}
+
 .word__error {
   color: #f00;
 }
