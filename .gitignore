@@ -2,9 +2,9 @@
 latest.dump
 import_json.py
 .vscode/
-node_modules/
 vocabulary/tests/test_data/
 package-lock.json
+staticfiles
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
