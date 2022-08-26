@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'showcase',
     'jobhunter',
     'flight_tracker',
+    'corsheaders',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -170,3 +172,6 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
 }
+
+# add CORS allowed origins
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://main.dlpc052l8k4u3.amplifyapp.com/"]
