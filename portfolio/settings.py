@@ -174,4 +174,4 @@ MESSAGE_TAGS = {
 }
 
 # add CORS allowed origins
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://main.dlpc052l8k4u3.amplifyapp.com/"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "https://main.d3adimcufrvcmq.amplifyapp.com/"]
