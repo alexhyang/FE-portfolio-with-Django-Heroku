@@ -69,6 +69,10 @@ def posting(request, id):
 def skill_summary(request):
     return render(request, "jobhunter/skill_summary.html")
 
+# API: fetch all postings
+def fetch_all_postings(request):
+    data = list(Posting.objects.values())   
+    return JsonResponse(data, safe=False)
 
 # API: fetch skills
 def fetch_skills(request):
