@@ -5,18 +5,18 @@
 {% endfor %}
 <h1>Postings List ({{ count }} in total)</h1>
 <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Position</th>
+      <th>Level</th>
+      <th>Company</th>
+      <th>Location</th>
+      <th>Due Date</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
   <tbody>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Position</th>
-        <th>Level</th>
-        <th>Company</th>
-        <th>Location</th>
-        <th>Due Date</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
     {% for posting in page.object_list %}
     <tr>
       <td>{{ posting.id }}</td>
