@@ -7,6 +7,7 @@ from .forms import PostingForm
 from django.contrib import messages
 from urllib.parse import urlparse, parse_qs
 from django.core.paginator import Paginator
+import os
 
 import collections
 
@@ -27,11 +28,14 @@ def notes(request):
     postings = Posting.objects.all().order_by("-id")
     return render(request, "jobhunter/notes.html", {"postings": postings})
 
-
 def add_posting(request):
     if request.method == "POST":
         form = PostingForm(request.POST)
         if form.is_valid():
+            if request.user.is_authenticated != os.environ.get('USERNAME'):
+                messages.error(request, "No Permission!")
+                return render(request, "jobhunter/add_posting.html", {"form": form})
+
             url = form.cleaned_data["url"]
             if posting_exists(url):
                 messages.error(request, "This posting already exists!")
