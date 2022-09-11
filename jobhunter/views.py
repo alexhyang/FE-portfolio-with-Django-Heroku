@@ -32,7 +32,7 @@ def add_posting(request):
     if request.method == "POST":
         form = PostingForm(request.POST)
         if form.is_valid():
-            if request.user.is_authenticated != os.environ.get('USERNAME'):
+            if !request.user.is_authenticated or request.user.username != os.environ.get('USERNAME'):
                 messages.error(request, "No Permission!")
                 return render(request, "jobhunter/add_posting.html", {"form": form})
 
