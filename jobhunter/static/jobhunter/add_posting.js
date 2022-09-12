@@ -55,6 +55,7 @@ function listenToUrlFieldChange() {
           updateUrlCheckResultElem(false, "Couldn't find job key in query parameters (jk=...)");
         }
       } catch(error) {
+        console.log("Error: ", error);
         updateUrlCheckResultElem(false, "Invalid URL");
       }
     }
