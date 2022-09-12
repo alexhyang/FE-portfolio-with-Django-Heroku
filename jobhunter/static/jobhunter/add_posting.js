@@ -31,67 +31,50 @@ function convertToTwoDigits(dateOrMonth) {
 }
 
 function listenToUrlFieldChange() {
-  $("#id_url").on("change", (e) => {
-    const url = e.target.value;
-    if (url != "") {
-      let jobKey = getJobKey(url);
-      if (jobKey !== "" && validURL(url)) {
-        fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
-          .then((response) => response.json())
-          .then((result) => {
-            console.log(result);
-            updateUrlCheckResultElem(true, result.posting_is_new);
-          })
-          .catch((error) => console.log("Error: ", error));
-      } else {
-        updateUrlCheckResultElem(false);
-      }
-    } else {
+  $("#id_url").on("blur", (e) => {
+    if (e.target.value === "") {
       resetUrlCheckResultElem();
+    } else {
+      let url;
+      try {
+        url = new URL(e.target.value);
+        let jobKey = url.searchParams.get("jk");
+        if (jobKey !== null) {
+          fetch(`/jobhunter-app/add/check?jk=${jobKey}`)
+            .then((response) => response.json())
+            .then((result) => {
+              console.log(result);
+              if (result.posting_is_new) {
+                updateUrlCheckResultElem(true, "Posting is new");
+              } else {
+                updateUrlCheckResultElem(false, "Posting already exists");
+              }
+            })
+            .catch((error) => console.log("Error: ", error));
+        } else {
+          updateUrlCheckResultElem(false, "Couldn't find job key in query parameters (jk=...)");
+        }
+      } catch(error) {
+        updateUrlCheckResultElem(false, "Invalid URL");
+      }
     }
   });
 }
 
-function updateUrlCheckResultElem(urlIsValid, posting_is_new = false) {
+function updateUrlCheckResultElem(postingIsOk, message="") {
   let urlResultElem = document.querySelector("#url-checker");
-  if (urlIsValid) {
-    urlResultElem.innerHTML = posting_is_new ? "posting is new" : "posting existed";
-    let style = posting_is_new ? "text-success" : "text-danger";
-    urlResultElem.className = "";
-    urlResultElem.classList.add(style);
+  if (postingIsOk) {
+    urlResultElem.className = "text-success";
   } else {
-    urlResultElem.innerHTML =
-    "Invalid URL! Please make sure your url is in correct format.";
     urlResultElem.className = "text-danger";
   }
+  urlResultElem.innerHTML = message;
 }
 
 function resetUrlCheckResultElem() {
   let urlResultElem = document.querySelector("#url-checker");
   urlResultElem.innerHTML = "";
   urlResultElem.className = "";
-}
-
-function validURL(str) {
-  var pattern = new RegExp(
-    "^(https?:\\/\\/)?" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // fragment locator
-  return !!pattern.test(str);
-}
-
-function getJobKey(url) {
-  let jk = url.split(/[?&]/).filter((section) => /^jk/.test(section));
-  if (jk.length === 0) {
-    return "";
-  } else {
-    return jk[0].slice(3);
-  }
 }
 
 function listenToFormatterBtn() {
