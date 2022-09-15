@@ -7,6 +7,7 @@ from .forms import PostingForm
 from django.contrib import messages
 from urllib.parse import urlparse, parse_qs
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 import os
 
 import collections
@@ -99,3 +100,16 @@ def posting_is_new(request):
         return JsonResponse({"posting_is_new": True, "job_key": job_key})
     else:
         return JsonResponse({"Error message": "GET method is required."}, status=400)
+
+@csrf_exempt
+# API: add posting
+def api_add_posting(request):
+    if request.method == "POST":
+        # TODO: check user
+        # success: add posting to database
+        #          return success Response
+        return JsonResponse({"message": "Posting added successfully."}, status=200)
+        # failure: return no permission response
+        return JsonResponse({"message": "No Permission."}, status=400)
+    else:
+        return JsonResponse({"Error message": "POST method is required."}, status=400)

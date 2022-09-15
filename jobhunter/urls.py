@@ -15,5 +15,6 @@ urlpatterns = [
     #API routes
     path("add/check", views.posting_is_new, name="posting_is_new"),
     path("skills/fetch", views.fetch_skills, name="fetch_skills"),
-    path("fetch_all_postings", views.fetch_all_postings, name="fetch_all_postings")
+    path("fetch_all_postings", views.fetch_all_postings, name="fetch_all_postings"),
+    path("api/add-posting", views.api_add_posting, name="api_add_posting")
 ]
