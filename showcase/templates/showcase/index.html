@@ -3,73 +3,55 @@
   <header class="header section__header">
     <h1 class="fw-bold">Welcome to My Web Development Portfolio</h1>
   </header>
-  <div class="table-container table-responsive-lg">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Description</th>
-          <th>Skills Demostrated</th>
-          <th>Tech Stack</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <a
-              href="https://main.d3jxktapnx8jp1.amplifyapp.com/"
-              target="_blank"
-              >Web Map</a
-            >
-          </td>
-          <td>A geospatial analysis tool</td>
-          <td></td>
-          <td>React, Redux, AWS Amplify, HTML, CSS, JavaScript</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="{% url 'vocabulary:index' %}" target="_blank"
-              >Vocabulary Builder</a
-            >
-          </td>
-          <td>An app to help users build their vocabulary</td>
-          <td>
-            <ol>
-              <li class="table__skills">
-                Designed and configured Heroku cloud app architecture
-              </li>
-              <li class="table__skills">
-                Utilized Python and Django to establish client-server
-                communication via HTTP
-              </li>
-              <li class="table__skills">
-                Created SQLite database models and performed SQL query with
-                Django API
-              </li>
-              <li class="table__skills">
-                Achieved client-side user interaction and data entry with
-                JavaScript and HTML
-              </li>
-            </ol>
-          </td>
-          <td>Django, Bootstrap, jQuery, HTML, CSS, JavaScript, REST API</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="{% url 'jobhunter:index' %}" target="_blank">Job Hunter</a>
-          </td>
-          <td>
-            A collection of web developer postings and a summary of required
-            skills
-          </td>
-          <td></td>
-          <td>
-            JavaScript, DOM Events, HTML Form, Django, Bootstrap, Fetch API
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <article>
+    <div>
+      <a
+        href="https://main.d3jxktapnx8jp1.amplifyapp.com/"
+        target="_blank"
+      >
+        Web Map
+      </a>
+      <span>A geospatial analysis tool</span>
+    </div>
+    <div>
+      React, Redux, AWS Amplify, HTML, CSS, JavaScript
+    </div>
+    <div>
+      <a href="{% url 'vocabulary:index' %}" target="_blank" >
+        Vocabulary Builder
+      </a>
+      <span>An app to help users build their vocabulary</span>
+    </div>
+    <div>
+      Django, Bootstrap, jQuery, HTML, CSS, JavaScript, REST API
+    </div>
+    <div>
+      <ol>
+        <li class="table__skills">
+          Designed and configured Heroku cloud app architecture
+        </li>
+        <li class="table__skills">
+          Utilized Python and Django to establish client-server
+          communication via HTTP
+        </li>
+        <li class="table__skills">
+          Created SQLite database models and performed SQL query with
+          Django API
+        </li>
+        <li class="table__skills">
+          Achieved client-side user interaction and data entry with
+          JavaScript and HTML
+        </li>
+      </ol>
+    </div>
+    <div>
+      <a href="{% url 'jobhunter:index' %}" target="_blank">Job Hunter</a>
+      <span>An app to help users build their vocabulary</span>
+    </div>
+    <div>
+      JavaScript, DOM Events, HTML Form, Django, Bootstrap, Fetch API
+    </div>
+  </article>
   <div class="contact-links">
     <a
       class="contact-details"
