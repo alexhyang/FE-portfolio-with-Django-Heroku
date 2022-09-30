@@ -9,6 +9,7 @@ from urllib.parse import urlparse, parse_qs
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 import os
+import json
 
 import collections
 
@@ -105,11 +106,27 @@ def posting_is_new(request):
 # API: add posting
 def api_add_posting(request):
     if request.method == "POST":
-        # TODO: check user
-        # success: add posting to database
-        #          return success Response
-        return JsonResponse({"message": "Posting added successfully."}, status=200)
-        # failure: return no permission response
-        return JsonResponse({"message": "No Permission."}, status=400)
+        data = json.loads(request.body)
+        if data['posting_password'] == os.environ.get('POSTING_PWD'):
+            posting = Posting.objects.create(
+                    position = data['position'], 
+                    level = data['level'], 
+                    type = data['type'], 
+                    url = data['url'], 
+                    due_date = data['due_date'], 
+                    responsibilities = data['responsibilities'], 
+                    qualifications = data['qualifications'], 
+                    skills = data['skills'], 
+                    company = data['company'],
+                    location = data['location'],
+                    other = data['other'])
+            posting.save()
+            return JsonResponse({
+                "message": "Posting added successfully."
+                }, status=200)
+        else:
+            return JsonResponse({"message": "No Permission."}, status=400)
     else:
-        return JsonResponse({"Error message": "POST method is required."}, status=400)
+        return JsonResponse({
+            "Error message": "POST method is required."
+            }, status=400)
