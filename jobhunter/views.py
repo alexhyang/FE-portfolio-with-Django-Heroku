@@ -22,7 +22,7 @@ def index(request):
     posting_paginator = Paginator(postings, POSTING_PER_PAGE)
     page_num = request.GET.get('page')
     page = posting_paginator.get_page(page_num)
-    
+
     return render(request, "jobhunter/index.html", {"page": page, "count": count})
 
 
@@ -77,7 +77,7 @@ def skill_summary(request):
 
 # API: fetch all postings
 def fetch_all_postings(request):
-    data = list(Posting.objects.values())   
+    data = list(Posting.objects.values())
     return JsonResponse(data, safe=False)
 
 # API: fetch skills
@@ -109,14 +109,14 @@ def api_add_posting(request):
         data = json.loads(request.body)
         if data['posting_password'] == os.environ.get('POSTING_PWD'):
             posting = Posting.objects.create(
-                    position = data['position'], 
-                    level = data['level'], 
-                    type = data['type'], 
-                    url = data['url'], 
-                    due_date = data['due_date'], 
-                    responsibilities = data['responsibilities'], 
-                    qualifications = data['qualifications'], 
-                    skills = data['skills'], 
+                    position = data['position'],
+                    level = data['level'],
+                    type = data['type'],
+                    url = data['url'],
+                    due_date = data['due_date'],
+                    responsibilities = data['responsibilities'],
+                    qualifications = data['qualifications'],
+                    skills = data['skills'],
                     company = data['company'],
                     location = data['location'],
                     other = data['other'])
